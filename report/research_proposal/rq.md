@@ -8,11 +8,11 @@ This assesses the efficacy of Preferential Subspace Identification (PSID) [3], a
 
 **How accurately can latent dynamical models classify discrete brain states from neural signals, and what do their learned representations reveal about the underlying neurophysiology?**
 
-I will evaluate the performance of PSID and DPAD in classifying DBS ON and OFF states. Using simultaneously recorded LFP and ECoG signals from Parkinson's disease patients performing tasks in the CopyDraw experiments, the models will be adapted for binary classification. Both AUC and cross-validated correlation coefficient (CC) will be used to asses the classification performance. A key component of this part is to analyze the interpretable latent state representations learned by each model, aiming to elucidate the distinct neural activity patterns that characterize the DBS ON and OFF conditions.
+I will evaluate the performance of PSID and DPAD in classifying DBS ON and OFF states. Using simultaneously recorded LFP and ECoG signals from Parkinson's disease patients performing tasks in the CopyDraw experiments, the models will be adapted for binary classification. Both AUC and cross-validated correlation coefficient (CC) will be used to assess the classification performance. A key component of this part is to analyze the interpretable latent state representations learned by each model, aiming to elucidate the distinct neural activity patterns that characterize the DBS ON and OFF conditions.
 
 ### **RQ 3**
 
-**How effectively can linear and nonlinear dynamical models decode continuous motor behaviour from neural activity, and what do their latent dynamics reveal about the neural control of movement?**
+**How effectively can linear and nonlinear dynamical models decode continuous motor behaviour from neural activity, and what do their latent dynamics reveal about the neural control of movement speed?**
 
 I will aim to predict a continuous behavioural variable—tracing speed—from LFP activity recorded during the CopyDraw task by training both PSID and DPAD. A central part will involve examining the temporal dynamics of the low-dimensional latent states extracted by each model. Specifically, this will focus on identifying and characterizing state-space changes and correlating these features with continuous variations in tracing speed. Both linear and non-linear models will be compared, and analysis of prediction residuals will also be conducted to assess unexplained variance in the models.
 
