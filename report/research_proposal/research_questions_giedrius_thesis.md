@@ -1,3 +1,10 @@
+---
+title: "Research Questions"
+author: "Giedrius Mirklys"
+date: \today
+geometry: "margin=1in"
+---
+
 ### **RQ 1**
 
 **To what extent can computational neural modeling frameworks predict neural activity across different recording modalities?**

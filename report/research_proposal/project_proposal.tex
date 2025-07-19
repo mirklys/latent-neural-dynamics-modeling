@@ -1,0 +1,127 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Focused Research Proposal Template
+% Structure based on the user-provided image.
+% Style: APA 7th Edition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt, a4paper]{article}
+
+% === PREAMBLE: PACKAGES AND SETUP ===
+
+% --- Page Layout ---
+\usepackage[margin=1in, headheight=14.5pt]{geometry}
+
+% --- Font and Encoding ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times} % Classic Times New Roman font
+
+% --- Typography and Language ---
+\usepackage{ragged2e} % Provides the \justifying command for full text justification
+\usepackage{csquotes} % Required by biblatex for proper quoting
+
+% --- Bibliography and Citations (APA 7) ---
+\usepackage[style=apa, backend=biber]{biblatex}
+\addbibresource{bibliography.bib} % Links to your bibliography file named 'bibliography.bib'
+
+% --- Headings and Document Structure ---
+\usepackage{titlesec}
+% Custom format for section headings to match the user-provided image
+\titleformat{\section}{\normalfont\fontsize{12}{15}\bfseries}{\thesection}{0em}{}
+\titleformat{\subsection}{\normalfont\fontsize{12}{15}\itshape}{\thesubsection}{0em}{}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{3ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+% --- Hyperlinks (optional but recommended) ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    pdftitle={Research Project Proposal},
+    pdfauthor={Giedrius Lastname},
+}
+
+
+% === DOCUMENT START ===
+
+\begin{document}
+
+% Main document title
+\begin{center}
+    \fontsize{14}{18}\bfseries
+    \textsc{Project Description}
+    \vspace{2em}
+\end{center}
+
+% --- CORE PROPOSAL SECTIONS ---
+
+\section*{1. TITLE OF PROJECT:}
+% TODO: Enter your official project title here.
+Your Full Project Title
+
+\section*{2. ABSTRACT:}
+% TODO: Write a concise summary of your project (approx. 250 words).
+\justifying
+Your abstract text goes here. It should provide a brief overview of the research background, the main research question, the methods you will use, and the expected outcomes or impact.
+
+\section*{3. PROJECT DESCRIPTION: (MAX. 2000 WORDS)}
+% TODO: At the end of this section, add a word count, e.g., "Word Count: 1850".
+
+\subsection*{BACKGROUND OF PROJECT (THEORY, STATE OF THE ART)}
+\justifying
+% TODO: Provide a detailed literature review. Explain the theoretical foundations and what is currently known in your research area.
+% Use \parencite{key} for parenthetical citations, e.g., (Author, 2023).
+% Use \textcite{key} for narrative citations, e.g., Author (2023) demonstrated...
+This is the section for your literature review. For instance, recent advancements in brain-computer interfaces have shown promise \parencite{Author2023}. However, as \textcite{Researcher2022} highlights, significant challenges remain in real-time signal processing.
+
+\subsection*{AIM OF THE PROJECT (RESEARCH QUESTION, MOTIVATION, IMPACT, IMPORTANCE)}
+\justifying
+% TODO: Clearly state your main research question(s) and any sub-questions.
+% Explain your motivation for this specific research and describe its potential impact and importance.
+The primary aim of this project is to investigate... The central research question is formulated as follows: ...
+
+\subsection*{PROJECT PLAN (APPROACH, METHODS, DESIGN, ANALYSES)}
+\justifying
+% TODO: Describe your methodology in detail.
+% Explain the research design, the data to be used (or collected), and the specific techniques for analysis (e.g., statistical tests, machine learning models, signal processing algorithms).
+This research will employ a quantitative methodology. Data will be sourced from... The analysis will consist of several stages, beginning with...
+
+\vspace{1em}
+\noindent\textbf{Word Count:} [Enter word count here]
+
+
+\section*{4. SCHEDULE: (MAX. 1 PAGE)}
+% TODO: Provide a timeline for your project. State the start and end dates for each major phase.
+\justifying
+The project is scheduled to run from [Start Date] to [End Date]. The timeline is broken down into the following phases:
+\begin{center}
+    \begin{tabular}{p{0.4\textwidth} p{0.4\textwidth}}
+        \hline
+        \textbf{Project Phase} & \textbf{Timeline} \\
+        \hline
+        Literature Review \& Finalizing Proposal & Weeks 1-4 \\
+        Data Acquisition \& Pre-processing & Weeks 5-8 \\
+        Model Development & Weeks 9-16 \\
+        Data Analysis and Evaluation & Weeks 17-20 \\
+        Final Thesis Writing \& Submission & Weeks 21-24 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+
+\section*{5. SCIENTIFIC, SOCIETAL AND/OR TECHNOLOGICAL RELEVANCE: (ABOUT 250 WORDS)}
+% TODO: Describe the broader context and relevance of your project.
+\justifying
+Your text describing the broader relevance and context of your project goes here. Explain how your work contributes to the scientific field, to society, or to technological advancement.
+
+
+\section*{6. REFERENCES:}
+% This command will automatically generate your reference list based on your .bib file.
+% The list will be formatted in APA 7th edition style.
+\printbibliography[heading=none]
+
+
+\end{document}
