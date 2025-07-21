@@ -1,126 +1,112 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Focused Research Proposal Template
-% Structure based on the user-provided image.
-% Style: APA 7th Edition
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \documentclass[12pt, a4paper]{article}
 
-% === PREAMBLE: PACKAGES AND SETUP ===
-
-% --- Page Layout ---
 \usepackage[margin=1in, headheight=14.5pt]{geometry}
-
-% --- Font and Encoding ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{times} % Classic Times New Roman font
-
-% --- Typography and Language ---
-\usepackage{ragged2e} % Provides the \justifying command for full text justification
-\usepackage{csquotes} % Required by biblatex for proper quoting
-
-% --- Bibliography and Citations (APA 7) ---
+\usepackage{times}
+\usepackage{ragged2e} 
+\usepackage{csquotes} 
+\usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage[style=apa, backend=biber]{biblatex}
-\addbibresource{bibliography.bib} % Links to your bibliography file named 'bibliography.bib'
 
-% --- Headings and Document Structure ---
+\addbibresource{proposal_bibliography.bib} 
+
 \usepackage{titlesec}
-% Custom format for section headings to match the user-provided image
-\titleformat{\section}{\normalfont\fontsize{12}{15}\bfseries}{\thesection}{0em}{}
-\titleformat{\subsection}{\normalfont\fontsize{12}{15}\itshape}{\thesubsection}{0em}{}
+
+\titleformat{\section}{\normalfont\fontsize{12}{15}\bfseries}{\thesection. }{0em}{}
+\titleformat{\subsection}{\normalfont\fontsize{12}{15}\itshape}{\thesubsection. }{0em}{}
 \titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 \titlespacing*{\subsection}{0pt}{3ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
-
-% --- Hyperlinks (optional but recommended) ---
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
     citecolor=blue,
     urlcolor=blue,
-    pdftitle={Research Project Proposal},
-    pdfauthor={Giedrius Lastname},
+    pdftitle={Extended Research Project Proposal},
+    pdfauthor={Giedrius Mirklys},
 }
 
 
-% === DOCUMENT START ===
-
 \begin{document}
 
-% Main document title
-\begin{center}
-    \fontsize{14}{18}\bfseries
-    \textsc{Project Description}
-    \vspace{2em}
-\end{center}
+\title{\textbf{PROJECT DESCRIPTION} \\ \vspace{1.5em} \large Modeling Latent Neural Dynamics to Decode Brain States and Motor Behavior in Parkinson’s Disease}
+\author{Giedrius Mirklys \\
+        \normalsize{Student Number: s1101773}}
+\date{\today} % Or a specific date
 
-% --- CORE PROPOSAL SECTIONS ---
+\maketitle
+\RaggedRight
 
-\section*{1. TITLE OF PROJECT:}
-% TODO: Enter your official project title here.
-Your Full Project Title
 
-\section*{2. ABSTRACT:}
-% TODO: Write a concise summary of your project (approx. 250 words).
-\justifying
-Your abstract text goes here. It should provide a brief overview of the research background, the main research question, the methods you will use, and the expected outcomes or impact.
+\section{ABSTRACT}
 
-\section*{3. PROJECT DESCRIPTION: (MAX. 2000 WORDS)}
-% TODO: At the end of this section, add a word count, e.g., "Word Count: 1850".
-
-\subsection*{BACKGROUND OF PROJECT (THEORY, STATE OF THE ART)}
-\justifying
-% TODO: Provide a detailed literature review. Explain the theoretical foundations and what is currently known in your research area.
+\section{PROJECT DESCRIPTION}
+% max 2000 words
 % Use \parencite{key} for parenthetical citations, e.g., (Author, 2023).
 % Use \textcite{key} for narrative citations, e.g., Author (2023) demonstrated...
-This is the section for your literature review. For instance, recent advancements in brain-computer interfaces have shown promise \parencite{Author2023}. However, as \textcite{Researcher2022} highlights, significant challenges remain in real-time signal processing.
 
-\subsection*{AIM OF THE PROJECT (RESEARCH QUESTION, MOTIVATION, IMPACT, IMPORTANCE)}
-\justifying
-% TODO: Clearly state your main research question(s) and any sub-questions.
-% Explain your motivation for this specific research and describe its potential impact and importance.
-The primary aim of this project is to investigate... The central research question is formulated as follows: ...
+Parkinson's disease (PD) is a progressive neurodegenerative condition defined by its cardinal motor symptoms, including bradykinesia, resting tremor, and rigidity. At its core, however, PD is a disorder of pathological neural dynamics. The primary pathology is the loss of dopaminergic neurons in the substantia nigra, however, the reasons for this neurodegeneration remains unknown but is thought to involve a complex interplay between genetic predispositions and environmental factors\parencite{kaliaParkinsonsDisease2015}. This loss of dopamine critically disrupts communication within the cortico-basal ganglia-thalamocortical loops---a set of recurrent neural circuits essential for motor control and action selection \parencite{alexanderFunctionalArchitectureBasal1990}. This disruption leads to the emergence of abnormally persistent and synchronized oscillations in the beta frequency band (13-30 Hz). Unlike the transient beta "bursts" observed in healthy brains during motor control, these sustained oscillations are pathological and their power has been strongly correlated with the severity of motor impairment, particularly akinesia and rigidity \parencite{brownDopamineDependencyOscillations2001,tinkhauserBetaBurstDynamics2017}.
 
-\subsection*{PROJECT PLAN (APPROACH, METHODS, DESIGN, ANALYSES)}
-\justifying
-% TODO: Describe your methodology in detail.
-% Explain the research design, the data to be used (or collected), and the specific techniques for analysis (e.g., statistical tests, machine learning models, signal processing algorithms).
-This research will employ a quantitative methodology. Data will be sourced from... The analysis will consist of several stages, beginning with...
+Therapeutic strategies aim to correct these disturbances at the network level, as this is the scale at which clinical symptoms emerge. Pharmacological treatments, primarily Levodopa, systemically restore dopamine levels and have been shown to suppress pathological beta oscillations in tandem with clinical improvement \parencite{paulsCorticalBetaBurst2022}. For patients with advanced symptoms, Deep Brain Stimulation (DBS) offers a powerful alternative by implanting electrodes in the subthalamic nucleus (STN) or globus pallidus interna (GPi). DBS is thought to work by imposing a new, high-frequency electrical pattern that acts as an "informational lesion," jamming the pathological beta rhythm and preventing its propagation through the network \parencite{chikenMechanismDeepBrain2016,mcintyreNetworkPerspectivesMechanisms2010}.
+
+Despite their efficacy, both treatments have significant limitations. Long-term Levodopa use leads to motor fluctuations—unpredictable swings between periods of good mobility ("ON" time) and symptom recurrence ("OFF" time). These are thought to arise from the non-physiological, pulsatile stimulation of dopamine receptors by a short-half-life drug, which can alter the brain's response over time \parencite{obesoBasalGangliaParkinsons2009}. Conventional DBS, while targeted, is a "blunt instrument"; its continuous operation can cause side effects like dysarthria and paresthesia, and over time, patients may require increased stimulation parameters to maintain benefit likely due to disease progression \parencite{krackFiveYearFollowupBilateral2003}. These limitations stem from an incomplete understanding of how stimulation interacts with patient-specific neural circuits. Because the relationship between raw neural signals and clinical symptoms is complex and noisy, computational models are essential to learn this mapping and translate high-dimensional data into reliable biomarkers.
+
+The development of adaptive DBS (aDBS) systems is therefore critically dependent on such models. The very concept of aDBS was motivated by the discovery that pathological beta oscillations track symptom severity, leading to the hypothesis that selectively targeting these oscillations would be a more efficient therapy \parencite{littleAdaptiveDeepBrain2013}. These models act as the "brains" of the therapeutic system, translating complex neural data into a precise, graded signal for guiding therapeutic stimulation. This project positions itself at this forefront by systematically evaluating two state-of-the-art modeling frameworks: the linear Preferential Subspace Identification (PSID) model \parencite{saniModelingBehaviorallyRelevant2021} and the nonlinear Dissociative Prioritized Analysis of Dynamics (DPAD) model \parencite{saniDissociativePrioritizedModeling2024}.While beta oscillations are a leading biomarker, it remains debated whether they are causal to motor symptoms or a reliable byproduct (epiphenomenon), or whether patient-specific biomarkers involving other spectral features might be more effective \parencite{swannGammaOscillationsHyperkinetic2016}. From a therapeutic engineering perspective, however, even a reliable byproduct can serve as an effective control signal. By comparing linear and nonlinear approaches to decode these signals, this research aims to advance our understanding of neural decoding and contribute to the development of more effective, personalized neurotherapeutics.
+
+
+\subsection{The Linear Baseline: Preferential Subspace Identification (PSID)}
+
+Standard approaches to modeling neural dynamics often fall into two categories. Neural Dynamic Modeling (NDM) typically learns a latent state that best predicts future neural activity from past neural activity, making it agnostic to behavior \parencite{saniModelingBehaviorallyRelevant2021}. Conversely, Representational Modeling (RM) often models the dynamics of behavior itself, predicting future behavior from past behavior, and then relates this to neural activity, making it agnostic to the intrinsic dynamics of the neural signals \parencite{saniModelingBehaviorallyRelevant2021}. Neither approach is explicitly designed to isolate the dynamics that are shared between neural activity and behavior \parencite{saniModelingBehaviorallyRelevant2021}. This leads to the challenge of separating behaviorally relevant dynamics—the neural patterns that co-vary with and are predictive of behavior—from the vast background of behaviorally irrelevant dynamics related to other internal states and cognitive processes \parencite{saniModelingBehaviorallyRelevant2021}. Indeed, neural populations in motor and prefrontal cortices are known to multiplex signals for numerous variables simultaneously, making it critical to disentangle the specific dynamics related to the behavior of interest \parencite{manteContextdependentComputationRecurrent2013}.
+
+Preferential Subspace Identification (PSID) was developed to solve this problem by directly targeting the shared dynamics. The core hypothesis of PSID is that by explicitly optimizing a model to predict future behavioral outputs from past neural activity, the model is forced to discover and represent the behaviorally relevant neural dynamics. To formalize this, PSID adopts a linear time-invariant (LTI) state-space model structure, which provides a powerful yet interpretable foundation:
+
+$$
+\begin{cases}
+\mathbf{x}_{k+1} = A \mathbf{x}_k + \mathbf{w}_k \\
+\mathbf{y}_k = C_y \mathbf{x}_k + \mathbf{v}_k \\
+\mathbf{z}_k = C_z \mathbf{x}_k + \epsilon_k
+\end{cases}
+$$
+
+Here, $k$ is the time index; $\mathbf{x}_k \in \mathbb{R}^{n_x}$ is the unobserved, low-dimensional latent state (with $n_x$ dimensions) that evolves according to the state transition matrix $A$; $\mathbf{y}_k \in \mathbb{R}^{n_y}$ is the observed neural activity from $n_y$ channels, generated from the latent state via the observation matrix $C_y$; and $\mathbf{z}_k \in \mathbb{R}^{n_z}$ is the observed behavioral variable from $n_z$ dimensions, generated via the observation matrix $C_z$. The terms $\mathbf{w}_k$, $\mathbf{v}_k$, and $\epsilon_k$ represent state, neural observation, and behavioral residuals (noise), respectively.
+
+The PSID algorithm learns the model parameters and latent states through a non-iterative, closed-form procedure. It begins by constructing  matrices representing past neural activity ($\mathbf{Y}_p$) and future behavior ($\mathbf{Z}_f$) from the training data. The crucial "preferential" step is to compute the orthogonal projection of future behavior onto past neural activity, $\hat{\mathbf{Z}}_f = \mathbf{Z}_f \mathbf{Y}_p^T (\mathbf{Y}_p \mathbf{Y}_p^T)^{-1} \mathbf{Y}_p$, which isolates the component of future behavior that is linearly predictable from past neural signals. This projection is then decomposed using Singular Value Decomposition (SVD) to identify the observability matrix and the behaviorally relevant latent states. From this optimally identified subspace, the system matrices ($A, C_y, C_z$) are estimated using least-squares methods. Finally, a Kalman filter is applied with these estimated parameters to compute the optimal sequence of the latent state $\mathbf{x}_k$ given the observed neural data. The final output is a low-dimensional, interpretable linear model that captures the neural dynamics most relevant to the behavior of interest.
+
+\subsection{Dissociative Prioritized Analysis of Dynamics (DPAD)}
+
+While PSID provides a powerful linear framework, it is well-established that the brain's computations are fundamentally nonlinear. The DPAD framework was therefore developed as a direct nonlinear extension of PSID's core principles, leveraging the power of Recurrent Neural Networks (RNNs) to capture these complex dynamics [citation]. DPAD's central innovation is its ability to not only prioritize behaviorally relevant dynamics but to explicitly dissociate them from irrelevant dynamics. This is achieved by partitioning the model's latent state $\mathbf{x}_k$ into two separate components: a prioritized state, $\mathbf{x}_k^{(1)}$, which is dedicated to predicting behavior, and a non-prioritized state, $\mathbf{x}_k^{(2)}$, which models all remaining neural variance.
+This dissociation is enforced through a specialized two-section RNN architecture and a unique four-step training process. The model is structured such that the behavior, $\hat{\mathbf{z}}_k$, is predicted only from the prioritized latent state, whereas the neural activity, $\hat{\mathbf{y}}_k$, is reconstructed from both states. 
+$$
+\begin{cases}
+\mathbf{x}_{k+1} = \mathbf{A}'(\mathbf{x}_k) + \mathbf{K}'(\mathbf{y}_k) \\
+\hat{\mathbf{y}}_k = C_y^{(1)}(\mathbf{x}_k^{(1)}) + C_y^{(2)}(\mathbf{x}_k^{(2)}) \\
+\hat{\mathbf{z}}_k = C_z^{(1)}(\mathbf{x}_k^{(1)})
+\end{cases}
+$$
+Here, $\mathbf{A}'$, $\mathbf{K}'$, $C_y^{(1)}$, $C_y^{(2)}$, and $C_z^{(1)}$ are now nonlinear functions (e.g., multilayer perceptrons) that represent the state recursion, neural input, and observation mappings, respectively
+
+The model's parameters are learned via a carefully orchestrated four-step procedure guided by a composite loss function that weights the importance of behavioral and neural prediction accuracy. First, the entire network is trained with a high priority on behavioral prediction, forcing the prioritized section of the RNN and its latent state $\mathbf{x}_k^{(1)}$ to learn only the dynamics maximally predictive of behavior. Second, the weights of this now-expert "prioritized" section are frozen. Third, the optimization objective shifts entirely to neural reconstruction, compelling the second, non-prioritized section of the RNN ($\mathbf{x}_k^{(2)}$) to learn and explain the residual neural variance not captured by the first stage. Finally, an optional fine-tuning step adjusts all parameters jointly. This process yields a powerful nonlinear model that not only achieves high predictive accuracy but also provides an interpretable, dissociated latent representation of the neural code, making it an ideal framework for exploring the complex dynamics of Parkinson's disease.
+
+To address the overarching goal of improving neurotherapeutics, this thesis will focus on two primary modeling challenges designed to test the limits of linear (PSID) and nonlinear (DPAD) frameworks. The first challenge is a form of "neural signal translation," aiming to predict cortical Electrocorticography (ECoG) activity using only subcortical Local Field Potential (LFP) recordings from patients with Parkinson's disease. This task serves a dual purpose. It probes the functional relationship between brain regions, leveraging the known anatomical "hyperdirect" pathway from the cortex to the STN \parencite{nambuFunctionalSignificanceCortico2002} to quantify the shared variance between these signals. It also explores the feasibility of creating "virtual sensors," which could infer rich cortical data from the existing DBS lead without requiring an additional, highly invasive ECoG grid implantation. While the original DPAD study demonstrated its superiority on primate data, its application to pathological human signals is an open question. I hypothesize that prediction will be significantly above chance and that DPAD will outperform PSID, as evidence from the broader field suggests that neural population dynamics are fundamentally nonlinear \parencite{breakspearDynamicModelsLargescale2017}.
+
+The second challenge shifts from predicting internal neural states to decoding external, behaviorally relevant variables. This approach allows us to investigate the low-dimensional geometric structure of neural population activity, revealing how the complex activity of many neurons can be described by a simpler trajectory through a state-space that maps onto specific movements or clinical states. This scientific understanding is the foundational step towards developing a closed-loop aDBS system, where an accurate biomarker decoder guides stimulation. The motivation for aDBS is compelling; by delivering stimulation only when needed, it aims to reduce side effects, mitigate the development of therapeutic tolerance, and potentially guide neuroplastic mechanisms to restore healthier network patterns rather than simply disrupting pathological ones \parencite{kraussTechnologyDeepBrain2021}. I anticipate that both models will perform these tasks with high accuracy, but hypothesize that DPAD's ability to model nonlinear dynamics will provide a significant advantage in decoding the complex kinematics of continuous movement. By tackling these two challenges, this research will compare the utility of linear and nonlinear models and provide crucial insights into the neural code itself, directly informing the future of personalized neurotherapeutics.
 
 \vspace{1em}
-\noindent\textbf{Word Count:} [Enter word count here]
+\noindent\textbf{Word Count:} 1771 
+\newpage
+\section{SCHEDULE}
 
+\newpage
 
-\section*{4. SCHEDULE: (MAX. 1 PAGE)}
-% TODO: Provide a timeline for your project. State the start and end dates for each major phase.
-\justifying
-The project is scheduled to run from [Start Date] to [End Date]. The timeline is broken down into the following phases:
-\begin{center}
-    \begin{tabular}{p{0.4\textwidth} p{0.4\textwidth}}
-        \hline
-        \textbf{Project Phase} & \textbf{Timeline} \\
-        \hline
-        Literature Review \& Finalizing Proposal & Weeks 1-4 \\
-        Data Acquisition \& Pre-processing & Weeks 5-8 \\
-        Model Development & Weeks 9-16 \\
-        Data Analysis and Evaluation & Weeks 17-20 \\
-        Final Thesis Writing \& Submission & Weeks 21-24 \\
-        \hline
-    \end{tabular}
-\end{center}
-
-
-\section*{5. SCIENTIFIC, SOCIETAL AND/OR TECHNOLOGICAL RELEVANCE: (ABOUT 250 WORDS)}
+\section{SCIENTIFIC, SOCIETAL AND/OR TECHNOLOGICAL RELEVANCE}
 % TODO: Describe the broader context and relevance of your project.
-\justifying
-Your text describing the broader relevance and context of your project goes here. Explain how your work contributes to the scientific field, to society, or to technological advancement.
+% : (ABOUT 250 WORDS)
 
 
-\section*{6. REFERENCES:}
-% This command will automatically generate your reference list based on your .bib file.
-% The list will be formatted in APA 7th edition style.
+\section{REFERENCES}
 \printbibliography[heading=none]
 
 
