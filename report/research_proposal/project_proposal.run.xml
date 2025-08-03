@@ -84,6 +84,7 @@
     </requires>
     <requires type="editable">
       <file>proposal_bibliography.bib</file>
+      <file>proposal_manual_bibliography.bib</file>
     </requires>
   </external>
 </requests>

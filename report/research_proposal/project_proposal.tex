@@ -8,9 +8,13 @@
 \usepackage{csquotes} 
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{booktabs} 
+\usepackage{tabularx}
+\usepackage{graphicx}
 \usepackage[style=apa, backend=biber]{biblatex}
 
 \addbibresource{proposal_bibliography.bib} 
+\addbibresource{proposal_manual_bibliography.bib}
 
 \usepackage{titlesec}
 
@@ -34,7 +38,7 @@
 
 \title{\textbf{PROJECT DESCRIPTION} \\ \vspace{1.5em} \large Modeling Latent Neural Dynamics to Decode Brain States and Motor Behavior in Parkinson’s Disease}
 \author{Giedrius Mirklys \\
-        \normalsize{Student Number: s1101773}}
+    \normalsize{Student Number: s1101773}}
 \date{\today} % Or a specific date
 
 \maketitle
@@ -48,63 +52,134 @@
 % Use \parencite{key} for parenthetical citations, e.g., (Author, 2023).
 % Use \textcite{key} for narrative citations, e.g., Author (2023) demonstrated...
 
-Parkinson's disease (PD) is a progressive neurodegenerative condition defined by its cardinal motor symptoms, including bradykinesia, resting tremor, and rigidity. At its core, however, PD is a disorder of pathological neural dynamics. The primary pathology is the loss of dopaminergic neurons in the substantia nigra, however, the reasons for this neurodegeneration remains unknown but is thought to involve a complex interplay between genetic predispositions and environmental factors\parencite{kaliaParkinsonsDisease2015}. This loss of dopamine critically disrupts communication within the cortico-basal ganglia-thalamocortical loops---a set of recurrent neural circuits essential for motor control and action selection \parencite{alexanderFunctionalArchitectureBasal1990}. This disruption leads to the emergence of abnormally persistent and synchronized oscillations in the beta frequency band (13-30 Hz). Unlike the transient beta "bursts" observed in healthy brains during motor control, these sustained oscillations are pathological and their power has been strongly correlated with the severity of motor impairment, particularly akinesia and rigidity \parencite{brownDopamineDependencyOscillations2001,tinkhauserBetaBurstDynamics2017}.
-
-Therapeutic strategies aim to correct these disturbances at the network level, as this is the scale at which clinical symptoms emerge. Pharmacological treatments, primarily Levodopa, systemically restore dopamine levels and have been shown to suppress pathological beta oscillations in tandem with clinical improvement \parencite{paulsCorticalBetaBurst2022}. For patients with advanced symptoms, Deep Brain Stimulation (DBS) offers a powerful alternative by implanting electrodes in the subthalamic nucleus (STN) or globus pallidus interna (GPi). DBS is thought to work by imposing a new, high-frequency electrical pattern that acts as an "informational lesion," jamming the pathological beta rhythm and preventing its propagation through the network \parencite{chikenMechanismDeepBrain2016,mcintyreNetworkPerspectivesMechanisms2010}.
-
-Despite their efficacy, both treatments have significant limitations. Long-term Levodopa use leads to motor fluctuations—unpredictable swings between periods of good mobility ("ON" time) and symptom recurrence ("OFF" time). These are thought to arise from the non-physiological, pulsatile stimulation of dopamine receptors by a short-half-life drug, which can alter the brain's response over time \parencite{obesoBasalGangliaParkinsons2009}. Conventional DBS, while targeted, is a "blunt instrument"; its continuous operation can cause side effects like dysarthria and paresthesia, and over time, patients may require increased stimulation parameters to maintain benefit likely due to disease progression \parencite{krackFiveYearFollowupBilateral2003}. These limitations stem from an incomplete understanding of how stimulation interacts with patient-specific neural circuits. Because the relationship between raw neural signals and clinical symptoms is complex and noisy, computational models are essential to learn this mapping and translate high-dimensional data into reliable biomarkers.
-
-The development of adaptive DBS (aDBS) systems is therefore critically dependent on such models. The very concept of aDBS was motivated by the discovery that pathological beta oscillations track symptom severity, leading to the hypothesis that selectively targeting these oscillations would be a more efficient therapy \parencite{littleAdaptiveDeepBrain2013}. These models act as the "brains" of the therapeutic system, translating complex neural data into a precise, graded signal for guiding therapeutic stimulation. This project positions itself at this forefront by systematically evaluating two state-of-the-art modeling frameworks: the linear Preferential Subspace Identification (PSID) model \parencite{saniModelingBehaviorallyRelevant2021} and the nonlinear Dissociative Prioritized Analysis of Dynamics (DPAD) model \parencite{saniDissociativePrioritizedModeling2024}.While beta oscillations are a leading biomarker, it remains debated whether they are causal to motor symptoms or a reliable byproduct (epiphenomenon), or whether patient-specific biomarkers involving other spectral features might be more effective \parencite{swannGammaOscillationsHyperkinetic2016}. From a therapeutic engineering perspective, however, even a reliable byproduct can serve as an effective control signal. By comparing linear and nonlinear approaches to decode these signals, this research aims to advance our understanding of neural decoding and contribute to the development of more effective, personalized neurotherapeutics.
+According to the \textcite{who_parkinson_2023}, rates of Parkinson's disease (PD) increased twice over the last 25 years, with an estimated 8.5 million people affected worldwide in 2019. In PD, the primary pathology is the loss of dopaminergic neurons in the substantia nigra, which substantially disrupts communication within the cortico-basal ganglia-thalamo-cortical loop. This disruption manifests in slowness of movement, rigidity, and tremor, originating primarily from genetic and environmental factors \parencite{ben-shlomoEpidemiologyParkinsonsDisease2024}. Neurophysiologically, \textcite{tinkhauserBetaBurstDynamics2017} reported that the prolonged oscillations in the beta frequency band (13-30 Hz) are also indicative of such a disruption, and its power has been correlated with the severity of the motor symptoms, including akinesia and rigidity, whereas in the healthy brain, the beta oscillations typically occur as transient short bursts during motor execution.
 
 
-\subsection{The Linear Baseline: Preferential Subspace Identification (PSID)}
+Therapeutic strategies aim to correct these disturbances at the network level, reducing the beta frequency synchrony within the structures in basal ganglia and between the motor cortex and the basal ganglia itself \parencite{tinkhauserBetaBurstDynamics2017, paulsCorticalBetaBurst2022}. Pharmacological treatments, primarily Levodopa which increases levels of dopamine, have been shown to suppress prolonged beta oscillations, improving motor performance. For patients with more advanced symptoms, Deep Brain Stimulation (DBS) offers an effective alternative by implanting electrodes in the subthalamic nucleus (STN) within the basal ganglia. DBS is thought to work by imposing a new, high-frequency electrical pattern that acts as an \textit{informational lesion}, overriding the pathological beta rhythm and preventing its propagation through the network \parencite{chikenMechanismDeepBrain2016,mcintyreNetworkPerspectivesMechanisms2010}. Additionally, as highlighted by \textcite{wuComputationalModelsAdvance2024}, the effects of DBS are multifaceted, inducing outcomes like synaptic plasticity and broader neural reorganization. However, the continuous, non-adaptive nature of the stimulation can lead to side effects, which are often attributed to the spread of electrical current to adjacent neural structures not targeted for therapy \parencite{zarzyckiStimulationinducedSideEffects2020}.
 
-Standard approaches to modeling neural dynamics often fall into two categories. Neural Dynamic Modeling (NDM) typically learns a latent state that best predicts future neural activity from past neural activity, making it agnostic to behavior \parencite{saniModelingBehaviorallyRelevant2021}. Conversely, Representational Modeling (RM) often models the dynamics of behavior itself, predicting future behavior from past behavior, and then relates this to neural activity, making it agnostic to the intrinsic dynamics of the neural signals \parencite{saniModelingBehaviorallyRelevant2021}. Neither approach is explicitly designed to isolate the dynamics that are shared between neural activity and behavior \parencite{saniModelingBehaviorallyRelevant2021}. This leads to the challenge of separating behaviorally relevant dynamics—the neural patterns that co-vary with and are predictive of behavior—from the vast background of behaviorally irrelevant dynamics related to other internal states and cognitive processes \parencite{saniModelingBehaviorallyRelevant2021}. Indeed, neural populations in motor and prefrontal cortices are known to multiplex signals for numerous variables simultaneously, making it critical to disentangle the specific dynamics related to the behavior of interest \parencite{manteContextdependentComputationRecurrent2013}.
+Given the complex and noisy relationship between raw neural signals and clinical symptoms, computational models are essential for learning this mapping and translating high-dimensional data into reliable biomarkers that can drive a closed-loop therapeutic approach, such as \textit{adaptive} DBS (aDBS). The rationale for aDBS is that selectively targeting beta oscillations, where the symptoms are pronounced the most, could enable a more efficient, closed-loop approach to stimulation, potentially reducing side effects \parencite{littleAdaptiveDeepBrain2013}. To this end, this thesis will evaluate two state-of-the-art modeling frameworks: the linear Preferential Subspace Identification (PSID) model \parencite{saniModelingBehaviorallyRelevant2021} and the non-linear Dissociative Prioritized Analysis of Dynamics (DPAD) model \parencite{saniDissociativePrioritizedModeling2024}. While beta oscillations are a leading biomarker, it remains debated whether they are causal to motor symptoms or are an epiphenomenon, and whether patient-specific biomarkers involving other spectral features, such as beta phase-amplitude coupling, might be more effective \parencite{swannGammaOscillationsHyperkinetic2016, wuComputationalModelsAdvance2024}. By comparing the performance of linear and non-linear approaches on this decoding problem, this thesis aims to characterize the capabilities and limitations of these models.
 
-Preferential Subspace Identification (PSID) was developed to solve this problem by directly targeting the shared dynamics. The core hypothesis of PSID is that by explicitly optimizing a model to predict future behavioral outputs from past neural activity, the model is forced to discover and represent the behaviorally relevant neural dynamics. To formalize this, PSID adopts a linear time-invariant (LTI) state-space model structure, which provides a powerful yet interpretable foundation:
 
-$$
-\begin{cases}
-\mathbf{x}_{k+1} = A \mathbf{x}_k + \mathbf{w}_k \\
-\mathbf{y}_k = C_y \mathbf{x}_k + \mathbf{v}_k \\
-\mathbf{z}_k = C_z \mathbf{x}_k + \epsilon_k
-\end{cases}
-$$
+\subsection{Preferential Subspace Identification (PSID)}
+\textcite{saniModelingBehaviorallyRelevant2021} described two standard approaches to modeling neural dynamics: Neural Dynamic Modeling (NDM) and Representational Modeling (RM). NDM typically learns a latent state that best predicts future neural activity from past neural activity, making it agnostic to behavior. Conversely, RM often models the dynamics of behavior itself, predicting future behavior from past behavior, and then relates this to neural activity, making it agnostic to the intrinsic dynamics of the neural signals. Neither approach is explicitly designed to isolate the dynamics that are shared between neural activity and behavior. This leads to the challenge of separating behaviorally relevant dynamics, which are the neural patterns that co-vary with and are predictive of behavior, from the vast background of behaviorally irrelevant dynamics related to other internal states and cognitive processes. Indeed, \textcite{wuMixedSelectivitySubthalamic2025} elaborated that neural populations in motor-related areas, especially STN, are known to multiplex signals for numerous variables simultaneously, making it critical to disentangle the specific dynamics related to the behavior of interest.
 
-Here, $k$ is the time index; $\mathbf{x}_k \in \mathbb{R}^{n_x}$ is the unobserved, low-dimensional latent state (with $n_x$ dimensions) that evolves according to the state transition matrix $A$; $\mathbf{y}_k \in \mathbb{R}^{n_y}$ is the observed neural activity from $n_y$ channels, generated from the latent state via the observation matrix $C_y$; and $\mathbf{z}_k \in \mathbb{R}^{n_z}$ is the observed behavioral variable from $n_z$ dimensions, generated via the observation matrix $C_z$. The terms $\mathbf{w}_k$, $\mathbf{v}_k$, and $\epsilon_k$ represent state, neural observation, and behavioral residuals (noise), respectively.
 
-The PSID algorithm learns the model parameters and latent states through a non-iterative, closed-form procedure. It begins by constructing  matrices representing past neural activity ($\mathbf{Y}_p$) and future behavior ($\mathbf{Z}_f$) from the training data. The crucial "preferential" step is to compute the orthogonal projection of future behavior onto past neural activity, $\hat{\mathbf{Z}}_f = \mathbf{Z}_f \mathbf{Y}_p^T (\mathbf{Y}_p \mathbf{Y}_p^T)^{-1} \mathbf{Y}_p$, which isolates the component of future behavior that is linearly predictable from past neural signals. This projection is then decomposed using Singular Value Decomposition (SVD) to identify the observability matrix and the behaviorally relevant latent states. From this optimally identified subspace, the system matrices ($A, C_y, C_z$) are estimated using least-squares methods. Finally, a Kalman filter is applied with these estimated parameters to compute the optimal sequence of the latent state $\mathbf{x}_k$ given the observed neural data. The final output is a low-dimensional, interpretable linear model that captures the neural dynamics most relevant to the behavior of interest.
+To address it, \textcite{saniModelingBehaviorallyRelevant2021} developed Preferential Subspace Identification (PSID), a method that directly targets these shared dynamics. The main principle of PSID is that by training a model to predict future behavioral outputs from past neural activity, the model is forced to discover and represent the behaviorally relevant neural dynamics. To formalize this, PSID adopts a linear time-invariant (LTI) state-space model structure, which provides a tractable and interpretable foundation:
+\[
+    \begin{cases}
+        \mathbf{x}_{k+1} = A \mathbf{x}_k + \mathbf{w}_k \\
+        \mathbf{y}_k = C_y \mathbf{x}_k + \mathbf{v}_k   \\
+        \mathbf{z}_k = C_z \mathbf{x}_k + \boldsymbol{\epsilon}_k
+    \end{cases}
+\]
+Here, $k$ is the time index; $\mathbf{x}_k \in \mathbb{R}^{n_x}$ is the unobserved, low-dimensional latent state that evolves according to the state transition matrix $A$; $\mathbf{y}_k \in \mathbb{R}^{n_y}$ is the observed neural activity from $n_y$ channels, generated via the observation matrix $C_y$; and $\mathbf{z}_k \in \mathbb{R}^{n_z}$ is the observed behavioral variable, generated via the observation matrix $C_z$. The terms $\mathbf{w}_k$, $\mathbf{v}_k$, and $\boldsymbol{\epsilon}_k$ represent state, neural observation, and behavioral residuals, respectively.
+
+The PSID algorithm learns the model parameters and latent states through a non-iterative, closed-form procedure. It begins by constructing matrices of past neural activity ($\mathbf{Y}_p$) and future behavior ($\mathbf{Z}_f$). The "preferential" step is computing the orthogonal projection of future behavior onto past neural activity,
+\[
+    \hat{\mathbf{Z}}_f = \mathbf{Z}_f \mathbf{Y}_p^T (\mathbf{Y}_p \mathbf{Y}_p^T)^{-1} \mathbf{Y}_p
+\]
+which isolates the component of future behavior that is linearly predictable from the neural signals. This projection is then decomposed using Singular Value Decomposition (SVD) to identify the observability matrix and the behaviorally relevant latent states. From this optimally identified subspace, the system matrices are estimated via linear regression. Specifically, the state transition matrix ($A$) is found by regressing future latent states onto current latent states, while the observation matrices ($C_y$, $C_z$) are found by regressing the observed neural and behavioral data onto the estimated latent state sequence. Finally, a Kalman filter is applied with these estimated parameters to compute the optimal sequence of the latent state $\mathbf{x}_k$. The final output is a low-dimensional, interpretable linear model that captures the neural dynamics most relevant to the behavior of interest.
 
 \subsection{Dissociative Prioritized Analysis of Dynamics (DPAD)}
 
-While PSID provides a powerful linear framework, it is well-established that the brain's computations are fundamentally nonlinear. The DPAD framework was therefore developed as a direct nonlinear extension of PSID's core principles, leveraging the power of Recurrent Neural Networks (RNNs) to capture these complex dynamics [citation]. DPAD's central innovation is its ability to not only prioritize behaviorally relevant dynamics but to explicitly dissociate them from irrelevant dynamics. This is achieved by partitioning the model's latent state $\mathbf{x}_k$ into two separate components: a prioritized state, $\mathbf{x}_k^{(1)}$, which is dedicated to predicting behavior, and a non-prioritized state, $\mathbf{x}_k^{(2)}$, which models all remaining neural variance.
-This dissociation is enforced through a specialized two-section RNN architecture and a unique four-step training process. The model is structured such that the behavior, $\hat{\mathbf{z}}_k$, is predicted only from the prioritized latent state, whereas the neural activity, $\hat{\mathbf{y}}_k$, is reconstructed from both states. 
+While PSID provides a robust linear framework, it is well-established that the brain's computations are fundamentally non-linear. \textcite{saniDissociativePrioritizedModeling2024} proposed a new neural dynamics modelling framework called Dissociative Prioritized Analysis of Dynamics (DPAD). Although it may be reminiscent to PSID, but it is mathematically distinct from PSID. DPAD not only \textit{prioritizes} behaviorally relevant dynamics but also explicitly \textit{dissociates} them from irrelevant dynamics. This is achieved by partitioning the model's latent state $\mathbf{x}_k$ into two separate components: a prioritized state, $\mathbf{x}_k^{(1)}$, which is dedicated to predicting behavior, and a non-prioritized state, $\mathbf{x}_k^{(2)}$, which models all remaining neural variance.
+This dissociation is enforced through a four-step training process. The model is structured such that the behavior, $\hat{\mathbf{z}}_k$, is predicted only from the prioritized latent state, whereas the neural activity, $\hat{\mathbf{y}}_k$, is reconstructed from both states.
 $$
-\begin{cases}
-\mathbf{x}_{k+1} = \mathbf{A}'(\mathbf{x}_k) + \mathbf{K}'(\mathbf{y}_k) \\
-\hat{\mathbf{y}}_k = C_y^{(1)}(\mathbf{x}_k^{(1)}) + C_y^{(2)}(\mathbf{x}_k^{(2)}) \\
-\hat{\mathbf{z}}_k = C_z^{(1)}(\mathbf{x}_k^{(1)})
-\end{cases}
+    \begin{cases}
+        \mathbf{x}_{k+1} = \mathbf{A}'(\mathbf{x}_k) + \mathbf{K}'(\mathbf{y}_k)           \\
+        \hat{\mathbf{y}}_k = C_y^{(1)}(\mathbf{x}_k^{(1)}) + C_y^{(2)}(\mathbf{x}_k^{(2)}) \\
+        \hat{\mathbf{z}}_k = C_z^{(1)}(\mathbf{x}_k^{(1)})
+    \end{cases}
 $$
-Here, $\mathbf{A}'$, $\mathbf{K}'$, $C_y^{(1)}$, $C_y^{(2)}$, and $C_z^{(1)}$ are now nonlinear functions (e.g., multilayer perceptrons) that represent the state recursion, neural input, and observation mappings, respectively
+Here, $\mathbf{A}'$, $\mathbf{K}'$, $C_y^{(1)}$, $C_y^{(2)}$, and $C_z^{(1)}$ are now nonlinear functions (e.g. MLPs) that represent the state recursion, neural input, and observation mappings, respectively
 
-The model's parameters are learned via a carefully orchestrated four-step procedure guided by a composite loss function that weights the importance of behavioral and neural prediction accuracy. First, the entire network is trained with a high priority on behavioral prediction, forcing the prioritized section of the RNN and its latent state $\mathbf{x}_k^{(1)}$ to learn only the dynamics maximally predictive of behavior. Second, the weights of this now-expert "prioritized" section are frozen. Third, the optimization objective shifts entirely to neural reconstruction, compelling the second, non-prioritized section of the RNN ($\mathbf{x}_k^{(2)}$) to learn and explain the residual neural variance not captured by the first stage. Finally, an optional fine-tuning step adjusts all parameters jointly. This process yields a powerful nonlinear model that not only achieves high predictive accuracy but also provides an interpretable, dissociated latent representation of the neural code, making it an ideal framework for exploring the complex dynamics of Parkinson's disease.
+First, the entire network is trained by forcing the prioritized section of the RNN and its latent state $\mathbf{x}_k^{(1)}$ to learn only the dynamics predictive of behavior. Second, the weights of this "prioritized" section are frozen. Third, the optimization objective shifts entirely to neural reconstruction, compelling the second, non-prioritized section of the RNN ($\mathbf{x}_k^{(2)}$) to learn and explain the residual neural variance not captured by the first stage. Finally, an optional fine-tuning step adjusts all parameters jointly. This process yields a non-linear model that not only achieves high predictive accuracy but also provides an interpretable, dissociated latent representation of the neural dynamics, making it a suitable framework for exploring the complex dynamics of Parkinson's disease.
 
-To address the overarching goal of improving neurotherapeutics, this thesis will focus on two primary modeling challenges designed to test the limits of linear (PSID) and nonlinear (DPAD) frameworks. The first challenge is a form of "neural signal translation," aiming to predict cortical Electrocorticography (ECoG) activity using only subcortical Local Field Potential (LFP) recordings from patients with Parkinson's disease. This task serves a dual purpose. It probes the functional relationship between brain regions, leveraging the known anatomical "hyperdirect" pathway from the cortex to the STN \parencite{nambuFunctionalSignificanceCortico2002} to quantify the shared variance between these signals. It also explores the feasibility of creating "virtual sensors," which could infer rich cortical data from the existing DBS lead without requiring an additional, highly invasive ECoG grid implantation. While the original DPAD study demonstrated its superiority on primate data, its application to pathological human signals is an open question. I hypothesize that prediction will be significantly above chance and that DPAD will outperform PSID, as evidence from the broader field suggests that neural population dynamics are fundamentally nonlinear \parencite{breakspearDynamicModelsLargescale2017}.
 
-The second challenge shifts from predicting internal neural states to decoding external, behaviorally relevant variables. This approach allows us to investigate the low-dimensional geometric structure of neural population activity, revealing how the complex activity of many neurons can be described by a simpler trajectory through a state-space that maps onto specific movements or clinical states. This scientific understanding is the foundational step towards developing a closed-loop aDBS system, where an accurate biomarker decoder guides stimulation. The motivation for aDBS is compelling; by delivering stimulation only when needed, it aims to reduce side effects, mitigate the development of therapeutic tolerance, and potentially guide neuroplastic mechanisms to restore healthier network patterns rather than simply disrupting pathological ones \parencite{kraussTechnologyDeepBrain2021}. I anticipate that both models will perform these tasks with high accuracy, but hypothesize that DPAD's ability to model nonlinear dynamics will provide a significant advantage in decoding the complex kinematics of continuous movement. By tackling these two challenges, this research will compare the utility of linear and nonlinear models and provide crucial insights into the neural code itself, directly informing the future of personalized neurotherapeutics.
+\section{Experimental Design and Methodology}
+
+The core of this thesis involves a comparison of the PSID and DPAD modeling frameworks across the three primary research questions. 
+
+\subsection{RQ1: Cross-Modal Neural Prediction}
+\begin{quote}
+    \textbf{Research Question 1:} To what extent can PSID and DPAD predict cortical ECoG activity from subcortical LFP recordings, and how well do these predictions generalize across recording sessions for a given patient?
+\end{quote}
+
+This question investigates the feasibility of neural signal translation. The models will be trained to predict ECoG using only LFP input, focusing on data from the DBS-OFF state. Prediction accuracy will be quantified using the Coefficient of Determination ($R^2$). For a deeper analysis of the learned relationship, Canonical Correlation Analysis (CCA) and Deep CCA (DCCA) will be employed to quantify the strength of the linear and non-linear coupling, respectively, between the LFP and ECoG signals.
+
+\subsection{RQ2: Brain State Classification}
+\begin{quote}
+    \textbf{Research Question 2:} How accurately can PSID and DPAD classify discrete brain states (DBS ON vs. OFF) from LFP/ECoG signals?
+\end{quote}
+
+This task assesses the models' ability to identify distinct, clinically relevant brain states. The methodology involves using the learned latent states as features for a logistic regression classifier to perform a binary classification of the DBS ON/OFF condition. Performance will be assessed using metrics, including the Area Under the ROC Curve (AUC), the F1-Score, and Balanced Accuracy. To interpret the learned representations, the latent state trajectories will be visualized using t-SNE to confirm class separability. To quantitatively compare the learned representations, Representational Similarity Analysis (RSA) will be performed. Representational Dissimilarity Matrices (RDMs) will be constructed from both the neural data and the models' latent states, and their correlation will be calculated to assess the alignment between the model's internal geometry and the underlying neural geometry. 
+\subsection{RQ3: Continuous Motor Behavior Decoding}
+\begin{quote}
+    \textbf{Research Question 3:} How effectively can PSID and DPAD decode continuous motor behavior (tracing speed) from LFP activity, and what do their respective latent dynamics reveal about the linear vs. nonlinear neural control of movement?
+\end{quote}
+
+This final question addresses the core challenge for developing future adaptive DBS systems. The models will be trained to decode a continuous behavioral variable, tracing speed, from LFP signals. Decoding performance will be evaluated using Pearson's correlation coefficient. The quantitative link between the models' internal dynamics and the behavior will be established using CCA and DCCA to measure the correlation between the latent state trajectories and the continuous tracing speed data. For the DPAD model, the distinct contributions of its prioritized ($\mathbf{x}^{(1)}$) and non-prioritized ($\mathbf{x}^{(2)}$) subspaces will be explicitly compared. Furthermore, RSA will be used to compare the geometric structure of the latent spaces to the structure of the behavior itself.
+
+\subsection{Data and Preprocessing}
+This project utilizes data from a single Parkinson's disease patient from the Dareplane project, recorded over three separate sessions \parencite{doldLFPECoGData2024}. These recordings provide simultaneous 16-channel LFP data from bilateral subthalamic nucleus (STN) electrodes and 4-channel ECoG data from the primary motor cortex, originally sampled at 22 kHz. High-resolution hand kinematics were also captured, and the tracing speed will be calculated from the coordinate changes through time. The dataset also contains separate blocks of DBS ON and OFF states. Initial preprocessing addresses high-amplitude electrical artifacts in DBS-ON recordings using a template subtraction method \parencite{qianMethodRemovalDeep2017,hammerArtifactCharacterizationMultipurpose2022}. This technique first derives an accurate template of the stereotyped artifact by averaging signal epochs aligned to the known stimulation pulse timings. To account for pulse-to-pulse variations in the artifact's shape, which can corrupt a simple average, this interpolation-based template rebuilding can be employed. The resulting template is then subtracted from the raw signal at each stimulation event to recover the underlying neural activity. The cleaned data are subsequently downsampled to 1000 Hz, band-pass filtered (3-250 Hz, including high gamma), and notch-filtered to remove power-line noise (50 Hz and its harmonics). A Common Average Reference (CAR) reduces common-mode noise, followed by Source Power Comodulation (SPoC) to derive task-specific spatial filters; the use of the latter one is set in the configuration files. Crucially, no handcrafted features such as bandpower are extracted; instead, the models are trained directly on segmented one-second epochs of the preprocessed time-series data.
+
+To rigorously assess model generalization across different recording days, a leave-one-session-out cross-validation scheme is employed (three sessions in total). For each of the three folds, models are trained and validated on data from two sessions, with the held-out third session serving as the final test set. Within each fold, the data from the two designated training-and-validation sessions are further subdivided into a training set (e.g., 80\%) and a validation set (20\%).
 
 \vspace{1em}
-\noindent\textbf{Word Count:} 1771 
+\noindent\textbf{Word Count:} 1899
 \newpage
 \section{SCHEDULE}
+\begin{table}[h!]
+    \centering
+    \label{tab:schedule}
+    \resizebox{0.95\textwidth}{!}{
+        \begin{tabularx}{\textwidth}{>{\RaggedRight}X l l >{\RaggedRight}X}
+            \textbf{Task}                                                 & \textbf{Start Date} & \textbf{End Date}   & \textbf{Key Goals / Milestones}                                                                                             \\
+            \midrule
+            Finalizing project proposal                                   & 2025-09-01          & 2025-09-07          &                                                                                                                             \\
+
+            Data Analysis \& pipeline scaffolding                         & 2025-09-08          & 2025-09-28          & Pipeline for DBS/ECoG preprocessing                                                                                         \\
+
+            Building full training pipeline                               & 2025-09-29          & 2025-11-02          & Pipeline running a full experiment (load, preprocess, train, evaluate) from a YAML configs.                                  \\
+
+            Drafting Background \& Methodology                   & 2025-09-29          & 2025-11-02          &                                                                                                                             \\
+
+            Baselines model training                                      & 2025-11-03          & 2025-11-16          & Generate first-pass results with PSID and a basic DPAD configuration on all RQs.                                            \\
+
+            Main Training \& Hyperparameter Tuning      & 2025-11-10  & 2025-12-21  & Running all the experiments with different configurations.                                              \\
+
+            In-depth Analysis of Initial Results                 & 2025-11-17          & 2025-12-07          & Analyze baseline results. Develop scripts for latent space analysis, create initial figures.                     \\
+
+
+            Refining Background \& Methods Drafts                & 2025-12-08          & 2025-12-21          & Incorporate new insights from initial results into the report drafts.                                                       \\
+
+            Christmas Break                                               & 2025-12-22          & 2026-01-04          & Rest and light work on refining drafts as needed.                                                                           \\
+
+            Getting full results                                          & 2026-01-05          & 2026-01-18          & Finalize all model training and hyperparameter tuning. Get all the results and ensure they are reproducible and documented. \\
+
+            Drafting Results Section                             & 2026-01-05          & 2026-01-25          & Write the main narrative for the Results section using all finalized model outputs.                                         \\
+
+            Drafting Discussion Section                          & 2026-01-19          & 2026-02-08          & Connect results back to the background and discuss implications.                                                            \\
+
+            Planning Thesis Presentation                                  & 2026-01-26          & 2026-02-08          &                                                                                                                             \\
+
+            Drafting Introduction \& Abstract                             & 2026-02-09          & 2026-02-15          &                                                                                                                             \\
+
+            Consolidating Full Report                                     & 2026-02-15          & 2026-02-22          & Polish all sections, figures, and references into a single, cohesive document.                                              \\
+
+            Finalizing Thesis Presentation/Slides                         & 2026-02-23          & 2026-03-01          & Finalize slides and practice the presentation.                                                                              \\
+
+            Final Revisions, Unplanned Delays \& Submission Prep & 2026-03-02 & 2026-03-30 &                                                                                                                             \\
+        \end{tabularx}
+    }
+\end{table}
 
 \newpage
 
 \section{SCIENTIFIC, SOCIETAL AND/OR TECHNOLOGICAL RELEVANCE}
 % TODO: Describe the broader context and relevance of your project.
 % : (ABOUT 250 WORDS)
-
+The clinical implications of this research extend directly to adaptive Deep Brain Stimulation (aDBS) for Parkinson's disease, aiming to transform the current standard of continuous stimulation into an intelligent, on-demand therapy. By validating computational models capable of decoding motor performance and classifying clinical states in real-time, this work provides the analytical foundation for closed-loop systems that could significantly enhance therapeutic efficacy while mitigating side effects. Furthermore, the exploration of cross-modal prediction investigates the potential for creating "virtual sensors," which could leverage the rich information from cortical signals without the need for additional invasive surgeries. However, the broader implications of this methodological framework are not confined to Parkinson's disease or motor control. The ability to dissociate and model behaviorally-relevant neural dynamics is a fundamental tool applicable to a wide range of neurological and psychiatric conditions, including epilepsy, depression, and obsessive-compulsive disorder. The same principles could be used to decode seizure precursors, affective states, or cognitive fluctuations, paving the way for adaptive neuromodulation therapies across the clinical spectrum.
 
 \section{REFERENCES}
 \printbibliography[heading=none]

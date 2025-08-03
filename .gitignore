@@ -194,3 +194,7 @@ cython_debug/
 .cursorindexingignore
 
 .vscode/
+data
+*.txt
+analysis_scripts
+*.tar.gz

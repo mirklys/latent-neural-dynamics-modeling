@@ -3057,29 +3057,37 @@
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
     <bcf:datasource type="file" datatype="bibtex" glob="false">proposal_bibliography.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex" glob="false">proposal_manual_bibliography.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">kaliaParkinsonsDisease2015</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">alexanderFunctionalArchitectureBasal1990</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">brownDopamineDependencyOscillations2001</bcf:citekey>
-    <bcf:citekey order="3" intorder="2">tinkhauserBetaBurstDynamics2017</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">paulsCorticalBetaBurst2022</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">chikenMechanismDeepBrain2016</bcf:citekey>
-    <bcf:citekey order="5" intorder="2">mcintyreNetworkPerspectivesMechanisms2010</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">obesoBasalGangliaParkinsons2009</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">krackFiveYearFollowupBilateral2003</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">littleAdaptiveDeepBrain2013</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">saniDissociativePrioritizedModeling2024</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">swannGammaOscillationsHyperkinetic2016</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">who_parkinson_2023</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">who_parkinson_2023</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">ben-shlomoEpidemiologyParkinsonsDisease2024</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">tinkhauserBetaBurstDynamics2017</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">tinkhauserBetaBurstDynamics2017</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">tinkhauserBetaBurstDynamics2017</bcf:citekey>
+    <bcf:citekey order="6" intorder="2">paulsCorticalBetaBurst2022</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">chikenMechanismDeepBrain2016</bcf:citekey>
+    <bcf:citekey order="7" intorder="2">mcintyreNetworkPerspectivesMechanisms2010</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">wuComputationalModelsAdvance2024</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">wuComputationalModelsAdvance2024</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">zarzyckiStimulationinducedSideEffects2020</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">littleAdaptiveDeepBrain2013</bcf:citekey>
     <bcf:citekey order="12" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">saniDissociativePrioritizedModeling2024</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">swannGammaOscillationsHyperkinetic2016</bcf:citekey>
+    <bcf:citekey order="14" intorder="2">wuComputationalModelsAdvance2024</bcf:citekey>
     <bcf:citekey order="15" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">manteContextdependentComputationRecurrent2013</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">nambuFunctionalSignificanceCortico2002</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">breakspearDynamicModelsLargescale2017</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">kraussTechnologyDeepBrain2021</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">wuMixedSelectivitySubthalamic2025</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">wuMixedSelectivitySubthalamic2025</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">saniModelingBehaviorallyRelevant2021</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">saniDissociativePrioritizedModeling2024</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">saniDissociativePrioritizedModeling2024</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">doldLFPECoGData2024</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">qianMethodRemovalDeep2017</bcf:citekey>
+    <bcf:citekey order="24" intorder="2">hammerArtifactCharacterizationMultipurpose2022</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">
