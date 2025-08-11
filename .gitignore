@@ -193,6 +193,15 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-data/
-analysis_scripts/
+*.mat
+*.npy
+*.joblib
+*.xdf
+*.p
 *.tar.gz
+*.hdf
+*.eeg
+*.vhdr
+*.vmrk
+
+block_*

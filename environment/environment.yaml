@@ -1,0 +1,24 @@
+name: neuro
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+
+  - tensorflow=2.15
+  - numpy
+  - scipy
+  - polars
+  - scikit-learn
+  - matplotlib
+  - seaborn
+
+  - jupyterlab
+  - ipykernel
+
+  - pip
+  - pip:
+    - dpad==0.0.9
+    - psid==1.2.6
