@@ -4,8 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from behavior.loading import (deriv_and_norm, derive_stim,
-                              load_copydraw_record_yaml)
+from behavior.loading import deriv_and_norm, derive_stim, load_copydraw_record_yaml
 
 logger = getLogger(__name__)
 
@@ -21,9 +20,7 @@ def process_trial(trial_file: Path, use_longest_only: bool = True) -> dict:
     # only files with 'STIM_UNKNOWS', i.e. stim not set for paradigm, do show
     # the problem.
     if "STIM_UNKNOWN" in trial_file.stem:
-        res["ix_block"] = int(
-            re.search(r"block_(\d+)_", str(trial_file)).group(1)
-        )
+        res["ix_block"] = int(re.search(r"block_(\d+)_", str(trial_file)).group(1))
 
     stim = derive_stim(trial_file)
     if str(trial_file.parent).endswith("_cl"):
@@ -34,9 +31,7 @@ def process_trial(trial_file: Path, use_longest_only: bool = True) -> dict:
     # as the trace_let is recorded in screen pixel coords
     temp = res["template_pix"] * res["template_scaling"]
     scaled_template = temp - (
-        res["template_pos"]
-        / res["scaling_matrix"][0, 0]
-        / res["template_scaling"]
+        res["template_pos"] / res["scaling_matrix"][0, 0] / res["template_scaling"]
     )
 
     res["scaled_template"] = scaled_template

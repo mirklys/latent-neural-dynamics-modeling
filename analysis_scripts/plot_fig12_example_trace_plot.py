@@ -6,8 +6,11 @@ import plotly.graph_objects as go
 import pyxdf
 from plotly.subplots import make_subplots
 
-from paper_plots_aux import (apply_default_styles, get_dareplane_colors,
-                             scale_fig_for_paper)
+from paper_plots_aux import (
+    apply_default_styles,
+    get_dareplane_colors,
+    scale_fig_for_paper,
+)
 
 ON_COLOR = "#ac082c"
 OFF_COLOR = "#0868ac"

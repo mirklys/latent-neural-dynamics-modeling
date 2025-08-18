@@ -2,7 +2,7 @@ import numpy as np
 
 
 class ChronoGroupsSplit:
-    """ Leave out blocks of chronologically sorted pairs """
+    """Leave out blocks of chronologically sorted pairs"""
 
     def __init__(self, **kwags):
         for k in kwags:
@@ -35,24 +35,35 @@ class ChronoGroupsSplit:
             v.sort()
 
         # ensure that groups are distinct in labels
-        assert all([set(s).intersection(groups[y != k]) == set()
-                    for k, s in gm.items()]), " Groups are not unique in label"
+        assert all(
+            [set(s).intersection(groups[y != k]) == set() for k, s in gm.items()]
+        ), " Groups are not unique in label"
 
         # ensure lengths match
         set_lens = [len(v) for v in gm.values()]
         if not all([e == set_lens[0] for e in set_lens]):
-            print("Not all the same number of groups per label - "
-                  "will zip and thus drop all groups longer than the min")
+            print(
+                "Not all the same number of groups per label - "
+                "will zip and thus drop all groups longer than the min"
+            )
 
         Xidcs = np.arange(X.shape[0])
 
         splits = [
             (
-             np.hstack([Xidcs[groups == list(gv)[j]] for gv in gm.values()
-                        for j in range(min(set_lens)) if j != i]),                 # the non selected --> train set  # noqa
-             np.hstack([Xidcs[groups == list(gv)[i]]
-                        for gv in gm.values()]),   # the selected per grp --> test  # noqa
+                np.hstack(
+                    [
+                        Xidcs[groups == list(gv)[j]]
+                        for gv in gm.values()
+                        for j in range(min(set_lens))
+                        if j != i
+                    ]
+                ),  # the non selected --> train set  # noqa
+                np.hstack(
+                    [Xidcs[groups == list(gv)[i]] for gv in gm.values()]
+                ),  # the selected per grp --> test  # noqa
             )
-            for i in range(min(set_lens))]
+            for i in range(min(set_lens))
+        ]
 
         return splits

@@ -12,8 +12,13 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from scipy.signal import find_peaks
 
-from paper_plots_aux import (apply_default_styles, find_matching,
-                             shifted_match_dt, t_match, xdf_to_data_dict)
+from paper_plots_aux import (
+    apply_default_styles,
+    find_matching,
+    shifted_match_dt,
+    t_match,
+    xdf_to_data_dict,
+)
 
 cfgs = {
     "regular": dict(

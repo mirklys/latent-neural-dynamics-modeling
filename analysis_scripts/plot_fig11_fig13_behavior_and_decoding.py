@@ -13,8 +13,11 @@ from plotly.subplots import make_subplots
 from scipy import stats
 from sklearn.metrics import roc_auc_score
 
-from paper_plots_aux import (add_box_significance_indicator,
-                             apply_default_styles, scale_fig_for_paper)
+from paper_plots_aux import (
+    add_box_significance_indicator,
+    apply_default_styles,
+    scale_fig_for_paper,
+)
 
 ON_COLOR = "#ac082c"
 OFF_COLOR = "#0868ac"
