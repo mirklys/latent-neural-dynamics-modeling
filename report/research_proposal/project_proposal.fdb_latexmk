@@ -1,19 +1,20 @@
 # Fdb version 4
-["biber project_proposal"] 1754219051.07004 "project_proposal.bcf" "project_proposal.bbl" "project_proposal" 1754222407.50389 0
-  "project_proposal.bcf" 1754222407.43484 135478 77930c3ba96fbce9bbaedc00e38c463b "pdflatex"
+["biber project_proposal"] 1755943982.0251 "project_proposal.bcf" "project_proposal.bbl" "project_proposal" 1755945140.4482 0
+  "project_proposal.bcf" 1755945140.38042 135478 93b6bba60472b4b32e62e2404ff0eb02 "pdflatex"
   "proposal_bibliography.bib" 1754219045.44054 31475 9c453354741ac21d3c3c18b41ea3ab3f ""
-  "proposal_manual_bibliography.bib" 1753622629.57629 270 2405298b658612bd6f8087d757c809bc ""
+  "proposal_manual_bibliography.bib" 1755622536.66275 270 2405298b658612bd6f8087d757c809bc ""
   (generated)
   "project_proposal.bbl"
   "project_proposal.blg"
   (rewritten before read)
-["pdflatex"] 1754222406.42207 "/home/bobby/repos/latent-neural-dynamics-modeling/report/research_proposal/project_proposal.tex" "project_proposal.pdf" "project_proposal" 1754222407.50445 0
+["pdflatex"] 1755945139.35365 "/home/bobby/repos/latent-neural-dynamics-modeling/report/research_proposal/project_proposal.tex" "project_proposal.pdf" "project_proposal" 1755945140.44854 0
   "/etc/texmf/web2c/texmf.cnf" 1745957851.28706 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/bobby/repos/latent-neural-dynamics-modeling/report/research_proposal/project_proposal.tex" 1754222405.83383 23453 d8a6bf5950e056759d52f50eddfb85d0 ""
+  "/home/bobby/repos/latent-neural-dynamics-modeling/report/research_proposal/project_proposal.tex" 1755945138.80841 31335 b239854ec0913817087f0a0ee7011cc2 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8t.tfm" 1136768653 6880 f19b8995b61c334d78fc734065f6b4d4 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm" 1136768653 1352 fa28a7e6d323c65ce7d13d5342ff6be2 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm" 1136768653 4408 25b74d011a4c66b7f212c0cc3c90061b ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm" 1136768653 6672 e3ab9e37e925f3045c9005e6d1473d56 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm" 1136768653 4640 532ca3305aad10cc01d769f3f91f1029 ""
@@ -59,6 +60,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1136849748 45458 a3faba884469519614ca56ba5f6b1de1 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmb8t.vf" 1136768653 2340 df9c920cc5688ebbf16a93f45ce7bdd3 ""
+  "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf" 1136768653 3556 8a9a6dcbcd146ef985683f677f4758a6 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf" 1136768653 2348 91706c542228501c410c266421fbe30c ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf" 1136768653 2328 6cd7df782b09b29cfc4d93e55b6b9a59 ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -139,6 +141,7 @@
   "/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty" 1284153563 6187 b27afc771af565d3a9ff1ca7d16d0d46 ""
   "/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd" 1137110629 774 61d7da1e9f9e74989b196d147e623736 ""
   "/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty" 1586716065 856 8e0e5c8cca7b18e0400f97f5a2b90a99 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd" 1137110629 619 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
   "/usr/share/texlive/texmf-dist/tex/latex/ragged2e/ragged2e.sty" 1687466457 10085 3dececaeed388e31285c366e124c0c4e ""
   "/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty" 1576624809 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657483315 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
@@ -150,11 +153,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1745958128.20235 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1753020742 6830998 019b13e7b04a7042344a93d0987330f9 ""
-  "project_proposal.aux" 1754222407.43184 8015 57606b591ab11cebb8ecf3ea36ce58d7 "pdflatex"
-  "project_proposal.bbl" 1754219051.88955 116896 e81bc8332e4efd6fa7c2f56081f9eb5e "biber project_proposal"
-  "project_proposal.out" 1754222407.43384 2459 135c7f3e52b340d7b2486e7fe1648e5b "pdflatex"
-  "project_proposal.run.xml" 1754222407.43584 2574 13886efeac7a68f3ca36c9ff1188c280 "pdflatex"
-  "project_proposal.tex" 1754222405.83383 23453 d8a6bf5950e056759d52f50eddfb85d0 ""
+  "project_proposal.aux" 1755945140.37742 8292 205dbaa72327ef584a6b28175624bb77 "pdflatex"
+  "project_proposal.bbl" 1755943982.83898 116896 e81bc8332e4efd6fa7c2f56081f9eb5e "biber project_proposal"
+  "project_proposal.out" 1755945140.37942 2857 60e21dae5ef153ca3c2557dfbbfd9e83 "pdflatex"
+  "project_proposal.run.xml" 1755945140.38142 2574 13886efeac7a68f3ca36c9ff1188c280 "pdflatex"
+  "project_proposal.tex" 1755945138.80841 31335 b239854ec0913817087f0a0ee7011cc2 ""
   (generated)
   "project_proposal.aux"
   "project_proposal.bcf"
