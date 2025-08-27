@@ -7,7 +7,7 @@ To set up the environment and run the code, follow these steps.
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/mirklys/latent-neural-dynamics-modeling.git](https://github.com/mirklys/latent-neural-dynamics-modeling.git)
+git clone https://github.com/mirklys/latent-neural-dynamics-modeling.git
 cd latent-neural-dynamics-modeling
 ````
 
