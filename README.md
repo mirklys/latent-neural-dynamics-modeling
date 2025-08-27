@@ -1,6 +1,6 @@
 # Modeling Behavrior-Relevant Latent Neural Dynamics in Parkinson's Disease
 
-## 🚀 Getting Started
+## Getting Started
 
 To set up the environment and run the code, follow these steps.
 
