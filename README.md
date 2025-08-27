@@ -1,4 +1,4 @@
-# Modeling Behavrior-Relevant Latent Neural Dynamics in Parkinson's Disease
+# Modeling Behavior-Relevant Latent Neural Dynamics in Parkinson's Disease
 
 ## Getting Started
 
