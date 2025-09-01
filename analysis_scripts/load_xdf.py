@@ -653,7 +653,9 @@ def get_AO_with_lsl_markers(fname, day: str = "day4") -> pd.DataFrame:
         if "block6_clcopydraw" in str(fname):  # 'clcopydraw' only available for day 4
             # adjust given visual inspection
             dfao = get_AO_data(fname)
-            dt = -47.98  # found after visual inspection with the plotting below
+            # Time difference between LSL and AO data streams found after
+            # visual inspection of the data streams.
+            dt = -47.98
             # dadj = dflsl.copy()
             # dadj.time += dt
             # dp = pd.concat([dadj, dfao[["time", "data", "src"]]])
