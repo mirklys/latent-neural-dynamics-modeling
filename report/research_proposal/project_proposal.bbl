@@ -443,6 +443,61 @@
       \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
       \endverb
     \endentry
+    \entry{ljungMeasureLackFit1978}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=7cc8dd43606257cb44547fc002aa7a96}{%
+           family={Ljung},
+           familyi={L\bibinitperiod},
+           given={G.\bibnamedelimi M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=002f69bf140cceda97f81a168d86ceec}{%
+           family={Box},
+           familyi={B\bibinitperiod},
+           given={G.\bibnamedelimi E.\bibnamedelimi P.},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{fullhash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{bibnamehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{authorbibnamehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{authornamehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{authorfullhash}{7e1986bb35738e0a8364d110666bef4e}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{1}
+      \field{issn}{0006-3444, 1464-3510}
+      \field{journaltitle}{Biometrika}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{number}{2}
+      \field{shortjournal}{Biometrika}
+      \field{title}{On a Measure of Lack of Fit in Time Series Models}
+      \field{urlday}{1}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{65}
+      \field{year}{1978}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{297\bibrangedash 303}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1093/biomet/65.2.297
+      \endverb
+      \verb{urlraw}
+      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
+      \endverb
+      \verb{url}
+      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
+      \endverb
+    \endentry
     \entry{mcintyreNetworkPerspectivesMechanisms2010}{article}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=69f3f00c10a8af850a185d453c900293}{%
@@ -1638,6 +1693,61 @@
       \endverb
       \verb{url}
       \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
+      \endverb
+    \endentry
+    \entry{ljungMeasureLackFit1978}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=7cc8dd43606257cb44547fc002aa7a96}{%
+           family={Ljung},
+           familyi={L\bibinitperiod},
+           given={G.\bibnamedelimi M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=002f69bf140cceda97f81a168d86ceec}{%
+           family={Box},
+           familyi={B\bibinitperiod},
+           given={G.\bibnamedelimi E.\bibnamedelimi P.},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{fullhash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{bibnamehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{authorbibnamehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{authornamehash}{7e1986bb35738e0a8364d110666bef4e}
+      \strng{authorfullhash}{7e1986bb35738e0a8364d110666bef4e}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{1}
+      \field{issn}{0006-3444, 1464-3510}
+      \field{journaltitle}{Biometrika}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{number}{2}
+      \field{shortjournal}{Biometrika}
+      \field{title}{On a Measure of Lack of Fit in Time Series Models}
+      \field{urlday}{1}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{65}
+      \field{year}{1978}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{297\bibrangedash 303}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1093/biomet/65.2.297
+      \endverb
+      \verb{urlraw}
+      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
+      \endverb
+      \verb{url}
+      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
       \endverb
     \endentry
     \entry{mcintyreNetworkPerspectivesMechanisms2010}{article}{}
