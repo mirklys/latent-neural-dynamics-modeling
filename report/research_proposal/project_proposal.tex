@@ -65,15 +65,15 @@ This limitation has motivated the development of adaptive DBS (aDBS), a closed-l
 This thesis will evaluate two data-driven modeling frameworks for decoding latent neural dynamics in PD: the linear Preferential Subspace Identification (PSID) model \parencite{saniModelingBehaviorallyRelevant2021} and the nonlinear Dissociative Prioritized Analysis of Dynamics (DPAD) model \parencite{saniDissociativePrioritizedModeling2024}. While both have been successful in animal studies, their application to pathological human signals remains unexplored. The project will evaluate these models on three tasks: $(1)$ predicting ECoG from LFP signals, $(2)$ classifying DBS ON/OFF brain states, and $(3)$ decoding motor behavior. Baseline models, including NDM and linear DPAD, will be used to distinguish between the efficacy of analytical and numerical optimization approaches, and to evaluate the role of linear versus nonlinear representations. Application of these modeling frameworks to LFP and ECoG data from PD patients is expected to extract behaviorally relevant dynamics from multiplexed signals. The findings are anticipated to provide insights into the neural mechanisms underlying PD and support the development of neuromarkers for closed-loop therapies.
 
 \subsection{Data and Preprocessing}
-This project uses data from the Dareplane project \parencite{doldLFPECoGData2024}, which includes LFP, ECoG, and EEG recordings from PD patients. The primary dataset comprises simultaneous 16-channel LFP and 4-channel ECoG recordings from 4 participants across 9 sessions, with hand kinematics captured to derive tracing speed. The data, originally sampled at 22 kHz, contains blocks for DBS ON/OFF states. A preprocessing pipeline will be applied to each modality, including downsampling (LFP/ECoG to 1000 Hz, EEG to 100 Hz) and a 50 Hz notch filter.
+This project uses data from the Dareplane project \parencite{doldLFPECoGData2024}, which includes LFP, ECoG, and EEG recordings from PD patients. The primary dataset comprises simultaneous 16-channel LFP and 4-channel ECoG recordings from 4 participants across 9 sessions, with hand kinematics captured to derive tracing speed (calculated from hand position samples). The data, originally sampled at 22 kHz, contains blocks for DBS ON/OFF states. A preprocessing pipeline will be applied to each modality, including downsampling (LFP/ECoG to 1000 Hz, EEG to 250 Hz) and a 50 Hz notch filter.
 
 \begin{itemize}
 
     \item \textbf{LFP Processing:} DBS artifacts in ON-state recordings will be removed using template subtraction \parencite{qianMethodRemovalDeep2017,hammerArtifactCharacterizationMultipurpose2022}. The data will then be band-pass filtered (3-250 Hz) and re-referenced using a Common Average Reference (CAR).
 
-    \item \textbf{ECoG Processing:} ECoG data will be band-pass filtered (3-250 Hz) and re-referenced using CAR.
+    \item \textbf{ECoG Processing:} ECoG data will be band-pass filtered (3-250 Hz), re-referenced using CAR, and if high frequency stimulation artifacts are present, they will be removed using the same subtraction method.
 
-    \item \textbf{EEG Processing:} EEG data will be preprocessed following established pipelines, including filtering, re-referencing, and ICA for artifact removal. Source Power Comodulation (SPoC) will be used to derive task-specific spatial filters.
+    \item \textbf{EEG Processing:} EEG data will be preprocessed using frequency filtering (3-100 Hz), re-referencing, and ICA for artifact removal. Source Power Comodulation (SPoC) will be used to derive spatial filters.
 
 \end{itemize}
 
@@ -81,9 +81,7 @@ The PSID and DPAD models will be trained on one-second epochs of the minimally p
 
 \subsection{Exploratory Data Analysis}
 
-Exploratory data analysis will be performed to characterize the dataset's statistical properties. First, the relationship between neural signals (LFP, ECoG, EEG) and behavior (tracing speed) will be quantified using Pearson and Spearman correlations. Second, to establish a baseline for the task 1, the correlation between LFP and ECoG will be analyzed. Third, Power Spectral Density (PSD) estimates for DBS ON vs. OFF conditions will be compared to support the task 2, and the PSD differences will be assessed statistically using a paired t-test or Wilcoxon signed-rank test. Finally, after the task 3, model residuals will be tested for a lack of autocorrelation using a Ljung-Box test \parencite{ljungMeasureLackFit1978}. This will validate that the models have captured the underlying dynamics if the residuals resemble white noise or there is no dependence on the past residual values.
-
-
+Exploratory data analysis will be performed to characterize the dataset's statistical properties. First, the relationship between neural signals (LFP, ECoG, EEG) and behavior (tracing speed) will be quantified using Pearson and Spearman correlations. For direct comparisons between signals with different bandwidths (e.g., EEG vs. ECoG), all the signals will be cut off up to 100 Hz. Second, to establish a baseline for the task 1, the correlation between LFP and ECoG will be analyzed. Third, Power Spectral Density (PSD) estimates for DBS ON vs. OFF conditions will be compared to support the task 2, and the PSD differences will be assessed statistically using a Wilcoxon signed-rank test. Finally, after the task 3, model residuals will be tested for a lack of autocorrelation using a Ljung-Box test \parencite{ljungMeasureLackFit1978}. This will validate that the models have captured the underlying dynamics if the residuals resemble white noise or there is no dependence on the past residual values.
 
 \subsection{Preferential Subspace Identification (PSID)}
 
@@ -106,7 +104,7 @@ This projection is then decomposed using Singular Value Decomposition (SVD) to i
 
 \subsection{Dissociative Prioritized Analysis of Dynamics (DPAD)}
 
-To account for the brain's nonlinear computations, \textcite{saniDissociativePrioritizedModeling2024} proposed the Dissociative Prioritized Analysis of Dynamics (DPAD) framework. DPAD not only prioritizes behaviorally relevant dynamics but also dissociates them from irrelevant dynamics. It partitions the latent state $\mathbf{x}_k$ into a prioritized component $\mathbf{x}_k^{(1)}$ for predicting behavior and a non-prioritized component $\mathbf{x}_k^{(2)}$ for modeling remaining neural variance.
+To account for the brain's nonlinear computations, \textcite{saniDissociativePrioritizedModeling2024} proposed the Dissociative Prioritized Analysis of Dynamics (DPAD) framework. DPAD not only \textit{prioritizes} behaviorally relevant dynamics but also \textit{dissociates} them from irrelevant dynamics. It partitions the latent state $\mathbf{x}_k$ into a prioritized component $\mathbf{x}_k^{(1)}$ for predicting behavior and a non-prioritized component $\mathbf{x}_k^{(2)}$ for modeling remaining neural variance.
 
 This dissociation is enforced through a four-step training process, where behavior $\hat{\mathbf{z}}_k$ is predicted only from the prioritized state, while neural activity $\hat{\mathbf{y}}_k$ is reconstructed from both:
 
@@ -126,7 +124,7 @@ To benchmark the performance of the primary models, two key baselines will be im
 
 \subsubsection{Neural Dynamic Modeling (NDM) Baseline}
 
-The NDM baseline, which models neural dynamics agnostic to behavior, will be configured by setting the dimension of the behaviorally-prioritized subspace to zero. This forces the models to learn latent states that best predict future neural activity from past neural activity. By setting $n_1 = 0$ in \textbf{PSID}, the model bypasses behavior-driven projections, solely projecting future neural activity $Y_f$ onto past neural activity $Y_p$. In \textbf{DPAD}, setting $n_1 = 0$ bypasses behavior-based optimization steps, making the objective learning a latent state that predicts future neural activity.
+The NDM baseline, which models neural dynamics agnostic to behavior, will be configured by setting the dimension of the behaviorally-prioritized subspace to zero. This forces the models to learn latent states that best predict future neural activity from past neural activity. By setting $n_1 = 0$ in PSID, the model bypasses behavior-driven projections, solely projecting future neural activity $Y_f$ onto past neural activity $Y_p$. In DPAD, setting $n_1 = 0$ bypasses behavior-based optimization steps, making the objective learning a latent state that predicts future neural activity.
 
 \subsubsection{Linear DPAD Baseline}
 
@@ -158,12 +156,12 @@ This task assesses the models' ability to identify distinct, clinically relevant
     \textbf{Research Question 3:} How effectively can PSID and DPAD decode continuous motor behavior (tracing speed) from LFP activity, and what do their respective latent dynamics reveal about the linear vs. nonlinear neural control of movement?
 \end{quote}
 
-This research question targets the primary challenge in developing future adaptive DBS systems. The main analysis will involve training models to decode tracing speed, a continuous behavioral variable, directly from LFP signals. As a secondary analysis, a two-stage decoding approach will be investigated to evaluate the "virtual sensor" concept. First, the models from RQ1 will be used to generate predicted ECoG signals from the LFP data. Second, these predicted ECoG signals will serve as input for decoding the tracing speed. This will quantify how much behaviorally relevant information is preserved or possibly enriched in the cross-modally predicted cortical signals.
+This research question targets the primary challenge in developing future adaptive DBS systems. The main analysis will involve training models to decode tracing speed directly from LFP signals. As a secondary analysis, a two-stage decoding approach will be investigated to evaluate the "virtual sensor" concept. First, the models from RQ1 will be used to generate predicted ECoG signals from the LFP data. Second, these predicted ECoG signals will serve as input for decoding the tracing speed. This will quantify how much behaviorally relevant information is preserved or possibly enriched in the cross-modally predicted cortical signals.
 
 Decoding performance for both approaches will be evaluated using Pearson's and Spearman’s correlation coefficients. The relationship between model dynamics and behavior will be further quantified using Canonical Correlation Analysis (CCA) and Deep CCA (DCCA) to measure the correlation between latent state trajectories and tracing speed data. For the DPAD model, the contributions of its prioritized ($\mathbf{x}^{(1)}$) and non-prioritized ($\mathbf{x}^{(2)}$) subspaces will be directly compared. Representational Similarity Analysis (RSA) will also be used to compare the geometric structure of the latent spaces to the structure of the behavior itself.
 
 \vspace{1em}
-\noindent\textbf{Word Count:} 1611
+\noindent\textbf{Word Count:} 1886
 \newpage
 \section{SCHEDULE}
 \begin{table}[h!]
@@ -215,7 +213,7 @@ Decoding performance for both approaches will be evaluated using Pearson's and S
 
 \section{SCIENTIFIC, SOCIETAL AND/OR TECHNOLOGICAL RELEVANCE}
 
-This research project extends directly to adaptive Deep Brain Stimulation (aDBS) for Parkinson's disease. The objective is to transition from continuous stimulation to intelligent, on-demand therapy. By validating computational models that can decode motor performance and classify clinical states in real-time, this work provides an analytical foundation for future closed-loop systems. Such systems have the potential to enhance therapeutic efficacy and reduce side effects. The methodological framework presented here has broader implications beyond Parkinson's disease and motor control. The capacity to dissociate and model behaviorally relevant neural dynamics is essential for addressing various neurological and psychiatric conditions, including epilepsy, depression, and obsessive-compulsive disorder. These principles can be applied to decode seizure precursors, affective states, or cognitive fluctuations, thereby facilitating the development of adaptive neuromodulation therapies across various clinical applications.
+This research project extends directly to adaptive Deep Brain Stimulation (aDBS) for Parkinson's disease. The objective is to transition from continuous stimulation to intelligent, on-demand therapy. By validating computational models that can decode motor performance and classify clinical states in real-time, this work provides an analytical foundation for future closed-loop systems. Such systems have the potential to enhance therapeutic efficacy and reduce side effects. The methodological framework presented here has broader implications beyond Parkinson's disease and motor control. The capacity to dissociate and model behaviorally relevant neural dynamics is essential for addressing various neurological and psychiatric conditions, including epilepsy, depression, and obsessive-compulsive disorder. These principles could be potentially applied to decode seizure precursors, affective states, or cognitive fluctuations, thereby facilitating the development of adaptive neuromodulation therapies across various clinical applications.
 \section{REFERENCES}
 \printbibliography[heading=none]
 
