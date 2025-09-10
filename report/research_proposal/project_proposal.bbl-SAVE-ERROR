@@ -1,0 +1,2355 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global}
+    \entry{ben-shlomoEpidemiologyParkinsonsDisease2024}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=89d0d9be24d5fd636bc93c9b0bfd71ed}{%
+           family={Ben-Shlomo},
+           familyi={B\bibinithyphendelim S\bibinitperiod},
+           given={Yoav},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3c1c12b33c566dfc2ab73e67a62b2959}{%
+           family={Darweesh},
+           familyi={D\bibinitperiod},
+           given={Sirwan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8830abb0dcdbef4daf869b2390aeb759}{%
+           family={Llibre-Guerra},
+           familyi={L\bibinithyphendelim G\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a19dfd83d9a3f0cef2fd5e04a162483}{%
+           family={Marras},
+           familyi={M\bibinitperiod},
+           given={Connie},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95223e8e025932d63d511cbb9d91dfd9}{%
+           family={San\bibnamedelima Luciano},
+           familyi={S\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Marta},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc13a4c5fc0fd6b998a29b15bbc94e0f}{%
+           family={Tanner},
+           familyi={T\bibinitperiod},
+           given={Caroline},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0f9f4cadeb05543532e14ee3f9463dc6}
+      \strng{fullhash}{5a01169c745e98e8a9eacada56069dff}
+      \strng{bibnamehash}{5a01169c745e98e8a9eacada56069dff}
+      \strng{authorbibnamehash}{5a01169c745e98e8a9eacada56069dff}
+      \strng{authornamehash}{0f9f4cadeb05543532e14ee3f9463dc6}
+      \strng{authorfullhash}{5a01169c745e98e8a9eacada56069dff}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{01406736}
+      \field{journaltitle}{The Lancet}
+      \field{langid}{english}
+      \field{month}{1}
+      \field{number}{10423}
+      \field{shortjournal}{The Lancet}
+      \field{title}{The Epidemiology of {{Parkinson}}'s Disease}
+      \field{urlday}{27}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{403}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{283\bibrangedash 292}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/S0140-6736(23)01419-8
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/PJFXWB3W/Ben-Shlomo et al. - 2024 - The epidemiology of Parkinson's disease.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
+      \endverb
+    \endentry
+    \entry{chikenMechanismDeepBrain2016}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d29954fcf67b923514c246a987ed3a55}{%
+           family={Chiken},
+           familyi={C\bibinitperiod},
+           given={Satomi},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9f58e86fa074918ca259ae259494ec3d}{%
+           family={Nambu},
+           familyi={N\bibinitperiod},
+           given={Atsushi},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publications}%
+      }
+      \strng{namehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{fullhash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{bibnamehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{authorbibnamehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{authornamehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{authorfullhash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Deep brain stimulation (DBS), applying high-frequency electrical stimulation to deep brain structures, has now provided an effective therapeutic option for treatment of various neurological and psychiatric disorders. DBS targeting the internal segment of the globus pallidus, subthalamic nucleus, and thalamus is used to treat symptoms of movement disorders, such as Parkinson’s disease, dystonia, and tremor. However, the mechanism underlying the beneficial effects of DBS remains poorly understood and is still under debate: Does DBS inhibit or excite local neuronal elements? In this short review, we would like to introduce our recent work on the physiological mechanism of DBS and propose an alternative explanation: DBS dissociates input and output signals, resulting in the disruption of abnormal information flow through the stimulation site.}
+      \field{issn}{1073-8584, 1089-4098}
+      \field{journaltitle}{The Neuroscientist}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{3}
+      \field{shortjournal}{Neuroscientist}
+      \field{shorttitle}{Mechanism of {{Deep Brain Stimulation}}}
+      \field{title}{Mechanism of {{Deep Brain Stimulation}}: {{Inhibition}}, {{Excitation}}, or {{Disruption}}?}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{22}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{313\bibrangedash 322}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1177/1073858415581986
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/8RWL2T8R/Chiken and Nambu - 2016 - Mechanism of Deep Brain Stimulation Inhibition, Excitation, or Disruption.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
+      \endverb
+      \verb{url}
+      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
+      \endverb
+    \endentry
+    \entry{kraussTechnologyDeepBrain2021}{article}{}
+      \name{author}{15}{}{%
+        {{un=0,uniquepart=base,hash=e3b12efadca39f8b073d32de23ddbe55}{%
+           family={Krauss},
+           familyi={K\bibinitperiod},
+           given={Joachim\bibnamedelima K.},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b705d401ea1bc6ee56db21c1b809979f}{%
+           family={Lipsman},
+           familyi={L\bibinitperiod},
+           given={Nir},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4d5a9b4021845a0d106d1b6f9f77370d}{%
+           family={Aziz},
+           familyi={A\bibinitperiod},
+           given={Tipu},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d4c885946dcdc29fa3fc9ec50b89d0fd}{%
+           family={Boutet},
+           familyi={B\bibinitperiod},
+           given={Alexandre},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba0f875a2e518de68d3b474de01c0e9b}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=94afb642f3b3877a5601d6b3a17282e6}{%
+           family={Chang},
+           familyi={C\bibinitperiod},
+           given={Jin\bibnamedelima Woo},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9de22c8aceb49e560cfbf561af600682}{%
+           family={Davidson},
+           familyi={D\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2db983aa76d815cace7d65ba4c769402}{%
+           family={Grill},
+           familyi={G\bibinitperiod},
+           given={Warren\bibnamedelima M.},
+           giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=07e74e998dd58a5364adc4d52d2f58e3}{%
+           family={Hariz},
+           familyi={H\bibinitperiod},
+           given={Marwan\bibnamedelima I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=69a842c9c46812014e5c36dd09063a99}{%
+           family={Horn},
+           familyi={H\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3132b36610b2615d2d0eb338ccf3b6ff}{%
+           family={Schulder},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ac7cc01edb5ab1d42f5730f7f3edf60e}{%
+           family={Mammis},
+           familyi={M\bibinitperiod},
+           given={Antonios},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d383d8a0523fc2bce8dd30379367dd3c}{%
+           family={Tass},
+           familyi={T\bibinitperiod},
+           given={Peter\bibnamedelima A.},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61a9596bf8bf071a4f32761fea5385f7}{%
+           family={Volkmann},
+           familyi={V\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1e4b821608ef3c6ac29963d19eb24ba}{%
+           family={Lozano},
+           familyi={L\bibinitperiod},
+           given={Andres\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science and Business Media LLC}%
+      }
+      \strng{namehash}{5d093a793fa3a6103d2468cfd9118194}
+      \strng{fullhash}{163db8d729fcc9d40a6c54841c06ed56}
+      \strng{bibnamehash}{163db8d729fcc9d40a6c54841c06ed56}
+      \strng{authorbibnamehash}{163db8d729fcc9d40a6c54841c06ed56}
+      \strng{authornamehash}{5d093a793fa3a6103d2468cfd9118194}
+      \strng{authorfullhash}{163db8d729fcc9d40a6c54841c06ed56}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{issn}{1759-4758, 1759-4766}
+      \field{journaltitle}{Nature Reviews Neurology}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{number}{2}
+      \field{shortjournal}{Nat Rev Neurol}
+      \field{shorttitle}{Technology of Deep Brain Stimulation}
+      \field{title}{Technology of Deep Brain Stimulation: Current Status and Future Directions}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{17}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{75\bibrangedash 87}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1038/s41582-020-00426-z
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/K39XWSTB/Krauss et al. - 2021 - Technology of deep brain stimulation current status and future directions.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41582-020-00426-z
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41582-020-00426-z
+      \endverb
+    \endentry
+    \entry{littleAdaptiveDeepBrain2013}{article}{}
+      \name{author}{13}{}{%
+        {{un=0,uniquepart=base,hash=70d48fe1577a7b43a31315e87f6d4d98}{%
+           family={Little},
+           familyi={L\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3e0b22da169e58ebde38c0108651ffad}{%
+           family={Pogosyan},
+           familyi={P\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f168dc474fb0d1a45e74f9ab0caa406}{%
+           family={Neal},
+           familyi={N\bibinitperiod},
+           given={Spencer},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9fdc4857763d3cb28e11d6806386817b}{%
+           family={Zavala},
+           familyi={Z\bibinitperiod},
+           given={Baltazar},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=554411560fdcd1aa22c98d5e98969f10}{%
+           family={Zrinzo},
+           familyi={Z\bibinitperiod},
+           given={Ludvic},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=84b9f0dfbc152d1041a142f4dd2e1cc1}{%
+           family={Hariz},
+           familyi={H\bibinitperiod},
+           given={Marwan},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=53f4c7dfb13a0f1d031fb95dd41bb8ee}{%
+           family={Foltynie},
+           familyi={F\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05796bf447a9ba2fc704f8b965a09ff0}{%
+           family={Limousin},
+           familyi={L\bibinitperiod},
+           given={Patricia},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb549949b3e0452a428eff0e4557777d}{%
+           family={Ashkan},
+           familyi={A\bibinitperiod},
+           given={Keyoumars},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc340cfc972f41fac416c79a19b70d09}{%
+           family={FitzGerald},
+           familyi={F\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8e1fdb702792ee036ed16aa5bf022899}{%
+           family={Green},
+           familyi={G\bibinitperiod},
+           given={Alexander\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9cfa39df998e047bd4000224ff4a695e}{%
+           family={Aziz},
+           familyi={A\bibinitperiod},
+           given={Tipu\bibnamedelima Z.},
+           giveni={T\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba0f875a2e518de68d3b474de01c0e9b}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{9d7be4f6e4e2f072e4cfa0ade6c83b7c}
+      \strng{fullhash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \strng{bibnamehash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \strng{authorbibnamehash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \strng{authornamehash}{9d7be4f6e4e2f072e4cfa0ade6c83b7c}
+      \strng{authorfullhash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{ObjectiveBrain–computer interfaces (BCIs) could potentially be used to interact with pathological brain signals to intervene and ameliorate their effects in disease states. Here, we provide proof‐of‐principle of this approach by using a BCI to interpret pathological brain activity in patients with advanced Parkinson disease (PD) and to use this feedback to control when therapeutic deep brain stimulation (DBS) is delivered. Our goal was to demonstrate that by personalizing and optimizing stimulation in real time, we could improve on both the efficacy and efficiency of conventional continuous DBS.MethodsWe tested BCI‐controlled adaptive DBS (aDBS) of the subthalamic nucleus in 8 PD patients. Feedback was provided by processing of the local field potentials recorded directly from the stimulation electrodes. The results were compared to no stimulation, conventional continuous stimulation (cDBS), and random intermittent stimulation. Both unblinded and blinded clinical assessments of motor effect were performed using the Unified Parkinson's Disease Rating Scale.ResultsMotor scores improved by 66\% (unblinded) and 50\% (blinded) during aDBS, which were 29\% (p = 0.03) and 27\% (p = 0.005) better than cDBS, respectively. These improvements were achieved with a 56\% reduction in stimulation time compared to cDBS, and a corresponding reduction in energy requirements (p {$<$} 0.001). aDBS was also more effective than no stimulation and random intermittent stimulation.InterpretationBCI‐controlled DBS is tractable and can be more efficient and efficacious than conventional continuous neuromodulation for PD. Ann Neurol 2013;74:449–457}
+      \field{issn}{0364-5134, 1531-8249}
+      \field{journaltitle}{Annals of Neurology}
+      \field{langid}{english}
+      \field{month}{9}
+      \field{number}{3}
+      \field{title}{Adaptive Deep Brain Stimulation in Advanced {{Parkinson}} Disease}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{74}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{449\bibrangedash 457}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1002/ana.23951
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/BLQY2C2L/Little et al. - 2013 - Adaptive deep brain stimulation in advanced Parkinson disease.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
+      \endverb
+      \verb{url}
+      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
+      \endverb
+    \endentry
+    \entry{mcintyreNetworkPerspectivesMechanisms2010}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=69f3f00c10a8af850a185d453c900293}{%
+           family={McIntyre},
+           familyi={M\bibinitperiod},
+           given={Cameron\bibnamedelima C.},
+           giveni={C\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e8ecd4b8da4b5ea58d852771955de039}{%
+           family={Hahn},
+           familyi={H\bibinitperiod},
+           given={Philip\bibnamedelima J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{fullhash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{bibnamehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{authorbibnamehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{authornamehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{authorfullhash}{cd3997619b592ddc48a964ecb7c7c404}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0969-9961}
+      \field{journaltitle}{Neurobiology of Disease}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{3}
+      \field{title}{Network Perspectives on the Mechanisms of Deep Brain Stimulation}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{38}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{329\bibrangedash 337}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/j.nbd.2009.09.022
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/BDFVS8VT/McIntyre and Hahn - 2010 - Network perspectives on the mechanisms of deep brain stimulation.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
+      \endverb
+    \endentry
+    \entry{nambuFunctionalSignificanceCortico2002}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=9f58e86fa074918ca259ae259494ec3d}{%
+           family={Nambu},
+           familyi={N\bibinitperiod},
+           given={Atsushi},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f2508662e1a3488b562ceb62e6d15554}{%
+           family={Tokuno},
+           familyi={T\bibinitperiod},
+           given={Hironobu},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a47ff8a061bdabffb9b5387359f07ece}{%
+           family={Takada},
+           familyi={T\bibinitperiod},
+           given={Masahiko},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{8c92de052e45e1d82f22c95d9a51ca71}
+      \strng{fullhash}{2655a8cfa42395879deddabab0af2667}
+      \strng{bibnamehash}{2655a8cfa42395879deddabab0af2667}
+      \strng{authorbibnamehash}{2655a8cfa42395879deddabab0af2667}
+      \strng{authornamehash}{8c92de052e45e1d82f22c95d9a51ca71}
+      \strng{authorfullhash}{2655a8cfa42395879deddabab0af2667}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0168-0102}
+      \field{journaltitle}{Neuroscience Research}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{2}
+      \field{title}{Functional Significance of the Cortico–Subthalamo–Pallidal ‘Hyperdirect’ Pathway}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{43}
+      \field{year}{2002}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{111\bibrangedash 117}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1016/s0168-0102(02)00027-5
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/LHWDLBM8/Nambu et al. - 2002 - Functional significance of the cortico–subthalamo–pallidal ‘hyperdirect’ pathway.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0168010202000275
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0168010202000275
+      \endverb
+    \endentry
+    \entry{paulsCorticalBetaBurst2022}{article}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=148293b137a4850acd841762955f10a7}{%
+           family={Pauls},
+           familyi={P\bibinitperiod},
+           given={K.\bibnamedelimi Amande\bibnamedelima M.},
+           giveni={K\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a140063fd38b1c5d386b89a60a015223}{%
+           family={Korsun},
+           familyi={K\bibinitperiod},
+           given={Olesia},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d9b1e8d1aedd70dea0764f878fcfbe90}{%
+           family={Nenonen},
+           familyi={N\bibinitperiod},
+           given={Jukka},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7de5698cb8773556491276cd8035dbc5}{%
+           family={Nurminen},
+           familyi={N\bibinitperiod},
+           given={Jussi},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1fc0e901cf4762ad7b2a31b989946d5}{%
+           family={Liljeström},
+           familyi={L\bibinitperiod},
+           given={Mia},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a7a9f376082e4c74bdea8c4e19fed1f1}{%
+           family={Kujala},
+           familyi={K\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f52102e9fa671b3c3d778822b1249d9}{%
+           family={Pekkonen},
+           familyi={P\bibinitperiod},
+           given={Eero},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=59998af189ab67c6a0dbb4e3dc4a2681}{%
+           family={Renvall},
+           familyi={R\bibinitperiod},
+           given={Hanna},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{cb86b58b4b454bb9e6d96b6dea40ad9d}
+      \strng{fullhash}{d89e693f4580304195ceeeec95dde8cc}
+      \strng{bibnamehash}{d89e693f4580304195ceeeec95dde8cc}
+      \strng{authorbibnamehash}{d89e693f4580304195ceeeec95dde8cc}
+      \strng{authornamehash}{cb86b58b4b454bb9e6d96b6dea40ad9d}
+      \strng{authorfullhash}{d89e693f4580304195ceeeec95dde8cc}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1053-8119}
+      \field{journaltitle}{NeuroImage}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{title}{Cortical Beta Burst Dynamics Are Altered in {{Parkinson}}'s Disease but Normalized by Deep Brain Stimulation}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{257}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{119308}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.neuroimage.2022.119308
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/2GY5W5JK/Pauls et al. - 2022 - Cortical beta burst dynamics are altered in Parkinson's disease but normalized by deep brain stimula.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
+      \endverb
+    \endentry
+    \entry{saniModelingBehaviorallyRelevant2021}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=38e0af619c1e423714870d36cb7c0d26}{%
+           family={Sani},
+           familyi={S\bibinitperiod},
+           given={Omid\bibnamedelima G.},
+           giveni={O\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7cac24d254ba312a5cce4ecdc374f3a8}{%
+           family={Abbaspourazad},
+           familyi={A\bibinitperiod},
+           given={Hamidreza},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1504ed9b884294859e94e26e99372940}{%
+           family={Wong},
+           familyi={W\bibinitperiod},
+           given={Yan\bibnamedelima T.},
+           giveni={Y\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9b00cb4d3a4e99e0c3d7ea84dcd7367b}{%
+           family={Pesaran},
+           familyi={P\bibinitperiod},
+           given={Bijan},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd7386c1155ec3f1cb5ec645f42aeaeb}{%
+           family={Shanechi},
+           familyi={S\bibinitperiod},
+           given={Maryam\bibnamedelima M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science and Business Media LLC}%
+      }
+      \strng{namehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{fullhash}{864809eee9287161544c2ed241ee1b21}
+      \strng{bibnamehash}{864809eee9287161544c2ed241ee1b21}
+      \strng{authorbibnamehash}{864809eee9287161544c2ed241ee1b21}
+      \strng{authornamehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{authorfullhash}{864809eee9287161544c2ed241ee1b21}
+      \field{extraname}{1}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1097-6256, 1546-1726}
+      \field{journaltitle}{Nature Neuroscience}
+      \field{langid}{english}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shortjournal}{Nat Neurosci}
+      \field{title}{Modeling Behaviorally Relevant Neural Dynamics Enabled by Preferential Subspace Identification}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{24}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{140\bibrangedash 149}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1038/s41593-020-00733-0
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/WJ2JWZK9/Sani et al. - 2021 - Modeling behaviorally relevant neural dynamics enabled by preferential subspace identification.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41593-020-00733-0
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41593-020-00733-0
+      \endverb
+    \endentry
+    \entry{saniDissociativePrioritizedModeling2024}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=38e0af619c1e423714870d36cb7c0d26}{%
+           family={Sani},
+           familyi={S\bibinitperiod},
+           given={Omid\bibnamedelima G.},
+           giveni={O\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9b00cb4d3a4e99e0c3d7ea84dcd7367b}{%
+           family={Pesaran},
+           familyi={P\bibinitperiod},
+           given={Bijan},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd7386c1155ec3f1cb5ec645f42aeaeb}{%
+           family={Shanechi},
+           familyi={S\bibinitperiod},
+           given={Maryam\bibnamedelima M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science and Business Media LLC}%
+      }
+      \strng{namehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{fullhash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \strng{bibnamehash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \strng{authorbibnamehash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \strng{authornamehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{authorfullhash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \field{extraname}{2}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{AbstractUnderstanding the dynamical transformation of neural activity to behavior requires new capabilities to nonlinearly model, dissociate and prioritize behaviorally relevant neural dynamics and test hypotheses about the origin of nonlinearity. We present dissociative prioritized analysis of dynamics (DPAD), a nonlinear dynamical modeling approach that enables these capabilities with a multisection neural network architecture and training approach. Analyzing cortical spiking and local field potential activity across four movement tasks, we demonstrate five use-cases. DPAD enabled more accurate neural–behavioral prediction. It identified nonlinear dynamical transformations of local field potentials that were more behavior predictive than traditional power features. Further, DPAD achieved behavior-predictive nonlinear neural dimensionality reduction. It enabled hypothesis testing regarding nonlinearities in neural–behavioral transformation, revealing that, in our datasets, nonlinearities could largely be isolated to the mapping from latent cortical dynamics to behavior. Finally, DPAD extended across continuous, intermittently sampled and categorical behaviors. DPAD provides a powerful tool for nonlinear dynamical modeling and investigation of neural–behavioral data.}
+      \field{issn}{1097-6256, 1546-1726}
+      \field{journaltitle}{Nature Neuroscience}
+      \field{langid}{english}
+      \field{month}{10}
+      \field{number}{10}
+      \field{shortjournal}{Nat Neurosci}
+      \field{title}{Dissociative and Prioritized Modeling of Behaviorally Relevant Neural Dynamics Using Recurrent Neural Networks}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{27}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{2033\bibrangedash 2045}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1038/s41593-024-01731-2
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/T23TMNL5/Sani et al. - 2024 - Dissociative and prioritized modeling of behaviorally relevant neural dynamics using recurrent neura.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41593-024-01731-2
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41593-024-01731-2
+      \endverb
+    \endentry
+    \entry{swannGammaOscillationsHyperkinetic2016}{article}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=7fd02ede407d252aa0490074def8c3bb}{%
+           family={Swann},
+           familyi={S\bibinitperiod},
+           given={Nicole\bibnamedelima C.},
+           giveni={N\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d2599cb0b00b78a85b0cd588347db5ae}{%
+           family={De\bibnamedelima Hemptinne},
+           familyi={D\bibinitperiod\bibinitdelim H\bibinitperiod},
+           given={Coralie},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=281cb6b5b4beec842f42e22f310de323}{%
+           family={Miocinovic},
+           familyi={M\bibinitperiod},
+           given={Svjetlana},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=27c626ae4c7d2e2f3979efb153f335e0}{%
+           family={Qasim},
+           familyi={Q\bibinitperiod},
+           given={Salman},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1175a4876073726e218d5d91f99b6a98}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Sarah\bibnamedelima S.},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=78f44720f6f8ec1883cbe7b4c6104041}{%
+           family={Ziman},
+           familyi={Z\bibinitperiod},
+           given={Nathan},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bdd4f918716d86d9a2bcdf83ebf2bb78}{%
+           family={Ostrem},
+           familyi={O\bibinitperiod},
+           given={Jill\bibnamedelima L.},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95223e8e025932d63d511cbb9d91dfd9}{%
+           family={San\bibnamedelima Luciano},
+           familyi={S\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Marta},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f89a065bf70a0a84c83b3c9c58c390f1}{%
+           family={Galifianakis},
+           familyi={G\bibinitperiod},
+           given={Nicholas\bibnamedelima B.},
+           giveni={N\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4138ec9bf32798350fca002bbdec965c}{%
+           family={Starr},
+           familyi={S\bibinitperiod},
+           given={Philip\bibnamedelima A.},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Society for Neuroscience}%
+      }
+      \strng{namehash}{24a77f2b68d897d913f60a5b5e95a8be}
+      \strng{fullhash}{143747aeba08b7864046ffbc8cce8fb9}
+      \strng{bibnamehash}{143747aeba08b7864046ffbc8cce8fb9}
+      \strng{authorbibnamehash}{143747aeba08b7864046ffbc8cce8fb9}
+      \strng{authornamehash}{24a77f2b68d897d913f60a5b5e95a8be}
+      \strng{authorfullhash}{143747aeba08b7864046ffbc8cce8fb9}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{15}
+      \field{issn}{0270-6474, 1529-2401}
+      \field{journaltitle}{The Journal of Neuroscience}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{24}
+      \field{shortjournal}{J. Neurosci.}
+      \field{title}{Gamma {{Oscillations}} in the {{Hyperkinetic State Detected}} with {{Chronic Human Brain Recordings}} in {{Parkinson}}'s {{Disease}}}
+      \field{urlday}{21}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{36}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{6445\bibrangedash 6458}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1523/jneurosci.1128-16.2016
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/HA8WZTTA/Swann et al. - 2016 - Gamma Oscillations in the Hyperkinetic State Detected with Chronic Human Brain Recordings in Parkins.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
+      \endverb
+      \verb{url}
+      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
+      \endverb
+    \endentry
+    \entry{tinkhauserBetaBurstDynamics2017}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=2a6737ab1253f42a5c13b3ac56b57f96}{%
+           family={Tinkhauser},
+           familyi={T\bibinitperiod},
+           given={Gerd},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7a9a9c0a5556795b399f834087700bbe}{%
+           family={Pogosyan},
+           familyi={P\bibinitperiod},
+           given={Alek},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32417dbaa607f0fa87515832ab4a7a4e}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Huiling},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ce0066e0ba26e1e63eecb5215d85dfc6}{%
+           family={Herz},
+           familyi={H\bibinitperiod},
+           given={Damian\bibnamedelima M},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5a8924ec50ccf9971fac68f4d9092a5c}{%
+           family={Kühn},
+           familyi={K\bibinitperiod},
+           given={Andrea\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba0f875a2e518de68d3b474de01c0e9b}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press (OUP)}%
+      }
+      \strng{namehash}{0ee88da24b5c06c793e6f41528ff9dc7}
+      \strng{fullhash}{9dff26238cde2bfbd357f3f2d4378941}
+      \strng{bibnamehash}{9dff26238cde2bfbd357f3f2d4378941}
+      \strng{authorbibnamehash}{9dff26238cde2bfbd357f3f2d4378941}
+      \strng{authornamehash}{0ee88da24b5c06c793e6f41528ff9dc7}
+      \strng{authorfullhash}{9dff26238cde2bfbd357f3f2d4378941}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{1}
+      \field{issn}{0006-8950, 1460-2156}
+      \field{journaltitle}{Brain}
+      \field{langid}{english}
+      \field{month}{11}
+      \field{number}{11}
+      \field{title}{Beta Burst Dynamics in {{Parkinson}}’s Disease {{OFF}} and {{ON}} Dopaminergic Medication}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{140}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{2968\bibrangedash 2981}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1093/brain/awx252
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/GIMWBHBM/Tinkhauser et al. - 2017 - Beta burst dynamics in Parkinson’s disease OFF and ON dopaminergic medication.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
+      \endverb
+      \verb{url}
+      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
+      \endverb
+    \endentry
+    \entry{who_parkinson_2023}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=531217507bec092b6ec36c0f78f46736}{%
+           family={{World Health Organization}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{fullhash}{531217507bec092b6ec36c0f78f46736}
+      \strng{bibnamehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{authorbibnamehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{authornamehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{authorfullhash}{531217507bec092b6ec36c0f78f46736}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{8}
+      \field{note}{Accessed: \today}
+      \field{title}{Parkinson disease}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://www.who.int/news-room/fact-sheets/detail/parkinson-disease
+      \endverb
+      \verb{url}
+      \verb https://www.who.int/news-room/fact-sheets/detail/parkinson-disease
+      \endverb
+    \endentry
+    \entry{wuMixedSelectivitySubthalamic2025}{online}{}
+      \name{author}{3}{}{%
+        {{un=1,uniquepart=given,hash=afe1a78cb8f912ec3d08a2eeedaec9dd}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Bing-Shiuan},
+           giveni={B\bibinithyphendelim S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=c1abf8ea47885f02f5158e4e7ebd7b7c}{%
+           family={Ming},
+           familyi={M\bibinitperiod},
+           given={Min-Yuan},
+           giveni={M\bibinithyphendelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ea9904503db962e427290343944464b}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Yu-Wei},
+           giveni={Y\bibinithyphendelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ea8725e5be88d3a9d5126a5321680b9f}
+      \strng{fullhash}{e23576efb135327c27439b188418d509}
+      \strng{bibnamehash}{e23576efb135327c27439b188418d509}
+      \strng{authorbibnamehash}{e23576efb135327c27439b188418d509}
+      \strng{authornamehash}{ea8725e5be88d3a9d5126a5321680b9f}
+      \strng{authorfullhash}{e23576efb135327c27439b188418d509}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Summary The subthalamic nucleus (STN) plays a critical role in modulating motor and cognitive functions within the basal ganglia, with its dysfunction being implicated in movement disorders such as Parkinson’s disease. However, the behavioral representations of individual STN neurons remain incompletely understood. Using in vivo two-photon calcium imaging in behaving mice, we systematically mapped the activity of single STN neurons across diverse behavioral contexts, including locomotion, licking, and reward-driven actions. Our findings reveal that STN neurons exhibit mixed selectivity, encoding multiple behaviors with distinct temporal dynamics and excitatory or inhibitory response patterns. This mixed selectivity allows the STN to robustly encode motor parameters such as locomotion speed and licking intensity while integrating contextual information from different behavioral states. Comparisons with the adjacent zona incerta (ZI) revealed distinct encoding properties: while both regions represent locomotion, STN neurons more faithfully track motor states, whereas ZI neurons exhibit prolonged calcium events with weaker movement correlations. Population-level analysis showed STN activity in a low-dimensional neural manifold, with components linked to movement velocity and licking intensity. Notably, locomotion encoding in STN was context-dependent, diverging when movements were internally generated versus reward-modulated. Together, these findings highlight the specialized yet flexible role of the STN in integrating motor and reward-related signals, supporting a framework in which STN neurons contribute to motor control through multiplexed and context-dependent encoding. This work provides new insights into the functional organization of basal ganglia circuits and has implications for understanding STN’s role in both physiological and pathological conditions.}
+      \field{day}{13}
+      \field{eprinttype}{Neuroscience}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{title}{Mixed {{Selectivity}} of {{Subthalamic Nucleus Neurons}} in {{Encoding Motor}} and {{Reward Behaviors}}}
+      \field{urlday}{29}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.1101/2025.02.12.637797
+      \endverb
+      \verb{urlraw}
+      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
+      \endverb
+      \verb{url}
+      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
+      \endverb
+    \endentry
+    \entry{wuComputationalModelsAdvance2024}{article}{}
+      \name{author}{3}{}{%
+        {{un=1,uniquepart=given,hash=d21eb3b094a6deb181069d7f12c16a0e}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Yongtong},
+           giveni={Y\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=b76de52a70038773a96b93837f92873c}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Kejia},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7109f678bbf000300c46e2ed681e2de6}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Shenquan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6d9fff1ddfeae8665bf7f5daf672039b}
+      \strng{fullhash}{b9940534e4eb26296f81b5e984501467}
+      \strng{bibnamehash}{b9940534e4eb26296f81b5e984501467}
+      \strng{authorbibnamehash}{b9940534e4eb26296f81b5e984501467}
+      \strng{authornamehash}{6d9fff1ddfeae8665bf7f5daf672039b}
+      \strng{authorfullhash}{b9940534e4eb26296f81b5e984501467}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{26}
+      \field{issn}{0954-898X, 1361-6536}
+      \field{journaltitle}{Network: Computation in Neural Systems}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{shortjournal}{Network: Computation in Neural Systems}
+      \field{title}{Computational Models Advance Deep Brain Stimulation for {{Parkinson}}’s Disease}
+      \field{urlday}{28}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1\bibrangedash 32}
+      \range{pages}{32}
+      \verb{doi}
+      \verb 10.1080/0954898X.2024.2361799
+      \endverb
+      \verb{urlraw}
+      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
+      \endverb
+      \verb{url}
+      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
+      \endverb
+    \endentry
+    \entry{zarzyckiStimulationinducedSideEffects2020}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=0575393521f56d3dd2b6f3d4ef8995f9}{%
+           family={Zarzycki},
+           familyi={Z\bibinitperiod},
+           given={Marcin\bibnamedelima Zygmunt},
+           giveni={M\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=577b3d22d481b46fbb2326cd1dd419bb}{%
+           family={Domitrz},
+           familyi={D\bibinitperiod},
+           given={Izabela},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{fullhash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{bibnamehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{authorbibnamehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{authornamehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{authorfullhash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Abstract Objective: Deep brain stimulation (DBS) was approved by Food and Drug Administration for Parkinson’s disease, essential tremor, primary generalised or segmental dystonia and obsessive-compulsive disorder (OCD) treatment. The exact mechanism of DBS remains unclear which causes side effects. The aim of this review was to assess variables causing stimulation-induced chronic psychiatric/personality-changing side effects. Methods: The analysis of scientific database (PubMed, Cochrane Library, EMBASE) was conducted. The included articles had to be research study or case report and DBS to be conducted in therapeutic purposes. The researches with mental disorders in patients’ medical histories were excluded. Results: Seventeen articles were used in the review. In the group of movement disorders the characteristic of side effects was strongly related to the placement of the electrode implantation. Tiredness/fatigue was correlated with DBS in thalamus. Implantations in subthalamic nucleus were mostly followed by affective side effects such as depression or suicide. The higher voltage of electrode was connected with more severe depression after implantation. The analysis of affective disorder contained only three articles – two about OCD and one about depression. Forgetfulness and word-finding problems as activities connected with cognition may be an inevitable side effect if obsessive thoughts are to be inhibited. Conclusion: DBS of subthalamic nucleus should be seen as the most hazardous place of implantation. As a result there is a strong need of ‘gold standards’ based on the connectivity research and closer cooperation of scientists and clinicians.}
+      \field{issn}{0924-2708, 1601-5215}
+      \field{journaltitle}{Acta Neuropsychiatrica}
+      \field{langid}{english}
+      \field{month}{4}
+      \field{number}{2}
+      \field{shortjournal}{Acta Neuropsychiatr.}
+      \field{title}{Stimulation-Induced Side Effects after Deep Brain Stimulation – a Systematic Review}
+      \field{urlday}{28}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{32}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{57\bibrangedash 64}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1017/neu.2019.35
+      \endverb
+      \verb{urlraw}
+      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
+      \endverb
+      \verb{url}
+      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global}
+    \entry{ben-shlomoEpidemiologyParkinsonsDisease2024}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=89d0d9be24d5fd636bc93c9b0bfd71ed}{%
+           family={Ben-Shlomo},
+           familyi={B\bibinithyphendelim S\bibinitperiod},
+           given={Yoav},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3c1c12b33c566dfc2ab73e67a62b2959}{%
+           family={Darweesh},
+           familyi={D\bibinitperiod},
+           given={Sirwan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8830abb0dcdbef4daf869b2390aeb759}{%
+           family={Llibre-Guerra},
+           familyi={L\bibinithyphendelim G\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a19dfd83d9a3f0cef2fd5e04a162483}{%
+           family={Marras},
+           familyi={M\bibinitperiod},
+           given={Connie},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95223e8e025932d63d511cbb9d91dfd9}{%
+           family={San\bibnamedelima Luciano},
+           familyi={S\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Marta},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc13a4c5fc0fd6b998a29b15bbc94e0f}{%
+           family={Tanner},
+           familyi={T\bibinitperiod},
+           given={Caroline},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0f9f4cadeb05543532e14ee3f9463dc6}
+      \strng{fullhash}{5a01169c745e98e8a9eacada56069dff}
+      \strng{bibnamehash}{5a01169c745e98e8a9eacada56069dff}
+      \strng{authorbibnamehash}{5a01169c745e98e8a9eacada56069dff}
+      \strng{authornamehash}{0f9f4cadeb05543532e14ee3f9463dc6}
+      \strng{authorfullhash}{5a01169c745e98e8a9eacada56069dff}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{01406736}
+      \field{journaltitle}{The Lancet}
+      \field{langid}{english}
+      \field{month}{1}
+      \field{number}{10423}
+      \field{shortjournal}{The Lancet}
+      \field{title}{The Epidemiology of {{Parkinson}}'s Disease}
+      \field{urlday}{27}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{403}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{283\bibrangedash 292}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/S0140-6736(23)01419-8
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/PJFXWB3W/Ben-Shlomo et al. - 2024 - The epidemiology of Parkinson's disease.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
+      \endverb
+    \endentry
+    \entry{chikenMechanismDeepBrain2016}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d29954fcf67b923514c246a987ed3a55}{%
+           family={Chiken},
+           familyi={C\bibinitperiod},
+           given={Satomi},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9f58e86fa074918ca259ae259494ec3d}{%
+           family={Nambu},
+           familyi={N\bibinitperiod},
+           given={Atsushi},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publications}%
+      }
+      \strng{namehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{fullhash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{bibnamehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{authorbibnamehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{authornamehash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \strng{authorfullhash}{c78b41c25d33a630d04bfdb1adbf6c63}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Deep brain stimulation (DBS), applying high-frequency electrical stimulation to deep brain structures, has now provided an effective therapeutic option for treatment of various neurological and psychiatric disorders. DBS targeting the internal segment of the globus pallidus, subthalamic nucleus, and thalamus is used to treat symptoms of movement disorders, such as Parkinson’s disease, dystonia, and tremor. However, the mechanism underlying the beneficial effects of DBS remains poorly understood and is still under debate: Does DBS inhibit or excite local neuronal elements? In this short review, we would like to introduce our recent work on the physiological mechanism of DBS and propose an alternative explanation: DBS dissociates input and output signals, resulting in the disruption of abnormal information flow through the stimulation site.}
+      \field{issn}{1073-8584, 1089-4098}
+      \field{journaltitle}{The Neuroscientist}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{3}
+      \field{shortjournal}{Neuroscientist}
+      \field{shorttitle}{Mechanism of {{Deep Brain Stimulation}}}
+      \field{title}{Mechanism of {{Deep Brain Stimulation}}: {{Inhibition}}, {{Excitation}}, or {{Disruption}}?}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{22}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{313\bibrangedash 322}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1177/1073858415581986
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/8RWL2T8R/Chiken and Nambu - 2016 - Mechanism of Deep Brain Stimulation Inhibition, Excitation, or Disruption.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
+      \endverb
+      \verb{url}
+      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
+      \endverb
+    \endentry
+    \entry{kraussTechnologyDeepBrain2021}{article}{}
+      \name{author}{15}{}{%
+        {{un=0,uniquepart=base,hash=e3b12efadca39f8b073d32de23ddbe55}{%
+           family={Krauss},
+           familyi={K\bibinitperiod},
+           given={Joachim\bibnamedelima K.},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b705d401ea1bc6ee56db21c1b809979f}{%
+           family={Lipsman},
+           familyi={L\bibinitperiod},
+           given={Nir},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4d5a9b4021845a0d106d1b6f9f77370d}{%
+           family={Aziz},
+           familyi={A\bibinitperiod},
+           given={Tipu},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d4c885946dcdc29fa3fc9ec50b89d0fd}{%
+           family={Boutet},
+           familyi={B\bibinitperiod},
+           given={Alexandre},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba0f875a2e518de68d3b474de01c0e9b}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=94afb642f3b3877a5601d6b3a17282e6}{%
+           family={Chang},
+           familyi={C\bibinitperiod},
+           given={Jin\bibnamedelima Woo},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9de22c8aceb49e560cfbf561af600682}{%
+           family={Davidson},
+           familyi={D\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2db983aa76d815cace7d65ba4c769402}{%
+           family={Grill},
+           familyi={G\bibinitperiod},
+           given={Warren\bibnamedelima M.},
+           giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=07e74e998dd58a5364adc4d52d2f58e3}{%
+           family={Hariz},
+           familyi={H\bibinitperiod},
+           given={Marwan\bibnamedelima I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=69a842c9c46812014e5c36dd09063a99}{%
+           family={Horn},
+           familyi={H\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3132b36610b2615d2d0eb338ccf3b6ff}{%
+           family={Schulder},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ac7cc01edb5ab1d42f5730f7f3edf60e}{%
+           family={Mammis},
+           familyi={M\bibinitperiod},
+           given={Antonios},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d383d8a0523fc2bce8dd30379367dd3c}{%
+           family={Tass},
+           familyi={T\bibinitperiod},
+           given={Peter\bibnamedelima A.},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61a9596bf8bf071a4f32761fea5385f7}{%
+           family={Volkmann},
+           familyi={V\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1e4b821608ef3c6ac29963d19eb24ba}{%
+           family={Lozano},
+           familyi={L\bibinitperiod},
+           given={Andres\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science and Business Media LLC}%
+      }
+      \strng{namehash}{5d093a793fa3a6103d2468cfd9118194}
+      \strng{fullhash}{163db8d729fcc9d40a6c54841c06ed56}
+      \strng{bibnamehash}{163db8d729fcc9d40a6c54841c06ed56}
+      \strng{authorbibnamehash}{163db8d729fcc9d40a6c54841c06ed56}
+      \strng{authornamehash}{5d093a793fa3a6103d2468cfd9118194}
+      \strng{authorfullhash}{163db8d729fcc9d40a6c54841c06ed56}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{issn}{1759-4758, 1759-4766}
+      \field{journaltitle}{Nature Reviews Neurology}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{number}{2}
+      \field{shortjournal}{Nat Rev Neurol}
+      \field{shorttitle}{Technology of Deep Brain Stimulation}
+      \field{title}{Technology of Deep Brain Stimulation: Current Status and Future Directions}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{17}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{75\bibrangedash 87}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1038/s41582-020-00426-z
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/K39XWSTB/Krauss et al. - 2021 - Technology of deep brain stimulation current status and future directions.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41582-020-00426-z
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41582-020-00426-z
+      \endverb
+    \endentry
+    \entry{littleAdaptiveDeepBrain2013}{article}{}
+      \name{author}{13}{}{%
+        {{un=0,uniquepart=base,hash=70d48fe1577a7b43a31315e87f6d4d98}{%
+           family={Little},
+           familyi={L\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3e0b22da169e58ebde38c0108651ffad}{%
+           family={Pogosyan},
+           familyi={P\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f168dc474fb0d1a45e74f9ab0caa406}{%
+           family={Neal},
+           familyi={N\bibinitperiod},
+           given={Spencer},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9fdc4857763d3cb28e11d6806386817b}{%
+           family={Zavala},
+           familyi={Z\bibinitperiod},
+           given={Baltazar},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=554411560fdcd1aa22c98d5e98969f10}{%
+           family={Zrinzo},
+           familyi={Z\bibinitperiod},
+           given={Ludvic},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=84b9f0dfbc152d1041a142f4dd2e1cc1}{%
+           family={Hariz},
+           familyi={H\bibinitperiod},
+           given={Marwan},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=53f4c7dfb13a0f1d031fb95dd41bb8ee}{%
+           family={Foltynie},
+           familyi={F\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05796bf447a9ba2fc704f8b965a09ff0}{%
+           family={Limousin},
+           familyi={L\bibinitperiod},
+           given={Patricia},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb549949b3e0452a428eff0e4557777d}{%
+           family={Ashkan},
+           familyi={A\bibinitperiod},
+           given={Keyoumars},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc340cfc972f41fac416c79a19b70d09}{%
+           family={FitzGerald},
+           familyi={F\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8e1fdb702792ee036ed16aa5bf022899}{%
+           family={Green},
+           familyi={G\bibinitperiod},
+           given={Alexander\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9cfa39df998e047bd4000224ff4a695e}{%
+           family={Aziz},
+           familyi={A\bibinitperiod},
+           given={Tipu\bibnamedelima Z.},
+           giveni={T\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba0f875a2e518de68d3b474de01c0e9b}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{9d7be4f6e4e2f072e4cfa0ade6c83b7c}
+      \strng{fullhash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \strng{bibnamehash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \strng{authorbibnamehash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \strng{authornamehash}{9d7be4f6e4e2f072e4cfa0ade6c83b7c}
+      \strng{authorfullhash}{3b06bcb489a6341d9a844c6490cdc1df}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{ObjectiveBrain–computer interfaces (BCIs) could potentially be used to interact with pathological brain signals to intervene and ameliorate their effects in disease states. Here, we provide proof‐of‐principle of this approach by using a BCI to interpret pathological brain activity in patients with advanced Parkinson disease (PD) and to use this feedback to control when therapeutic deep brain stimulation (DBS) is delivered. Our goal was to demonstrate that by personalizing and optimizing stimulation in real time, we could improve on both the efficacy and efficiency of conventional continuous DBS.MethodsWe tested BCI‐controlled adaptive DBS (aDBS) of the subthalamic nucleus in 8 PD patients. Feedback was provided by processing of the local field potentials recorded directly from the stimulation electrodes. The results were compared to no stimulation, conventional continuous stimulation (cDBS), and random intermittent stimulation. Both unblinded and blinded clinical assessments of motor effect were performed using the Unified Parkinson's Disease Rating Scale.ResultsMotor scores improved by 66\% (unblinded) and 50\% (blinded) during aDBS, which were 29\% (p = 0.03) and 27\% (p = 0.005) better than cDBS, respectively. These improvements were achieved with a 56\% reduction in stimulation time compared to cDBS, and a corresponding reduction in energy requirements (p {$<$} 0.001). aDBS was also more effective than no stimulation and random intermittent stimulation.InterpretationBCI‐controlled DBS is tractable and can be more efficient and efficacious than conventional continuous neuromodulation for PD. Ann Neurol 2013;74:449–457}
+      \field{issn}{0364-5134, 1531-8249}
+      \field{journaltitle}{Annals of Neurology}
+      \field{langid}{english}
+      \field{month}{9}
+      \field{number}{3}
+      \field{title}{Adaptive Deep Brain Stimulation in Advanced {{Parkinson}} Disease}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{74}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{449\bibrangedash 457}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1002/ana.23951
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/BLQY2C2L/Little et al. - 2013 - Adaptive deep brain stimulation in advanced Parkinson disease.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
+      \endverb
+      \verb{url}
+      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
+      \endverb
+    \endentry
+    \entry{mcintyreNetworkPerspectivesMechanisms2010}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=69f3f00c10a8af850a185d453c900293}{%
+           family={McIntyre},
+           familyi={M\bibinitperiod},
+           given={Cameron\bibnamedelima C.},
+           giveni={C\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e8ecd4b8da4b5ea58d852771955de039}{%
+           family={Hahn},
+           familyi={H\bibinitperiod},
+           given={Philip\bibnamedelima J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{fullhash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{bibnamehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{authorbibnamehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{authornamehash}{cd3997619b592ddc48a964ecb7c7c404}
+      \strng{authorfullhash}{cd3997619b592ddc48a964ecb7c7c404}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0969-9961}
+      \field{journaltitle}{Neurobiology of Disease}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{3}
+      \field{title}{Network Perspectives on the Mechanisms of Deep Brain Stimulation}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{38}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{329\bibrangedash 337}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/j.nbd.2009.09.022
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/BDFVS8VT/McIntyre and Hahn - 2010 - Network perspectives on the mechanisms of deep brain stimulation.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
+      \endverb
+    \endentry
+    \entry{nambuFunctionalSignificanceCortico2002}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=9f58e86fa074918ca259ae259494ec3d}{%
+           family={Nambu},
+           familyi={N\bibinitperiod},
+           given={Atsushi},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f2508662e1a3488b562ceb62e6d15554}{%
+           family={Tokuno},
+           familyi={T\bibinitperiod},
+           given={Hironobu},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a47ff8a061bdabffb9b5387359f07ece}{%
+           family={Takada},
+           familyi={T\bibinitperiod},
+           given={Masahiko},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{8c92de052e45e1d82f22c95d9a51ca71}
+      \strng{fullhash}{2655a8cfa42395879deddabab0af2667}
+      \strng{bibnamehash}{2655a8cfa42395879deddabab0af2667}
+      \strng{authorbibnamehash}{2655a8cfa42395879deddabab0af2667}
+      \strng{authornamehash}{8c92de052e45e1d82f22c95d9a51ca71}
+      \strng{authorfullhash}{2655a8cfa42395879deddabab0af2667}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0168-0102}
+      \field{journaltitle}{Neuroscience Research}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{2}
+      \field{title}{Functional Significance of the Cortico–Subthalamo–Pallidal ‘Hyperdirect’ Pathway}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{43}
+      \field{year}{2002}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{111\bibrangedash 117}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1016/s0168-0102(02)00027-5
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/LHWDLBM8/Nambu et al. - 2002 - Functional significance of the cortico–subthalamo–pallidal ‘hyperdirect’ pathway.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0168010202000275
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S0168010202000275
+      \endverb
+    \endentry
+    \entry{paulsCorticalBetaBurst2022}{article}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=148293b137a4850acd841762955f10a7}{%
+           family={Pauls},
+           familyi={P\bibinitperiod},
+           given={K.\bibnamedelimi Amande\bibnamedelima M.},
+           giveni={K\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a140063fd38b1c5d386b89a60a015223}{%
+           family={Korsun},
+           familyi={K\bibinitperiod},
+           given={Olesia},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d9b1e8d1aedd70dea0764f878fcfbe90}{%
+           family={Nenonen},
+           familyi={N\bibinitperiod},
+           given={Jukka},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7de5698cb8773556491276cd8035dbc5}{%
+           family={Nurminen},
+           familyi={N\bibinitperiod},
+           given={Jussi},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1fc0e901cf4762ad7b2a31b989946d5}{%
+           family={Liljeström},
+           familyi={L\bibinitperiod},
+           given={Mia},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a7a9f376082e4c74bdea8c4e19fed1f1}{%
+           family={Kujala},
+           familyi={K\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f52102e9fa671b3c3d778822b1249d9}{%
+           family={Pekkonen},
+           familyi={P\bibinitperiod},
+           given={Eero},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=59998af189ab67c6a0dbb4e3dc4a2681}{%
+           family={Renvall},
+           familyi={R\bibinitperiod},
+           given={Hanna},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{cb86b58b4b454bb9e6d96b6dea40ad9d}
+      \strng{fullhash}{d89e693f4580304195ceeeec95dde8cc}
+      \strng{bibnamehash}{d89e693f4580304195ceeeec95dde8cc}
+      \strng{authorbibnamehash}{d89e693f4580304195ceeeec95dde8cc}
+      \strng{authornamehash}{cb86b58b4b454bb9e6d96b6dea40ad9d}
+      \strng{authorfullhash}{d89e693f4580304195ceeeec95dde8cc}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1053-8119}
+      \field{journaltitle}{NeuroImage}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{title}{Cortical Beta Burst Dynamics Are Altered in {{Parkinson}}'s Disease but Normalized by Deep Brain Stimulation}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{257}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{119308}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.neuroimage.2022.119308
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/2GY5W5JK/Pauls et al. - 2022 - Cortical beta burst dynamics are altered in Parkinson's disease but normalized by deep brain stimula.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
+      \endverb
+      \verb{url}
+      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
+      \endverb
+    \endentry
+    \entry{saniModelingBehaviorallyRelevant2021}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=38e0af619c1e423714870d36cb7c0d26}{%
+           family={Sani},
+           familyi={S\bibinitperiod},
+           given={Omid\bibnamedelima G.},
+           giveni={O\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7cac24d254ba312a5cce4ecdc374f3a8}{%
+           family={Abbaspourazad},
+           familyi={A\bibinitperiod},
+           given={Hamidreza},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1504ed9b884294859e94e26e99372940}{%
+           family={Wong},
+           familyi={W\bibinitperiod},
+           given={Yan\bibnamedelima T.},
+           giveni={Y\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9b00cb4d3a4e99e0c3d7ea84dcd7367b}{%
+           family={Pesaran},
+           familyi={P\bibinitperiod},
+           given={Bijan},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd7386c1155ec3f1cb5ec645f42aeaeb}{%
+           family={Shanechi},
+           familyi={S\bibinitperiod},
+           given={Maryam\bibnamedelima M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science and Business Media LLC}%
+      }
+      \strng{namehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{fullhash}{864809eee9287161544c2ed241ee1b21}
+      \strng{bibnamehash}{864809eee9287161544c2ed241ee1b21}
+      \strng{authorbibnamehash}{864809eee9287161544c2ed241ee1b21}
+      \strng{authornamehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{authorfullhash}{864809eee9287161544c2ed241ee1b21}
+      \field{extraname}{1}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1097-6256, 1546-1726}
+      \field{journaltitle}{Nature Neuroscience}
+      \field{langid}{english}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shortjournal}{Nat Neurosci}
+      \field{title}{Modeling Behaviorally Relevant Neural Dynamics Enabled by Preferential Subspace Identification}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{24}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{140\bibrangedash 149}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1038/s41593-020-00733-0
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/WJ2JWZK9/Sani et al. - 2021 - Modeling behaviorally relevant neural dynamics enabled by preferential subspace identification.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41593-020-00733-0
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41593-020-00733-0
+      \endverb
+    \endentry
+    \entry{saniDissociativePrioritizedModeling2024}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=38e0af619c1e423714870d36cb7c0d26}{%
+           family={Sani},
+           familyi={S\bibinitperiod},
+           given={Omid\bibnamedelima G.},
+           giveni={O\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9b00cb4d3a4e99e0c3d7ea84dcd7367b}{%
+           family={Pesaran},
+           familyi={P\bibinitperiod},
+           given={Bijan},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd7386c1155ec3f1cb5ec645f42aeaeb}{%
+           family={Shanechi},
+           familyi={S\bibinitperiod},
+           given={Maryam\bibnamedelima M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science and Business Media LLC}%
+      }
+      \strng{namehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{fullhash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \strng{bibnamehash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \strng{authorbibnamehash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \strng{authornamehash}{830238190a043ae8d4e1ea1545b9bc59}
+      \strng{authorfullhash}{5f9c18fb990ce164b1bb64ca278abb83}
+      \field{extraname}{2}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{AbstractUnderstanding the dynamical transformation of neural activity to behavior requires new capabilities to nonlinearly model, dissociate and prioritize behaviorally relevant neural dynamics and test hypotheses about the origin of nonlinearity. We present dissociative prioritized analysis of dynamics (DPAD), a nonlinear dynamical modeling approach that enables these capabilities with a multisection neural network architecture and training approach. Analyzing cortical spiking and local field potential activity across four movement tasks, we demonstrate five use-cases. DPAD enabled more accurate neural–behavioral prediction. It identified nonlinear dynamical transformations of local field potentials that were more behavior predictive than traditional power features. Further, DPAD achieved behavior-predictive nonlinear neural dimensionality reduction. It enabled hypothesis testing regarding nonlinearities in neural–behavioral transformation, revealing that, in our datasets, nonlinearities could largely be isolated to the mapping from latent cortical dynamics to behavior. Finally, DPAD extended across continuous, intermittently sampled and categorical behaviors. DPAD provides a powerful tool for nonlinear dynamical modeling and investigation of neural–behavioral data.}
+      \field{issn}{1097-6256, 1546-1726}
+      \field{journaltitle}{Nature Neuroscience}
+      \field{langid}{english}
+      \field{month}{10}
+      \field{number}{10}
+      \field{shortjournal}{Nat Neurosci}
+      \field{title}{Dissociative and Prioritized Modeling of Behaviorally Relevant Neural Dynamics Using Recurrent Neural Networks}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{27}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{2033\bibrangedash 2045}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1038/s41593-024-01731-2
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/T23TMNL5/Sani et al. - 2024 - Dissociative and prioritized modeling of behaviorally relevant neural dynamics using recurrent neura.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41593-024-01731-2
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41593-024-01731-2
+      \endverb
+    \endentry
+    \entry{swannGammaOscillationsHyperkinetic2016}{article}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=7fd02ede407d252aa0490074def8c3bb}{%
+           family={Swann},
+           familyi={S\bibinitperiod},
+           given={Nicole\bibnamedelima C.},
+           giveni={N\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d2599cb0b00b78a85b0cd588347db5ae}{%
+           family={De\bibnamedelima Hemptinne},
+           familyi={D\bibinitperiod\bibinitdelim H\bibinitperiod},
+           given={Coralie},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=281cb6b5b4beec842f42e22f310de323}{%
+           family={Miocinovic},
+           familyi={M\bibinitperiod},
+           given={Svjetlana},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=27c626ae4c7d2e2f3979efb153f335e0}{%
+           family={Qasim},
+           familyi={Q\bibinitperiod},
+           given={Salman},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1175a4876073726e218d5d91f99b6a98}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Sarah\bibnamedelima S.},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=78f44720f6f8ec1883cbe7b4c6104041}{%
+           family={Ziman},
+           familyi={Z\bibinitperiod},
+           given={Nathan},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bdd4f918716d86d9a2bcdf83ebf2bb78}{%
+           family={Ostrem},
+           familyi={O\bibinitperiod},
+           given={Jill\bibnamedelima L.},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95223e8e025932d63d511cbb9d91dfd9}{%
+           family={San\bibnamedelima Luciano},
+           familyi={S\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Marta},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f89a065bf70a0a84c83b3c9c58c390f1}{%
+           family={Galifianakis},
+           familyi={G\bibinitperiod},
+           given={Nicholas\bibnamedelima B.},
+           giveni={N\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4138ec9bf32798350fca002bbdec965c}{%
+           family={Starr},
+           familyi={S\bibinitperiod},
+           given={Philip\bibnamedelima A.},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Society for Neuroscience}%
+      }
+      \strng{namehash}{24a77f2b68d897d913f60a5b5e95a8be}
+      \strng{fullhash}{143747aeba08b7864046ffbc8cce8fb9}
+      \strng{bibnamehash}{143747aeba08b7864046ffbc8cce8fb9}
+      \strng{authorbibnamehash}{143747aeba08b7864046ffbc8cce8fb9}
+      \strng{authornamehash}{24a77f2b68d897d913f60a5b5e95a8be}
+      \strng{authorfullhash}{143747aeba08b7864046ffbc8cce8fb9}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{15}
+      \field{issn}{0270-6474, 1529-2401}
+      \field{journaltitle}{The Journal of Neuroscience}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{24}
+      \field{shortjournal}{J. Neurosci.}
+      \field{title}{Gamma {{Oscillations}} in the {{Hyperkinetic State Detected}} with {{Chronic Human Brain Recordings}} in {{Parkinson}}'s {{Disease}}}
+      \field{urlday}{21}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{36}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{6445\bibrangedash 6458}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1523/jneurosci.1128-16.2016
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/HA8WZTTA/Swann et al. - 2016 - Gamma Oscillations in the Hyperkinetic State Detected with Chronic Human Brain Recordings in Parkins.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
+      \endverb
+      \verb{url}
+      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
+      \endverb
+    \endentry
+    \entry{tinkhauserBetaBurstDynamics2017}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=2a6737ab1253f42a5c13b3ac56b57f96}{%
+           family={Tinkhauser},
+           familyi={T\bibinitperiod},
+           given={Gerd},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7a9a9c0a5556795b399f834087700bbe}{%
+           family={Pogosyan},
+           familyi={P\bibinitperiod},
+           given={Alek},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32417dbaa607f0fa87515832ab4a7a4e}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Huiling},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ce0066e0ba26e1e63eecb5215d85dfc6}{%
+           family={Herz},
+           familyi={H\bibinitperiod},
+           given={Damian\bibnamedelima M},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5a8924ec50ccf9971fac68f4d9092a5c}{%
+           family={Kühn},
+           familyi={K\bibinitperiod},
+           given={Andrea\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba0f875a2e518de68d3b474de01c0e9b}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press (OUP)}%
+      }
+      \strng{namehash}{0ee88da24b5c06c793e6f41528ff9dc7}
+      \strng{fullhash}{9dff26238cde2bfbd357f3f2d4378941}
+      \strng{bibnamehash}{9dff26238cde2bfbd357f3f2d4378941}
+      \strng{authorbibnamehash}{9dff26238cde2bfbd357f3f2d4378941}
+      \strng{authornamehash}{0ee88da24b5c06c793e6f41528ff9dc7}
+      \strng{authorfullhash}{9dff26238cde2bfbd357f3f2d4378941}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{1}
+      \field{issn}{0006-8950, 1460-2156}
+      \field{journaltitle}{Brain}
+      \field{langid}{english}
+      \field{month}{11}
+      \field{number}{11}
+      \field{title}{Beta Burst Dynamics in {{Parkinson}}’s Disease {{OFF}} and {{ON}} Dopaminergic Medication}
+      \field{urlday}{18}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{140}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{2968\bibrangedash 2981}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1093/brain/awx252
+      \endverb
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/GIMWBHBM/Tinkhauser et al. - 2017 - Beta burst dynamics in Parkinson’s disease OFF and ON dopaminergic medication.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
+      \endverb
+      \verb{url}
+      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
+      \endverb
+    \endentry
+    \entry{who_parkinson_2023}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=531217507bec092b6ec36c0f78f46736}{%
+           family={{World Health Organization}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{fullhash}{531217507bec092b6ec36c0f78f46736}
+      \strng{bibnamehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{authorbibnamehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{authornamehash}{531217507bec092b6ec36c0f78f46736}
+      \strng{authorfullhash}{531217507bec092b6ec36c0f78f46736}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{8}
+      \field{note}{Accessed: \today}
+      \field{title}{Parkinson disease}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://www.who.int/news-room/fact-sheets/detail/parkinson-disease
+      \endverb
+      \verb{url}
+      \verb https://www.who.int/news-room/fact-sheets/detail/parkinson-disease
+      \endverb
+    \endentry
+    \entry{wuMixedSelectivitySubthalamic2025}{online}{}
+      \name{author}{3}{}{%
+        {{un=1,uniquepart=given,hash=afe1a78cb8f912ec3d08a2eeedaec9dd}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Bing-Shiuan},
+           giveni={B\bibinithyphendelim S\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=c1abf8ea47885f02f5158e4e7ebd7b7c}{%
+           family={Ming},
+           familyi={M\bibinitperiod},
+           given={Min-Yuan},
+           giveni={M\bibinithyphendelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ea9904503db962e427290343944464b}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Yu-Wei},
+           giveni={Y\bibinithyphendelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ea8725e5be88d3a9d5126a5321680b9f}
+      \strng{fullhash}{e23576efb135327c27439b188418d509}
+      \strng{bibnamehash}{e23576efb135327c27439b188418d509}
+      \strng{authorbibnamehash}{e23576efb135327c27439b188418d509}
+      \strng{authornamehash}{ea8725e5be88d3a9d5126a5321680b9f}
+      \strng{authorfullhash}{e23576efb135327c27439b188418d509}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Summary The subthalamic nucleus (STN) plays a critical role in modulating motor and cognitive functions within the basal ganglia, with its dysfunction being implicated in movement disorders such as Parkinson’s disease. However, the behavioral representations of individual STN neurons remain incompletely understood. Using in vivo two-photon calcium imaging in behaving mice, we systematically mapped the activity of single STN neurons across diverse behavioral contexts, including locomotion, licking, and reward-driven actions. Our findings reveal that STN neurons exhibit mixed selectivity, encoding multiple behaviors with distinct temporal dynamics and excitatory or inhibitory response patterns. This mixed selectivity allows the STN to robustly encode motor parameters such as locomotion speed and licking intensity while integrating contextual information from different behavioral states. Comparisons with the adjacent zona incerta (ZI) revealed distinct encoding properties: while both regions represent locomotion, STN neurons more faithfully track motor states, whereas ZI neurons exhibit prolonged calcium events with weaker movement correlations. Population-level analysis showed STN activity in a low-dimensional neural manifold, with components linked to movement velocity and licking intensity. Notably, locomotion encoding in STN was context-dependent, diverging when movements were internally generated versus reward-modulated. Together, these findings highlight the specialized yet flexible role of the STN in integrating motor and reward-related signals, supporting a framework in which STN neurons contribute to motor control through multiplexed and context-dependent encoding. This work provides new insights into the functional organization of basal ganglia circuits and has implications for understanding STN’s role in both physiological and pathological conditions.}
+      \field{day}{13}
+      \field{eprinttype}{Neuroscience}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{title}{Mixed {{Selectivity}} of {{Subthalamic Nucleus Neurons}} in {{Encoding Motor}} and {{Reward Behaviors}}}
+      \field{urlday}{29}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.1101/2025.02.12.637797
+      \endverb
+      \verb{urlraw}
+      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
+      \endverb
+      \verb{url}
+      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
+      \endverb
+    \endentry
+    \entry{wuComputationalModelsAdvance2024}{article}{}
+      \name{author}{3}{}{%
+        {{un=1,uniquepart=given,hash=d21eb3b094a6deb181069d7f12c16a0e}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Yongtong},
+           giveni={Y\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=b76de52a70038773a96b93837f92873c}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Kejia},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7109f678bbf000300c46e2ed681e2de6}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Shenquan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6d9fff1ddfeae8665bf7f5daf672039b}
+      \strng{fullhash}{b9940534e4eb26296f81b5e984501467}
+      \strng{bibnamehash}{b9940534e4eb26296f81b5e984501467}
+      \strng{authorbibnamehash}{b9940534e4eb26296f81b5e984501467}
+      \strng{authornamehash}{6d9fff1ddfeae8665bf7f5daf672039b}
+      \strng{authorfullhash}{b9940534e4eb26296f81b5e984501467}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{26}
+      \field{issn}{0954-898X, 1361-6536}
+      \field{journaltitle}{Network: Computation in Neural Systems}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{shortjournal}{Network: Computation in Neural Systems}
+      \field{title}{Computational Models Advance Deep Brain Stimulation for {{Parkinson}}’s Disease}
+      \field{urlday}{28}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1\bibrangedash 32}
+      \range{pages}{32}
+      \verb{doi}
+      \verb 10.1080/0954898X.2024.2361799
+      \endverb
+      \verb{urlraw}
+      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
+      \endverb
+      \verb{url}
+      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
+      \endverb
+    \endentry
+    \entry{zarzyckiStimulationinducedSideEffects2020}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=0575393521f56d3dd2b6f3d4ef8995f9}{%
+           family={Zarzycki},
+           familyi={Z\bibinitperiod},
+           given={Marcin\bibnamedelima Zygmunt},
+           giveni={M\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=577b3d22d481b46fbb2326cd1dd419bb}{%
+           family={Domitrz},
+           familyi={D\bibinitperiod},
+           given={Izabela},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{fullhash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{bibnamehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{authorbibnamehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{authornamehash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \strng{authorfullhash}{84a6e2477ec37e2d3214f88dc23689f2}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Abstract Objective: Deep brain stimulation (DBS) was approved by Food and Drug Administration for Parkinson’s disease, essential tremor, primary generalised or segmental dystonia and obsessive-compulsive disorder (OCD) treatment. The exact mechanism of DBS remains unclear which causes side effects. The aim of this review was to assess variables causing stimulation-induced chronic psychiatric/personality-changing side effects. Methods: The analysis of scientific database (PubMed, Cochrane Library, EMBASE) was conducted. The included articles had to be research study or case report and DBS to be conducted in therapeutic purposes. The researches with mental disorders in patients’ medical histories were excluded. Results: Seventeen articles were used in the review. In the group of movement disorders the characteristic of side effects was strongly related to the placement of the electrode implantation. Tiredness/fatigue was correlated with DBS in thalamus. Implantations in subthalamic nucleus were mostly followed by affective side effects such as depression or suicide. The higher voltage of electrode was connected with more severe depression after implantation. The analysis of affective disorder contained only three articles – two about OCD and one about depression. Forgetfulness and word-finding problems as activities connected with cognition may be an inevitable side effect if obsessive thoughts are to be inhibited. Conclusion: DBS of subthalamic nucleus should be seen as the most hazardous place of implantation. As a result there is a strong need of ‘gold standards’ based on the connectivity research and closer cooperation of scientists and clinicians.}
+      \field{issn}{0924-2708, 1601-5215}
+      \field{journaltitle}{Acta Neuropsychiatrica}
+      \field{langid}{english}
+      \field{month}{4}
+      \field{number}{2}
+      \field{shortjournal}{Acta Neuropsychiatr.}
+      \field{title}{Stimulation-Induced Side Effects after Deep Brain Stimulation – a Systematic Review}
+      \field{urlday}{28}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{32}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{57\bibrangedash 64}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1017/neu.2019.35
+      \endverb
+      \verb{urlraw}
+      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
+      \endverb
+      \verb{url}
+      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

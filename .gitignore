@@ -192,7 +192,8 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
-
-data/
-analysis_scripts/
+.vscode/
+data
+*.txt
+analysis_scripts
 *.tar.gz
