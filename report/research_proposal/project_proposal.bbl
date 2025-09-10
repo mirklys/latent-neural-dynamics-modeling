@@ -22,8 +22,8 @@
     \entry{ben-shlomoEpidemiologyParkinsonsDisease2024}{article}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=89d0d9be24d5fd636bc93c9b0bfd71ed}{%
-           family={Ben-Shlomo},
-           familyi={B\bibinithyphendelim S\bibinitperiod},
+           family={{Ben-Shlomo}},
+           familyi={B\bibinitperiod},
            given={Yoav},
            giveni={Y\bibinitperiod},
            givenun=0}}%
@@ -34,8 +34,8 @@
            giveni={S\bibinitperiod},
            givenun=0}}%
         {{un=0,uniquepart=base,hash=8830abb0dcdbef4daf869b2390aeb759}{%
-           family={Llibre-Guerra},
-           familyi={L\bibinithyphendelim G\bibinitperiod},
+           family={{Llibre-Guerra}},
+           familyi={L\bibinitperiod},
            given={Jorge},
            giveni={J\bibinitperiod},
            givenun=0}}%
@@ -76,14 +76,12 @@
       \field{langid}{english}
       \field{month}{1}
       \field{number}{10423}
-      \field{shortjournal}{The Lancet}
       \field{title}{The Epidemiology of {{Parkinson}}'s Disease}
       \field{urlday}{27}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{403}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{283\bibrangedash 292}
       \range{pages}{10}
@@ -92,12 +90,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/PJFXWB3W/Ben-Shlomo et al. - 2024 - The epidemiology of Parkinson's disease.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
-      \endverb
-      \verb{url}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
       \endverb
     \endentry
     \entry{chikenMechanismDeepBrain2016}{article}{}
@@ -131,13 +123,12 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Deep brain stimulation (DBS), applying high-frequency electrical stimulation to deep brain structures, has now provided an effective therapeutic option for treatment of various neurological and psychiatric disorders. DBS targeting the internal segment of the globus pallidus, subthalamic nucleus, and thalamus is used to treat symptoms of movement disorders, such as Parkinson’s disease, dystonia, and tremor. However, the mechanism underlying the beneficial effects of DBS remains poorly understood and is still under debate: Does DBS inhibit or excite local neuronal elements? In this short review, we would like to introduce our recent work on the physiological mechanism of DBS and propose an alternative explanation: DBS dissociates input and output signals, resulting in the disruption of abnormal information flow through the stimulation site.}
+      \field{abstract}{Deep brain stimulation (DBS), applying high-frequency electrical stimulation to deep brain structures, has now provided an effective therapeutic option for treatment of various neurological and psychiatric disorders. DBS targeting the internal segment of the globus pallidus, subthalamic nucleus, and thalamus is used to treat symptoms of movement disorders, such as Parkinson's disease, dystonia, and tremor. However, the mechanism underlying the beneficial effects of DBS remains poorly understood and is still under debate: Does DBS inhibit or excite local neuronal elements? In this short review, we would like to introduce our recent work on the physiological mechanism of DBS and propose an alternative explanation: DBS dissociates input and output signals, resulting in the disruption of abnormal information flow through the stimulation site.}
       \field{issn}{1073-8584, 1089-4098}
       \field{journaltitle}{The Neuroscientist}
       \field{langid}{english}
       \field{month}{6}
       \field{number}{3}
-      \field{shortjournal}{Neuroscientist}
       \field{shorttitle}{Mechanism of {{Deep Brain Stimulation}}}
       \field{title}{Mechanism of {{Deep Brain Stimulation}}: {{Inhibition}}, {{Excitation}}, or {{Disruption}}?}
       \field{urlday}{18}
@@ -145,7 +136,6 @@
       \field{urlyear}{2025}
       \field{volume}{22}
       \field{year}{2016}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{313\bibrangedash 322}
       \range{pages}{10}
@@ -155,14 +145,8 @@
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/8RWL2T8R/Chiken and Nambu - 2016 - Mechanism of Deep Brain Stimulation Inhibition, Excitation, or Disruption.pdf
       \endverb
-      \verb{urlraw}
-      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
-      \endverb
-      \verb{url}
-      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
-      \endverb
     \endentry
-    \entry{doldLFPECoGData2024}{dataset}{}
+    \entry{doldLFPECoGData2024}{misc}{}
       \name{author}{7}{}{%
         {{un=0,uniquepart=base,hash=35923b3ac53b7db3a1c2605cf5a0b809}{%
            family={Dold},
@@ -223,28 +207,19 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{This data set contains raw data and analysis scripts used for the publication of the Dareplane platform (https://arxiv.org/abs/2408.01242). The data contains performance benchmarks of typical experimental setups on Dareplane for aDBS which are evaluated in three benchtop experiments, covering (a) an easy-to-replicate setup using an Arduino microcontroller, (b) a setup with hardware of an implantable pulse generator, and (c) a setup using an established and CE certified external neurostimulator. Benchmark results are presented for individual processing steps and full closed-loop processing with data stored in XDF files. The full technical feasibility of the platform in the aDBS context is demonstrated in a first closed-loop session with externalized leads on a patient with Parkinson’s disease receiving DBS treatment. The recordings including local field potentials (LFP - 16 channels), electrocorticography (ECoG - 4 channels), electrooculography (EOG - 4 channels) recorded from a Neuro Omega (Alpha Omega, Israel), as well as behavioral data during the CopyDraw task (Castaño Candamil et al., 2019, IEEE). Additional two sessions with open loop DBS are contained in this data set and also include heart rate (HR), respiratory rate (RR) and galvanic skin response (GSR) recorded with a BrainAmp ExG (Brain Products, Germany). Finally, the set contains EEG and behavioral recordings of a c-VEP speller experiment as XDF files. The EEG data was recorded from 8 channels (Fz, T7, T8, POz, O1, Oz, O2, Iz) placed according to the 10-10 system, using a BioSemi ActiveTwo amplifier recording at 512 Hz.}
-      \field{day}{12}
+      \field{abstract}{This data set contains raw data and analysis scripts used for the publication of the Dareplane platform (https://arxiv.org/abs/2408.01242). The data contains performance benchmarks of typical experimental setups on Dareplane for aDBS which are evaluated in three benchtop experiments, covering (a) an easy-to-replicate setup using an Arduino microcontroller, (b) a setup with hardware of an implantable pulse generator, and (c) a setup using an established and CE certified external neurostimulator. Benchmark results are presented for individual processing steps and full closed-loop processing with data stored in XDF files. The full technical feasibility of the platform in the aDBS context is demonstrated in a first closed-loop session with externalized leads on a patient with Parkinson's disease receiving DBS treatment. The recordings including local field potentials (LFP - 16 channels), electrocorticography (ECoG - 4 channels), electrooculography (EOG - 4 channels) recorded from a Neuro Omega (Alpha Omega, Israel), as well as behavioral data during the CopyDraw task (Castaño Candamil et al., 2019, IEEE). Additional two sessions with open loop DBS are contained in this data set and also include heart rate (HR), respiratory rate (RR) and galvanic skin response (GSR) recorded with a BrainAmp ExG (Brain Products, Germany). Finally, the set contains EEG and behavioral recordings of a c-VEP speller experiment as XDF files. The EEG data was recorded from 8 channels (Fz, T7, T8, POz, O1, Oz, O2, Iz) placed according to the 10-10 system, using a BioSemi ActiveTwo amplifier recording at 512 Hz.}
       \field{langid}{english}
       \field{month}{9}
       \field{title}{{{LFP}} and {{ECoG}} Data during {{CopyDraw}} Task with Deep Brain Stimulation - {{Dareplane}} Data for Proof of Concept Paper}
       \field{urlday}{3}
       \field{urlmonth}{8}
       \field{urlyear}{2025}
-      \field{version}{1}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{34 GB\bibrangessep 742 files}
       \range{pages}{-1}
       \verb{doi}
       \verb 10.34973/D214-M342
-      \endverb
-      \verb{urlraw}
-      \verb https://data.ru.nl/collections/di/dcc/DSC_2024.00167_912
-      \endverb
-      \verb{url}
-      \verb https://data.ru.nl/collections/di/dcc/DSC_2024.00167_912
       \endverb
       \keyw{c-VEP,CopyDraw,ECoG,EEG,LFP}
     \endentry
@@ -288,19 +263,17 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{\textbf{\mkbibemph{Background:}} The Medtronic “Percept” is the first FDA-approved deep brain stimulation (DBS) device with sensing capabilities during active stimulation. Its real-world signal-recording properties have yet to be fully described. \textbf{\mkbibemph{Objective:}} This study details three sources of artifact (and potential mitigations) in local field potential (LFP) signals collected by the Percept and assesses the potential impact of artifact on the future development of adaptive DBS (aDBS) using this device. \textbf{\mkbibemph{Methods:}} LFP signals were collected from 7 subjects in both experimental and clinical settings. The presence of artifacts and their effect on the spectral content of neural signals were evaluated in both the stimulation ON and OFF states using three distinct offline artifact removal techniques. \textbf{\mkbibemph{Results:}} Template subtraction successfully removed multiple sources of artifact, including (1) electrocardiogram (ECG), (2) nonphysiologic polyphasic artifacts, and (3) ramping-related artifacts seen when changing stimulation amplitudes. ECG removal from stimulation ON (at 0 mA) signals resulted in spectral shapes similar to OFF stimulation spectra (averaged difference in normalized power in theta, alpha, and beta bands ≤3.5\%). ECG removal using singular value decomposition was similarly successful, though required subjective researcher input. QRS interpolation produced similar recovery of beta-band signal but resulted in residual low-frequency artifact. \textbf{\mkbibemph{Conclusions:}} Artifacts present when stimulation is enabled notably affected the spectral properties of sensed signals using the Percept. Multiple discrete artifacts could be successfully removed offline using an automated template subtraction method. The presence of unrejected artifact likely influences online power estimates, with the potential to affect aDBS algorithm performance.}
+      \field{abstract}{\textbf{\emph{Background:}} The Medtronic ``Percept'' is the first FDA-approved deep brain stimulation (DBS) device with sensing capabilities during active stimulation. Its real-world signal-recording properties have yet to be fully described. \textbf{\emph{Objective:}} This study details three sources of artifact (and potential mitigations) in local field potential (LFP) signals collected by the Percept and assesses the potential impact of artifact on the future development of adaptive DBS (aDBS) using this device. \textbf{\emph{Methods:}} LFP signals were collected from 7 subjects in both experimental and clinical settings. The presence of artifacts and their effect on the spectral content of neural signals were evaluated in both the stimulation ON and OFF states using three distinct offline artifact removal techniques. \textbf{\emph{Results:}} Template subtraction successfully removed multiple sources of artifact, including (1) electrocardiogram (ECG), (2) nonphysiologic polyphasic artifacts, and (3) ramping-related artifacts seen when changing stimulation amplitudes. ECG removal from stimulation ON (at 0 mA) signals resulted in spectral shapes similar to OFF stimulation spectra (averaged difference in normalized power in theta, alpha, and beta bands {$\leq$}3.5\%). ECG removal using singular value decomposition was similarly successful, though required subjective researcher input. QRS interpolation produced similar recovery of beta-band signal but resulted in residual low-frequency artifact. \textbf{\emph{Conclusions:}} Artifacts present when stimulation is enabled notably affected the spectral properties of sensed signals using the Percept. Multiple discrete artifacts could be successfully removed offline using an automated template subtraction method. The presence of unrejected artifact likely influences online power estimates, with the potential to affect aDBS algorithm performance.}
       \field{issn}{1011-6125, 1423-0372}
       \field{journaltitle}{Stereotactic and Functional Neurosurgery}
       \field{langid}{english}
       \field{number}{3}
-      \field{shortjournal}{Stereotact Funct Neurosurg}
       \field{title}{Artifact {{Characterization}} and a {{Multipurpose Template-Based Offline Removal Solution}} for a {{Sensing-Enabled Deep Brain Stimulation Device}}}
       \field{urlday}{3}
       \field{urlmonth}{8}
       \field{urlyear}{2025}
       \field{volume}{100}
       \field{year}{2022}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{168\bibrangedash 183}
       \range{pages}{16}
@@ -309,12 +282,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/PD3XWHTF/Hammer et al. - 2022 - Artifact Characterization and a Multipurpose Template-Based Offline Removal Solution for a Sensing-E.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://karger.com/article/doi/10.1159/000521431
-      \endverb
-      \verb{url}
-      \verb https://karger.com/article/doi/10.1159/000521431
       \endverb
     \endentry
     \entry{littleAdaptiveDeepBrain2013}{article}{}
@@ -414,7 +381,7 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{ObjectiveBrain–computer interfaces (BCIs) could potentially be used to interact with pathological brain signals to intervene and ameliorate their effects in disease states. Here, we provide proof‐of‐principle of this approach by using a BCI to interpret pathological brain activity in patients with advanced Parkinson disease (PD) and to use this feedback to control when therapeutic deep brain stimulation (DBS) is delivered. Our goal was to demonstrate that by personalizing and optimizing stimulation in real time, we could improve on both the efficacy and efficiency of conventional continuous DBS.MethodsWe tested BCI‐controlled adaptive DBS (aDBS) of the subthalamic nucleus in 8 PD patients. Feedback was provided by processing of the local field potentials recorded directly from the stimulation electrodes. The results were compared to no stimulation, conventional continuous stimulation (cDBS), and random intermittent stimulation. Both unblinded and blinded clinical assessments of motor effect were performed using the Unified Parkinson's Disease Rating Scale.ResultsMotor scores improved by 66\% (unblinded) and 50\% (blinded) during aDBS, which were 29\% (p = 0.03) and 27\% (p = 0.005) better than cDBS, respectively. These improvements were achieved with a 56\% reduction in stimulation time compared to cDBS, and a corresponding reduction in energy requirements (p {$<$} 0.001). aDBS was also more effective than no stimulation and random intermittent stimulation.InterpretationBCI‐controlled DBS is tractable and can be more efficient and efficacious than conventional continuous neuromodulation for PD. Ann Neurol 2013;74:449–457}
+      \field{abstract}{ObjectiveBrain--computer interfaces (BCIs) could potentially be used to interact with pathological brain signals to intervene and ameliorate their effects in disease states. Here, we provide proof-of-principle of this approach by using a BCI to interpret pathological brain activity in patients with advanced Parkinson disease (PD) and to use this feedback to control when therapeutic deep brain stimulation (DBS) is delivered. Our goal was to demonstrate that by personalizing and optimizing stimulation in real time, we could improve on both the efficacy and efficiency of conventional continuous DBS.MethodsWe tested BCI-controlled adaptive DBS (aDBS) of the subthalamic nucleus in 8 PD patients. Feedback was provided by processing of the local field potentials recorded directly from the stimulation electrodes. The results were compared to no stimulation, conventional continuous stimulation (cDBS), and random intermittent stimulation. Both unblinded and blinded clinical assessments of motor effect were performed using the Unified Parkinson's Disease Rating Scale.ResultsMotor scores improved by 66\% (unblinded) and 50\% (blinded) during aDBS, which were 29\% (p = 0.03) and 27\% (p = 0.005) better than cDBS, respectively. These improvements were achieved with a 56\% reduction in stimulation time compared to cDBS, and a corresponding reduction in energy requirements (p {$<$} 0.001). aDBS was also more effective than no stimulation and random intermittent stimulation.InterpretationBCI-controlled DBS is tractable and can be more efficient and efficacious than conventional continuous neuromodulation for PD. Ann Neurol 2013;74:449--457}
       \field{issn}{0364-5134, 1531-8249}
       \field{journaltitle}{Annals of Neurology}
       \field{langid}{english}
@@ -426,7 +393,6 @@
       \field{urlyear}{2025}
       \field{volume}{74}
       \field{year}{2013}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{449\bibrangedash 457}
       \range{pages}{9}
@@ -435,12 +401,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/BLQY2C2L/Little et al. - 2013 - Adaptive deep brain stimulation in advanced Parkinson disease.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
-      \endverb
-      \verb{url}
-      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
       \endverb
     \endentry
     \entry{ljungMeasureLackFit1978}{article}{}
@@ -471,31 +431,71 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{1}
       \field{issn}{0006-3444, 1464-3510}
       \field{journaltitle}{Biometrika}
       \field{langid}{english}
       \field{month}{8}
       \field{number}{2}
-      \field{shortjournal}{Biometrika}
       \field{title}{On a Measure of Lack of Fit in Time Series Models}
       \field{urlday}{1}
       \field{urlmonth}{9}
       \field{urlyear}{2025}
       \field{volume}{65}
       \field{year}{1978}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{297\bibrangedash 303}
       \range{pages}{7}
       \verb{doi}
       \verb 10.1093/biomet/65.2.297
       \endverb
-      \verb{urlraw}
-      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
+    \endentry
+    \entry{marisNonparametricStatisticalTesting2007}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f99b84e96dc66c57bedfc7ca8f2ee295}{%
+           family={Maris},
+           familyi={M\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05b1c01a0a7d7078ddff198775251440}{%
+           family={Oostenveld},
+           familyi={O\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{07ce04a486da67c882db5a059038abff}
+      \strng{fullhash}{07ce04a486da67c882db5a059038abff}
+      \strng{bibnamehash}{07ce04a486da67c882db5a059038abff}
+      \strng{authorbibnamehash}{07ce04a486da67c882db5a059038abff}
+      \strng{authornamehash}{07ce04a486da67c882db5a059038abff}
+      \strng{authorfullhash}{07ce04a486da67c882db5a059038abff}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{01650270}
+      \field{journaltitle}{Journal of Neuroscience Methods}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{number}{1}
+      \field{title}{Nonparametric Statistical Testing of {{EEG-}} and {{MEG-data}}}
+      \field{urlday}{10}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{164}
+      \field{year}{2007}
+      \field{urldateera}{ce}
+      \field{pages}{177\bibrangedash 190}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/j.jneumeth.2007.03.024
       \endverb
-      \verb{url}
-      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/7QS8NAJ6/Maris and Oostenveld - 2007 - Nonparametric statistical testing of EEG- and MEG-data.pdf
       \endverb
     \endentry
     \entry{mcintyreNetworkPerspectivesMechanisms2010}{article}{}
@@ -540,7 +540,6 @@
       \field{urlyear}{2025}
       \field{volume}{38}
       \field{year}{2010}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{329\bibrangedash 337}
       \range{pages}{9}
@@ -549,12 +548,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/BDFVS8VT/McIntyre and Hahn - 2010 - Network perspectives on the mechanisms of deep brain stimulation.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
-      \endverb
-      \verb{url}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
       \endverb
     \endentry
     \entry{paulsCorticalBetaBurst2022}{article}{}
@@ -634,7 +627,6 @@
       \field{urlyear}{2025}
       \field{volume}{257}
       \field{year}{2022}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{119308}
       \range{pages}{1}
@@ -643,12 +635,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/2GY5W5JK/Pauls et al. - 2022 - Cortical beta burst dynamics are altered in Parkinson's disease but normalized by deep brain stimula.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
-      \endverb
-      \verb{url}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
       \endverb
     \endentry
     \entry{qianMethodRemovalDeep2017}{article}{}
@@ -707,25 +693,17 @@
       \field{journaltitle}{IEEE Transactions on Neural Systems and Rehabilitation Engineering}
       \field{month}{12}
       \field{number}{12}
-      \field{shortjournal}{IEEE Trans. Neural Syst. Rehabil. Eng.}
       \field{title}{A {{Method}} for {{Removal}} of {{Deep Brain Stimulation Artifact From Local Field Potentials}}}
       \field{urlday}{3}
       \field{urlmonth}{8}
       \field{urlyear}{2025}
       \field{volume}{25}
       \field{year}{2017}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{2217\bibrangedash 2226}
       \range{pages}{10}
       \verb{doi}
       \verb 10.1109/TNSRE.2016.2613412
-      \endverb
-      \verb{urlraw}
-      \verb https://ieeexplore.ieee.org/document/7575734/
-      \endverb
-      \verb{url}
-      \verb https://ieeexplore.ieee.org/document/7575734/
       \endverb
     \endentry
     \entry{saniModelingBehaviorallyRelevant2021}{article}{}
@@ -783,14 +761,12 @@
       \field{langid}{english}
       \field{month}{1}
       \field{number}{1}
-      \field{shortjournal}{Nat Neurosci}
       \field{title}{Modeling Behaviorally Relevant Neural Dynamics Enabled by Preferential Subspace Identification}
       \field{urlday}{18}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{24}
       \field{year}{2021}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{140\bibrangedash 149}
       \range{pages}{10}
@@ -799,12 +775,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/WJ2JWZK9/Sani et al. - 2021 - Modeling behaviorally relevant neural dynamics enabled by preferential subspace identification.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.nature.com/articles/s41593-020-00733-0
-      \endverb
-      \verb{url}
-      \verb https://www.nature.com/articles/s41593-020-00733-0
       \endverb
     \endentry
     \entry{saniDissociativePrioritizedModeling2024}{article}{}
@@ -845,20 +815,18 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{AbstractUnderstanding the dynamical transformation of neural activity to behavior requires new capabilities to nonlinearly model, dissociate and prioritize behaviorally relevant neural dynamics and test hypotheses about the origin of nonlinearity. We present dissociative prioritized analysis of dynamics (DPAD), a nonlinear dynamical modeling approach that enables these capabilities with a multisection neural network architecture and training approach. Analyzing cortical spiking and local field potential activity across four movement tasks, we demonstrate five use-cases. DPAD enabled more accurate neural–behavioral prediction. It identified nonlinear dynamical transformations of local field potentials that were more behavior predictive than traditional power features. Further, DPAD achieved behavior-predictive nonlinear neural dimensionality reduction. It enabled hypothesis testing regarding nonlinearities in neural–behavioral transformation, revealing that, in our datasets, nonlinearities could largely be isolated to the mapping from latent cortical dynamics to behavior. Finally, DPAD extended across continuous, intermittently sampled and categorical behaviors. DPAD provides a powerful tool for nonlinear dynamical modeling and investigation of neural–behavioral data.}
+      \field{abstract}{AbstractUnderstanding the dynamical transformation of neural activity to behavior requires new capabilities to nonlinearly model, dissociate and prioritize behaviorally relevant neural dynamics and test hypotheses about the origin of nonlinearity. We present dissociative prioritized analysis of dynamics (DPAD), a nonlinear dynamical modeling approach that enables these capabilities with a multisection neural network architecture and training approach. Analyzing cortical spiking and local field potential activity across four movement tasks, we demonstrate five use-cases. DPAD enabled more accurate neural--behavioral prediction. It identified nonlinear dynamical transformations of local field potentials that were more behavior predictive than traditional power features. Further, DPAD achieved behavior-predictive nonlinear neural dimensionality reduction. It enabled hypothesis testing regarding nonlinearities in neural--behavioral transformation, revealing that, in our datasets, nonlinearities could largely be isolated to the mapping from latent cortical dynamics to behavior. Finally, DPAD extended across continuous, intermittently sampled and categorical behaviors. DPAD provides a powerful tool for nonlinear dynamical modeling and investigation of neural--behavioral data.}
       \field{issn}{1097-6256, 1546-1726}
       \field{journaltitle}{Nature Neuroscience}
       \field{langid}{english}
       \field{month}{10}
       \field{number}{10}
-      \field{shortjournal}{Nat Neurosci}
       \field{title}{Dissociative and Prioritized Modeling of Behaviorally Relevant Neural Dynamics Using Recurrent Neural Networks}
       \field{urlday}{18}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{27}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{2033\bibrangedash 2045}
       \range{pages}{13}
@@ -867,12 +835,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/T23TMNL5/Sani et al. - 2024 - Dissociative and prioritized modeling of behaviorally relevant neural dynamics using recurrent neura.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.nature.com/articles/s41593-024-01731-2
-      \endverb
-      \verb{url}
-      \verb https://www.nature.com/articles/s41593-024-01731-2
       \endverb
     \endentry
     \entry{swannGammaOscillationsHyperkinetic2016}{article}{}
@@ -954,20 +916,17 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{15}
       \field{issn}{0270-6474, 1529-2401}
       \field{journaltitle}{The Journal of Neuroscience}
       \field{langid}{english}
       \field{month}{6}
       \field{number}{24}
-      \field{shortjournal}{J. Neurosci.}
       \field{title}{Gamma {{Oscillations}} in the {{Hyperkinetic State Detected}} with {{Chronic Human Brain Recordings}} in {{Parkinson}}'s {{Disease}}}
       \field{urlday}{21}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{36}
       \field{year}{2016}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{6445\bibrangedash 6458}
       \range{pages}{14}
@@ -976,12 +935,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/HA8WZTTA/Swann et al. - 2016 - Gamma Oscillations in the Hyperkinetic State Detected with Chronic Human Brain Recordings in Parkins.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
-      \endverb
-      \verb{url}
-      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
       \endverb
     \endentry
     \entry{tinkhauserBetaBurstDynamics2017}{article}{}
@@ -1039,19 +992,17 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{1}
       \field{issn}{0006-8950, 1460-2156}
       \field{journaltitle}{Brain}
       \field{langid}{english}
       \field{month}{11}
       \field{number}{11}
-      \field{title}{Beta Burst Dynamics in {{Parkinson}}’s Disease {{OFF}} and {{ON}} Dopaminergic Medication}
+      \field{title}{Beta Burst Dynamics in {{Parkinson}}'s Disease {{OFF}} and {{ON}} Dopaminergic Medication}
       \field{urlday}{18}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{140}
       \field{year}{2017}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{2968\bibrangedash 2981}
       \range{pages}{14}
@@ -1060,12 +1011,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/GIMWBHBM/Tinkhauser et al. - 2017 - Beta burst dynamics in Parkinson’s disease OFF and ON dopaminergic medication.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
-      \endverb
-      \verb{url}
-      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
       \endverb
     \endentry
     \entry{who_parkinson_2023}{misc}{}
@@ -1098,7 +1043,7 @@
       \verb https://www.who.int/news-room/fact-sheets/detail/parkinson-disease
       \endverb
     \endentry
-    \entry{wuMixedSelectivitySubthalamic2025}{online}{}
+    \entry{wuMixedSelectivitySubthalamic2025}{misc}{}
       \name{author}{3}{}{%
         {{un=1,uniquepart=given,hash=afe1a78cb8f912ec3d08a2eeedaec9dd}{%
            family={Wu},
@@ -1119,6 +1064,9 @@
            giveni={Y\bibinithyphendelim W\bibinitperiod},
            givenun=0}}%
       }
+      \list{publisher}{1}{%
+        {Neuroscience}%
+      }
       \strng{namehash}{ea8725e5be88d3a9d5126a5321680b9f}
       \strng{fullhash}{e23576efb135327c27439b188418d509}
       \strng{bibnamehash}{e23576efb135327c27439b188418d509}
@@ -1131,8 +1079,7 @@
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Summary The subthalamic nucleus (STN) plays a critical role in modulating motor and cognitive functions within the basal ganglia, with its dysfunction being implicated in movement disorders such as Parkinson’s disease. However, the behavioral representations of individual STN neurons remain incompletely understood. Using in vivo two-photon calcium imaging in behaving mice, we systematically mapped the activity of single STN neurons across diverse behavioral contexts, including locomotion, licking, and reward-driven actions. Our findings reveal that STN neurons exhibit mixed selectivity, encoding multiple behaviors with distinct temporal dynamics and excitatory or inhibitory response patterns. This mixed selectivity allows the STN to robustly encode motor parameters such as locomotion speed and licking intensity while integrating contextual information from different behavioral states. Comparisons with the adjacent zona incerta (ZI) revealed distinct encoding properties: while both regions represent locomotion, STN neurons more faithfully track motor states, whereas ZI neurons exhibit prolonged calcium events with weaker movement correlations. Population-level analysis showed STN activity in a low-dimensional neural manifold, with components linked to movement velocity and licking intensity. Notably, locomotion encoding in STN was context-dependent, diverging when movements were internally generated versus reward-modulated. Together, these findings highlight the specialized yet flexible role of the STN in integrating motor and reward-related signals, supporting a framework in which STN neurons contribute to motor control through multiplexed and context-dependent encoding. This work provides new insights into the functional organization of basal ganglia circuits and has implications for understanding STN’s role in both physiological and pathological conditions.}
-      \field{day}{13}
+      \field{abstract}{Summary The subthalamic nucleus (STN) plays a critical role in modulating motor and cognitive functions within the basal ganglia, with its dysfunction being implicated in movement disorders such as Parkinson's disease. However, the behavioral representations of individual STN neurons remain incompletely understood. Using in vivo two-photon calcium imaging in behaving mice, we systematically mapped the activity of single STN neurons across diverse behavioral contexts, including locomotion, licking, and reward-driven actions. Our findings reveal that STN neurons exhibit mixed selectivity, encoding multiple behaviors with distinct temporal dynamics and excitatory or inhibitory response patterns. This mixed selectivity allows the STN to robustly encode motor parameters such as locomotion speed and licking intensity while integrating contextual information from different behavioral states. Comparisons with the adjacent zona incerta (ZI) revealed distinct encoding properties: while both regions represent locomotion, STN neurons more faithfully track motor states, whereas ZI neurons exhibit prolonged calcium events with weaker movement correlations. Population-level analysis showed STN activity in a low-dimensional neural manifold, with components linked to movement velocity and licking intensity. Notably, locomotion encoding in STN was context-dependent, diverging when movements were internally generated versus reward-modulated. Together, these findings highlight the specialized yet flexible role of the STN in integrating motor and reward-related signals, supporting a framework in which STN neurons contribute to motor control through multiplexed and context-dependent encoding. This work provides new insights into the functional organization of basal ganglia circuits and has implications for understanding STN's role in both physiological and pathological conditions.}
       \field{eprinttype}{Neuroscience}
       \field{langid}{english}
       \field{month}{2}
@@ -1141,19 +1088,12 @@
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{year}{2025}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \verb{doi}
       \verb 10.1101/2025.02.12.637797
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/JGI3E6TD/2025.02.12.637797v1.full.pdf
-      \endverb
-      \verb{urlraw}
-      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
-      \endverb
-      \verb{url}
-      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
       \endverb
     \endentry
     \entry{wuComputationalModelsAdvance2024}{article}{}
@@ -1189,29 +1129,20 @@
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{26}
       \field{issn}{0954-898X, 1361-6536}
       \field{journaltitle}{Network: Computation in Neural Systems}
       \field{langid}{english}
       \field{month}{6}
-      \field{shortjournal}{Network: Computation in Neural Systems}
-      \field{title}{Computational Models Advance Deep Brain Stimulation for {{Parkinson}}’s Disease}
+      \field{title}{Computational Models Advance Deep Brain Stimulation for {{Parkinson}}'s Disease}
       \field{urlday}{28}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{1\bibrangedash 32}
       \range{pages}{32}
       \verb{doi}
       \verb 10.1080/0954898X.2024.2361799
-      \endverb
-      \verb{urlraw}
-      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
-      \endverb
-      \verb{url}
-      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
       \endverb
     \endentry
     \entry{zarzyckiStimulationinducedSideEffects2020}{article}{}
@@ -1242,31 +1173,23 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Abstract Objective: Deep brain stimulation (DBS) was approved by Food and Drug Administration for Parkinson’s disease, essential tremor, primary generalised or segmental dystonia and obsessive-compulsive disorder (OCD) treatment. The exact mechanism of DBS remains unclear which causes side effects. The aim of this review was to assess variables causing stimulation-induced chronic psychiatric/personality-changing side effects. Methods: The analysis of scientific database (PubMed, Cochrane Library, EMBASE) was conducted. The included articles had to be research study or case report and DBS to be conducted in therapeutic purposes. The researches with mental disorders in patients’ medical histories were excluded. Results: Seventeen articles were used in the review. In the group of movement disorders the characteristic of side effects was strongly related to the placement of the electrode implantation. Tiredness/fatigue was correlated with DBS in thalamus. Implantations in subthalamic nucleus were mostly followed by affective side effects such as depression or suicide. The higher voltage of electrode was connected with more severe depression after implantation. The analysis of affective disorder contained only three articles – two about OCD and one about depression. Forgetfulness and word-finding problems as activities connected with cognition may be an inevitable side effect if obsessive thoughts are to be inhibited. Conclusion: DBS of subthalamic nucleus should be seen as the most hazardous place of implantation. As a result there is a strong need of ‘gold standards’ based on the connectivity research and closer cooperation of scientists and clinicians.}
+      \field{abstract}{Abstract Objective: Deep brain stimulation (DBS) was approved by Food and Drug Administration for Parkinson's disease, essential tremor, primary generalised or segmental dystonia and obsessive-compulsive disorder (OCD) treatment. The exact mechanism of DBS remains unclear which causes side effects. The aim of this review was to assess variables causing stimulation-induced chronic psychiatric/personality-changing side effects. Methods: The analysis of scientific database (PubMed, Cochrane Library, EMBASE) was conducted. The included articles had to be research study or case report and DBS to be conducted in therapeutic purposes. The researches with mental disorders in patients' medical histories were excluded. Results: Seventeen articles were used in the review. In the group of movement disorders the characteristic of side effects was strongly related to the placement of the electrode implantation. Tiredness/fatigue was correlated with DBS in thalamus. Implantations in subthalamic nucleus were mostly followed by affective side effects such as depression or suicide. The higher voltage of electrode was connected with more severe depression after implantation. The analysis of affective disorder contained only three articles -- two about OCD and one about depression. Forgetfulness and word-finding problems as activities connected with cognition may be an inevitable side effect if obsessive thoughts are to be inhibited. Conclusion: DBS of subthalamic nucleus should be seen as the most hazardous place of implantation. As a result there is a strong need of `gold standards' based on the connectivity research and closer cooperation of scientists and clinicians.}
       \field{issn}{0924-2708, 1601-5215}
       \field{journaltitle}{Acta Neuropsychiatrica}
       \field{langid}{english}
       \field{month}{4}
       \field{number}{2}
-      \field{shortjournal}{Acta Neuropsychiatr.}
-      \field{title}{Stimulation-Induced Side Effects after Deep Brain Stimulation – a Systematic Review}
+      \field{title}{Stimulation-Induced Side Effects after Deep Brain Stimulation -- a Systematic Review}
       \field{urlday}{28}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{32}
       \field{year}{2020}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{57\bibrangedash 64}
       \range{pages}{8}
       \verb{doi}
       \verb 10.1017/neu.2019.35
-      \endverb
-      \verb{urlraw}
-      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
-      \endverb
-      \verb{url}
-      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
       \endverb
     \endentry
   \enddatalist
@@ -1274,8 +1197,8 @@
     \entry{ben-shlomoEpidemiologyParkinsonsDisease2024}{article}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=89d0d9be24d5fd636bc93c9b0bfd71ed}{%
-           family={Ben-Shlomo},
-           familyi={B\bibinithyphendelim S\bibinitperiod},
+           family={{Ben-Shlomo}},
+           familyi={B\bibinitperiod},
            given={Yoav},
            giveni={Y\bibinitperiod},
            givenun=0}}%
@@ -1286,8 +1209,8 @@
            giveni={S\bibinitperiod},
            givenun=0}}%
         {{un=0,uniquepart=base,hash=8830abb0dcdbef4daf869b2390aeb759}{%
-           family={Llibre-Guerra},
-           familyi={L\bibinithyphendelim G\bibinitperiod},
+           family={{Llibre-Guerra}},
+           familyi={L\bibinitperiod},
            given={Jorge},
            giveni={J\bibinitperiod},
            givenun=0}}%
@@ -1328,14 +1251,12 @@
       \field{langid}{english}
       \field{month}{1}
       \field{number}{10423}
-      \field{shortjournal}{The Lancet}
       \field{title}{The Epidemiology of {{Parkinson}}'s Disease}
       \field{urlday}{27}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{403}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{283\bibrangedash 292}
       \range{pages}{10}
@@ -1344,12 +1265,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/PJFXWB3W/Ben-Shlomo et al. - 2024 - The epidemiology of Parkinson's disease.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
-      \endverb
-      \verb{url}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0140673623014198
       \endverb
     \endentry
     \entry{chikenMechanismDeepBrain2016}{article}{}
@@ -1383,13 +1298,12 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Deep brain stimulation (DBS), applying high-frequency electrical stimulation to deep brain structures, has now provided an effective therapeutic option for treatment of various neurological and psychiatric disorders. DBS targeting the internal segment of the globus pallidus, subthalamic nucleus, and thalamus is used to treat symptoms of movement disorders, such as Parkinson’s disease, dystonia, and tremor. However, the mechanism underlying the beneficial effects of DBS remains poorly understood and is still under debate: Does DBS inhibit or excite local neuronal elements? In this short review, we would like to introduce our recent work on the physiological mechanism of DBS and propose an alternative explanation: DBS dissociates input and output signals, resulting in the disruption of abnormal information flow through the stimulation site.}
+      \field{abstract}{Deep brain stimulation (DBS), applying high-frequency electrical stimulation to deep brain structures, has now provided an effective therapeutic option for treatment of various neurological and psychiatric disorders. DBS targeting the internal segment of the globus pallidus, subthalamic nucleus, and thalamus is used to treat symptoms of movement disorders, such as Parkinson's disease, dystonia, and tremor. However, the mechanism underlying the beneficial effects of DBS remains poorly understood and is still under debate: Does DBS inhibit or excite local neuronal elements? In this short review, we would like to introduce our recent work on the physiological mechanism of DBS and propose an alternative explanation: DBS dissociates input and output signals, resulting in the disruption of abnormal information flow through the stimulation site.}
       \field{issn}{1073-8584, 1089-4098}
       \field{journaltitle}{The Neuroscientist}
       \field{langid}{english}
       \field{month}{6}
       \field{number}{3}
-      \field{shortjournal}{Neuroscientist}
       \field{shorttitle}{Mechanism of {{Deep Brain Stimulation}}}
       \field{title}{Mechanism of {{Deep Brain Stimulation}}: {{Inhibition}}, {{Excitation}}, or {{Disruption}}?}
       \field{urlday}{18}
@@ -1397,7 +1311,6 @@
       \field{urlyear}{2025}
       \field{volume}{22}
       \field{year}{2016}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{313\bibrangedash 322}
       \range{pages}{10}
@@ -1407,14 +1320,8 @@
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/8RWL2T8R/Chiken and Nambu - 2016 - Mechanism of Deep Brain Stimulation Inhibition, Excitation, or Disruption.pdf
       \endverb
-      \verb{urlraw}
-      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
-      \endverb
-      \verb{url}
-      \verb https://journals.sagepub.com/doi/10.1177/1073858415581986
-      \endverb
     \endentry
-    \entry{doldLFPECoGData2024}{dataset}{}
+    \entry{doldLFPECoGData2024}{misc}{}
       \name{author}{7}{}{%
         {{un=0,uniquepart=base,hash=35923b3ac53b7db3a1c2605cf5a0b809}{%
            family={Dold},
@@ -1475,28 +1382,19 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{This data set contains raw data and analysis scripts used for the publication of the Dareplane platform (https://arxiv.org/abs/2408.01242). The data contains performance benchmarks of typical experimental setups on Dareplane for aDBS which are evaluated in three benchtop experiments, covering (a) an easy-to-replicate setup using an Arduino microcontroller, (b) a setup with hardware of an implantable pulse generator, and (c) a setup using an established and CE certified external neurostimulator. Benchmark results are presented for individual processing steps and full closed-loop processing with data stored in XDF files. The full technical feasibility of the platform in the aDBS context is demonstrated in a first closed-loop session with externalized leads on a patient with Parkinson’s disease receiving DBS treatment. The recordings including local field potentials (LFP - 16 channels), electrocorticography (ECoG - 4 channels), electrooculography (EOG - 4 channels) recorded from a Neuro Omega (Alpha Omega, Israel), as well as behavioral data during the CopyDraw task (Castaño Candamil et al., 2019, IEEE). Additional two sessions with open loop DBS are contained in this data set and also include heart rate (HR), respiratory rate (RR) and galvanic skin response (GSR) recorded with a BrainAmp ExG (Brain Products, Germany). Finally, the set contains EEG and behavioral recordings of a c-VEP speller experiment as XDF files. The EEG data was recorded from 8 channels (Fz, T7, T8, POz, O1, Oz, O2, Iz) placed according to the 10-10 system, using a BioSemi ActiveTwo amplifier recording at 512 Hz.}
-      \field{day}{12}
+      \field{abstract}{This data set contains raw data and analysis scripts used for the publication of the Dareplane platform (https://arxiv.org/abs/2408.01242). The data contains performance benchmarks of typical experimental setups on Dareplane for aDBS which are evaluated in three benchtop experiments, covering (a) an easy-to-replicate setup using an Arduino microcontroller, (b) a setup with hardware of an implantable pulse generator, and (c) a setup using an established and CE certified external neurostimulator. Benchmark results are presented for individual processing steps and full closed-loop processing with data stored in XDF files. The full technical feasibility of the platform in the aDBS context is demonstrated in a first closed-loop session with externalized leads on a patient with Parkinson's disease receiving DBS treatment. The recordings including local field potentials (LFP - 16 channels), electrocorticography (ECoG - 4 channels), electrooculography (EOG - 4 channels) recorded from a Neuro Omega (Alpha Omega, Israel), as well as behavioral data during the CopyDraw task (Castaño Candamil et al., 2019, IEEE). Additional two sessions with open loop DBS are contained in this data set and also include heart rate (HR), respiratory rate (RR) and galvanic skin response (GSR) recorded with a BrainAmp ExG (Brain Products, Germany). Finally, the set contains EEG and behavioral recordings of a c-VEP speller experiment as XDF files. The EEG data was recorded from 8 channels (Fz, T7, T8, POz, O1, Oz, O2, Iz) placed according to the 10-10 system, using a BioSemi ActiveTwo amplifier recording at 512 Hz.}
       \field{langid}{english}
       \field{month}{9}
       \field{title}{{{LFP}} and {{ECoG}} Data during {{CopyDraw}} Task with Deep Brain Stimulation - {{Dareplane}} Data for Proof of Concept Paper}
       \field{urlday}{3}
       \field{urlmonth}{8}
       \field{urlyear}{2025}
-      \field{version}{1}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{34 GB\bibrangessep 742 files}
       \range{pages}{-1}
       \verb{doi}
       \verb 10.34973/D214-M342
-      \endverb
-      \verb{urlraw}
-      \verb https://data.ru.nl/collections/di/dcc/DSC_2024.00167_912
-      \endverb
-      \verb{url}
-      \verb https://data.ru.nl/collections/di/dcc/DSC_2024.00167_912
       \endverb
       \keyw{c-VEP,CopyDraw,ECoG,EEG,LFP}
     \endentry
@@ -1540,19 +1438,17 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{\textbf{\mkbibemph{Background:}} The Medtronic “Percept” is the first FDA-approved deep brain stimulation (DBS) device with sensing capabilities during active stimulation. Its real-world signal-recording properties have yet to be fully described. \textbf{\mkbibemph{Objective:}} This study details three sources of artifact (and potential mitigations) in local field potential (LFP) signals collected by the Percept and assesses the potential impact of artifact on the future development of adaptive DBS (aDBS) using this device. \textbf{\mkbibemph{Methods:}} LFP signals were collected from 7 subjects in both experimental and clinical settings. The presence of artifacts and their effect on the spectral content of neural signals were evaluated in both the stimulation ON and OFF states using three distinct offline artifact removal techniques. \textbf{\mkbibemph{Results:}} Template subtraction successfully removed multiple sources of artifact, including (1) electrocardiogram (ECG), (2) nonphysiologic polyphasic artifacts, and (3) ramping-related artifacts seen when changing stimulation amplitudes. ECG removal from stimulation ON (at 0 mA) signals resulted in spectral shapes similar to OFF stimulation spectra (averaged difference in normalized power in theta, alpha, and beta bands ≤3.5\%). ECG removal using singular value decomposition was similarly successful, though required subjective researcher input. QRS interpolation produced similar recovery of beta-band signal but resulted in residual low-frequency artifact. \textbf{\mkbibemph{Conclusions:}} Artifacts present when stimulation is enabled notably affected the spectral properties of sensed signals using the Percept. Multiple discrete artifacts could be successfully removed offline using an automated template subtraction method. The presence of unrejected artifact likely influences online power estimates, with the potential to affect aDBS algorithm performance.}
+      \field{abstract}{\textbf{\emph{Background:}} The Medtronic ``Percept'' is the first FDA-approved deep brain stimulation (DBS) device with sensing capabilities during active stimulation. Its real-world signal-recording properties have yet to be fully described. \textbf{\emph{Objective:}} This study details three sources of artifact (and potential mitigations) in local field potential (LFP) signals collected by the Percept and assesses the potential impact of artifact on the future development of adaptive DBS (aDBS) using this device. \textbf{\emph{Methods:}} LFP signals were collected from 7 subjects in both experimental and clinical settings. The presence of artifacts and their effect on the spectral content of neural signals were evaluated in both the stimulation ON and OFF states using three distinct offline artifact removal techniques. \textbf{\emph{Results:}} Template subtraction successfully removed multiple sources of artifact, including (1) electrocardiogram (ECG), (2) nonphysiologic polyphasic artifacts, and (3) ramping-related artifacts seen when changing stimulation amplitudes. ECG removal from stimulation ON (at 0 mA) signals resulted in spectral shapes similar to OFF stimulation spectra (averaged difference in normalized power in theta, alpha, and beta bands {$\leq$}3.5\%). ECG removal using singular value decomposition was similarly successful, though required subjective researcher input. QRS interpolation produced similar recovery of beta-band signal but resulted in residual low-frequency artifact. \textbf{\emph{Conclusions:}} Artifacts present when stimulation is enabled notably affected the spectral properties of sensed signals using the Percept. Multiple discrete artifacts could be successfully removed offline using an automated template subtraction method. The presence of unrejected artifact likely influences online power estimates, with the potential to affect aDBS algorithm performance.}
       \field{issn}{1011-6125, 1423-0372}
       \field{journaltitle}{Stereotactic and Functional Neurosurgery}
       \field{langid}{english}
       \field{number}{3}
-      \field{shortjournal}{Stereotact Funct Neurosurg}
       \field{title}{Artifact {{Characterization}} and a {{Multipurpose Template-Based Offline Removal Solution}} for a {{Sensing-Enabled Deep Brain Stimulation Device}}}
       \field{urlday}{3}
       \field{urlmonth}{8}
       \field{urlyear}{2025}
       \field{volume}{100}
       \field{year}{2022}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{168\bibrangedash 183}
       \range{pages}{16}
@@ -1561,12 +1457,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/PD3XWHTF/Hammer et al. - 2022 - Artifact Characterization and a Multipurpose Template-Based Offline Removal Solution for a Sensing-E.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://karger.com/article/doi/10.1159/000521431
-      \endverb
-      \verb{url}
-      \verb https://karger.com/article/doi/10.1159/000521431
       \endverb
     \endentry
     \entry{littleAdaptiveDeepBrain2013}{article}{}
@@ -1666,7 +1556,7 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{ObjectiveBrain–computer interfaces (BCIs) could potentially be used to interact with pathological brain signals to intervene and ameliorate their effects in disease states. Here, we provide proof‐of‐principle of this approach by using a BCI to interpret pathological brain activity in patients with advanced Parkinson disease (PD) and to use this feedback to control when therapeutic deep brain stimulation (DBS) is delivered. Our goal was to demonstrate that by personalizing and optimizing stimulation in real time, we could improve on both the efficacy and efficiency of conventional continuous DBS.MethodsWe tested BCI‐controlled adaptive DBS (aDBS) of the subthalamic nucleus in 8 PD patients. Feedback was provided by processing of the local field potentials recorded directly from the stimulation electrodes. The results were compared to no stimulation, conventional continuous stimulation (cDBS), and random intermittent stimulation. Both unblinded and blinded clinical assessments of motor effect were performed using the Unified Parkinson's Disease Rating Scale.ResultsMotor scores improved by 66\% (unblinded) and 50\% (blinded) during aDBS, which were 29\% (p = 0.03) and 27\% (p = 0.005) better than cDBS, respectively. These improvements were achieved with a 56\% reduction in stimulation time compared to cDBS, and a corresponding reduction in energy requirements (p {$<$} 0.001). aDBS was also more effective than no stimulation and random intermittent stimulation.InterpretationBCI‐controlled DBS is tractable and can be more efficient and efficacious than conventional continuous neuromodulation for PD. Ann Neurol 2013;74:449–457}
+      \field{abstract}{ObjectiveBrain--computer interfaces (BCIs) could potentially be used to interact with pathological brain signals to intervene and ameliorate their effects in disease states. Here, we provide proof-of-principle of this approach by using a BCI to interpret pathological brain activity in patients with advanced Parkinson disease (PD) and to use this feedback to control when therapeutic deep brain stimulation (DBS) is delivered. Our goal was to demonstrate that by personalizing and optimizing stimulation in real time, we could improve on both the efficacy and efficiency of conventional continuous DBS.MethodsWe tested BCI-controlled adaptive DBS (aDBS) of the subthalamic nucleus in 8 PD patients. Feedback was provided by processing of the local field potentials recorded directly from the stimulation electrodes. The results were compared to no stimulation, conventional continuous stimulation (cDBS), and random intermittent stimulation. Both unblinded and blinded clinical assessments of motor effect were performed using the Unified Parkinson's Disease Rating Scale.ResultsMotor scores improved by 66\% (unblinded) and 50\% (blinded) during aDBS, which were 29\% (p = 0.03) and 27\% (p = 0.005) better than cDBS, respectively. These improvements were achieved with a 56\% reduction in stimulation time compared to cDBS, and a corresponding reduction in energy requirements (p {$<$} 0.001). aDBS was also more effective than no stimulation and random intermittent stimulation.InterpretationBCI-controlled DBS is tractable and can be more efficient and efficacious than conventional continuous neuromodulation for PD. Ann Neurol 2013;74:449--457}
       \field{issn}{0364-5134, 1531-8249}
       \field{journaltitle}{Annals of Neurology}
       \field{langid}{english}
@@ -1678,7 +1568,6 @@
       \field{urlyear}{2025}
       \field{volume}{74}
       \field{year}{2013}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{449\bibrangedash 457}
       \range{pages}{9}
@@ -1687,12 +1576,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/BLQY2C2L/Little et al. - 2013 - Adaptive deep brain stimulation in advanced Parkinson disease.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
-      \endverb
-      \verb{url}
-      \verb https://onlinelibrary.wiley.com/doi/10.1002/ana.23951
       \endverb
     \endentry
     \entry{ljungMeasureLackFit1978}{article}{}
@@ -1723,31 +1606,71 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{1}
       \field{issn}{0006-3444, 1464-3510}
       \field{journaltitle}{Biometrika}
       \field{langid}{english}
       \field{month}{8}
       \field{number}{2}
-      \field{shortjournal}{Biometrika}
       \field{title}{On a Measure of Lack of Fit in Time Series Models}
       \field{urlday}{1}
       \field{urlmonth}{9}
       \field{urlyear}{2025}
       \field{volume}{65}
       \field{year}{1978}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{297\bibrangedash 303}
       \range{pages}{7}
       \verb{doi}
       \verb 10.1093/biomet/65.2.297
       \endverb
-      \verb{urlraw}
-      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
+    \endentry
+    \entry{marisNonparametricStatisticalTesting2007}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f99b84e96dc66c57bedfc7ca8f2ee295}{%
+           family={Maris},
+           familyi={M\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05b1c01a0a7d7078ddff198775251440}{%
+           family={Oostenveld},
+           familyi={O\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{07ce04a486da67c882db5a059038abff}
+      \strng{fullhash}{07ce04a486da67c882db5a059038abff}
+      \strng{bibnamehash}{07ce04a486da67c882db5a059038abff}
+      \strng{authorbibnamehash}{07ce04a486da67c882db5a059038abff}
+      \strng{authornamehash}{07ce04a486da67c882db5a059038abff}
+      \strng{authorfullhash}{07ce04a486da67c882db5a059038abff}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{01650270}
+      \field{journaltitle}{Journal of Neuroscience Methods}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{number}{1}
+      \field{title}{Nonparametric Statistical Testing of {{EEG-}} and {{MEG-data}}}
+      \field{urlday}{10}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{164}
+      \field{year}{2007}
+      \field{urldateera}{ce}
+      \field{pages}{177\bibrangedash 190}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/j.jneumeth.2007.03.024
       \endverb
-      \verb{url}
-      \verb https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/65.2.297
+      \verb{file}
+      \verb /home/giedriusmirklys/Zotero/storage/7QS8NAJ6/Maris and Oostenveld - 2007 - Nonparametric statistical testing of EEG- and MEG-data.pdf
       \endverb
     \endentry
     \entry{mcintyreNetworkPerspectivesMechanisms2010}{article}{}
@@ -1792,7 +1715,6 @@
       \field{urlyear}{2025}
       \field{volume}{38}
       \field{year}{2010}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{329\bibrangedash 337}
       \range{pages}{9}
@@ -1801,12 +1723,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/BDFVS8VT/McIntyre and Hahn - 2010 - Network perspectives on the mechanisms of deep brain stimulation.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
-      \endverb
-      \verb{url}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S0969996109002745
       \endverb
     \endentry
     \entry{paulsCorticalBetaBurst2022}{article}{}
@@ -1886,7 +1802,6 @@
       \field{urlyear}{2025}
       \field{volume}{257}
       \field{year}{2022}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{119308}
       \range{pages}{1}
@@ -1895,12 +1810,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/2GY5W5JK/Pauls et al. - 2022 - Cortical beta burst dynamics are altered in Parkinson's disease but normalized by deep brain stimula.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
-      \endverb
-      \verb{url}
-      \verb https://linkinghub.elsevier.com/retrieve/pii/S105381192200427X
       \endverb
     \endentry
     \entry{qianMethodRemovalDeep2017}{article}{}
@@ -1959,25 +1868,17 @@
       \field{journaltitle}{IEEE Transactions on Neural Systems and Rehabilitation Engineering}
       \field{month}{12}
       \field{number}{12}
-      \field{shortjournal}{IEEE Trans. Neural Syst. Rehabil. Eng.}
       \field{title}{A {{Method}} for {{Removal}} of {{Deep Brain Stimulation Artifact From Local Field Potentials}}}
       \field{urlday}{3}
       \field{urlmonth}{8}
       \field{urlyear}{2025}
       \field{volume}{25}
       \field{year}{2017}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{2217\bibrangedash 2226}
       \range{pages}{10}
       \verb{doi}
       \verb 10.1109/TNSRE.2016.2613412
-      \endverb
-      \verb{urlraw}
-      \verb https://ieeexplore.ieee.org/document/7575734/
-      \endverb
-      \verb{url}
-      \verb https://ieeexplore.ieee.org/document/7575734/
       \endverb
     \endentry
     \entry{saniModelingBehaviorallyRelevant2021}{article}{}
@@ -2035,14 +1936,12 @@
       \field{langid}{english}
       \field{month}{1}
       \field{number}{1}
-      \field{shortjournal}{Nat Neurosci}
       \field{title}{Modeling Behaviorally Relevant Neural Dynamics Enabled by Preferential Subspace Identification}
       \field{urlday}{18}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{24}
       \field{year}{2021}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{140\bibrangedash 149}
       \range{pages}{10}
@@ -2051,12 +1950,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/WJ2JWZK9/Sani et al. - 2021 - Modeling behaviorally relevant neural dynamics enabled by preferential subspace identification.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.nature.com/articles/s41593-020-00733-0
-      \endverb
-      \verb{url}
-      \verb https://www.nature.com/articles/s41593-020-00733-0
       \endverb
     \endentry
     \entry{saniDissociativePrioritizedModeling2024}{article}{}
@@ -2097,20 +1990,18 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{AbstractUnderstanding the dynamical transformation of neural activity to behavior requires new capabilities to nonlinearly model, dissociate and prioritize behaviorally relevant neural dynamics and test hypotheses about the origin of nonlinearity. We present dissociative prioritized analysis of dynamics (DPAD), a nonlinear dynamical modeling approach that enables these capabilities with a multisection neural network architecture and training approach. Analyzing cortical spiking and local field potential activity across four movement tasks, we demonstrate five use-cases. DPAD enabled more accurate neural–behavioral prediction. It identified nonlinear dynamical transformations of local field potentials that were more behavior predictive than traditional power features. Further, DPAD achieved behavior-predictive nonlinear neural dimensionality reduction. It enabled hypothesis testing regarding nonlinearities in neural–behavioral transformation, revealing that, in our datasets, nonlinearities could largely be isolated to the mapping from latent cortical dynamics to behavior. Finally, DPAD extended across continuous, intermittently sampled and categorical behaviors. DPAD provides a powerful tool for nonlinear dynamical modeling and investigation of neural–behavioral data.}
+      \field{abstract}{AbstractUnderstanding the dynamical transformation of neural activity to behavior requires new capabilities to nonlinearly model, dissociate and prioritize behaviorally relevant neural dynamics and test hypotheses about the origin of nonlinearity. We present dissociative prioritized analysis of dynamics (DPAD), a nonlinear dynamical modeling approach that enables these capabilities with a multisection neural network architecture and training approach. Analyzing cortical spiking and local field potential activity across four movement tasks, we demonstrate five use-cases. DPAD enabled more accurate neural--behavioral prediction. It identified nonlinear dynamical transformations of local field potentials that were more behavior predictive than traditional power features. Further, DPAD achieved behavior-predictive nonlinear neural dimensionality reduction. It enabled hypothesis testing regarding nonlinearities in neural--behavioral transformation, revealing that, in our datasets, nonlinearities could largely be isolated to the mapping from latent cortical dynamics to behavior. Finally, DPAD extended across continuous, intermittently sampled and categorical behaviors. DPAD provides a powerful tool for nonlinear dynamical modeling and investigation of neural--behavioral data.}
       \field{issn}{1097-6256, 1546-1726}
       \field{journaltitle}{Nature Neuroscience}
       \field{langid}{english}
       \field{month}{10}
       \field{number}{10}
-      \field{shortjournal}{Nat Neurosci}
       \field{title}{Dissociative and Prioritized Modeling of Behaviorally Relevant Neural Dynamics Using Recurrent Neural Networks}
       \field{urlday}{18}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{27}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{2033\bibrangedash 2045}
       \range{pages}{13}
@@ -2119,12 +2010,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/T23TMNL5/Sani et al. - 2024 - Dissociative and prioritized modeling of behaviorally relevant neural dynamics using recurrent neura.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.nature.com/articles/s41593-024-01731-2
-      \endverb
-      \verb{url}
-      \verb https://www.nature.com/articles/s41593-024-01731-2
       \endverb
     \endentry
     \entry{swannGammaOscillationsHyperkinetic2016}{article}{}
@@ -2206,20 +2091,17 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{15}
       \field{issn}{0270-6474, 1529-2401}
       \field{journaltitle}{The Journal of Neuroscience}
       \field{langid}{english}
       \field{month}{6}
       \field{number}{24}
-      \field{shortjournal}{J. Neurosci.}
       \field{title}{Gamma {{Oscillations}} in the {{Hyperkinetic State Detected}} with {{Chronic Human Brain Recordings}} in {{Parkinson}}'s {{Disease}}}
       \field{urlday}{21}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{36}
       \field{year}{2016}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{6445\bibrangedash 6458}
       \range{pages}{14}
@@ -2228,12 +2110,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/HA8WZTTA/Swann et al. - 2016 - Gamma Oscillations in the Hyperkinetic State Detected with Chronic Human Brain Recordings in Parkins.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
-      \endverb
-      \verb{url}
-      \verb https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.1128-16.2016
       \endverb
     \endentry
     \entry{tinkhauserBetaBurstDynamics2017}{article}{}
@@ -2291,19 +2167,17 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{1}
       \field{issn}{0006-8950, 1460-2156}
       \field{journaltitle}{Brain}
       \field{langid}{english}
       \field{month}{11}
       \field{number}{11}
-      \field{title}{Beta Burst Dynamics in {{Parkinson}}’s Disease {{OFF}} and {{ON}} Dopaminergic Medication}
+      \field{title}{Beta Burst Dynamics in {{Parkinson}}'s Disease {{OFF}} and {{ON}} Dopaminergic Medication}
       \field{urlday}{18}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{140}
       \field{year}{2017}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{2968\bibrangedash 2981}
       \range{pages}{14}
@@ -2312,12 +2186,6 @@
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/GIMWBHBM/Tinkhauser et al. - 2017 - Beta burst dynamics in Parkinson’s disease OFF and ON dopaminergic medication.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
-      \endverb
-      \verb{url}
-      \verb https://academic.oup.com/brain/article/140/11/2968/4430808
       \endverb
     \endentry
     \entry{who_parkinson_2023}{misc}{}
@@ -2350,7 +2218,7 @@
       \verb https://www.who.int/news-room/fact-sheets/detail/parkinson-disease
       \endverb
     \endentry
-    \entry{wuMixedSelectivitySubthalamic2025}{online}{}
+    \entry{wuMixedSelectivitySubthalamic2025}{misc}{}
       \name{author}{3}{}{%
         {{un=1,uniquepart=given,hash=afe1a78cb8f912ec3d08a2eeedaec9dd}{%
            family={Wu},
@@ -2371,6 +2239,9 @@
            giveni={Y\bibinithyphendelim W\bibinitperiod},
            givenun=0}}%
       }
+      \list{publisher}{1}{%
+        {Neuroscience}%
+      }
       \strng{namehash}{ea8725e5be88d3a9d5126a5321680b9f}
       \strng{fullhash}{e23576efb135327c27439b188418d509}
       \strng{bibnamehash}{e23576efb135327c27439b188418d509}
@@ -2383,8 +2254,7 @@
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Summary The subthalamic nucleus (STN) plays a critical role in modulating motor and cognitive functions within the basal ganglia, with its dysfunction being implicated in movement disorders such as Parkinson’s disease. However, the behavioral representations of individual STN neurons remain incompletely understood. Using in vivo two-photon calcium imaging in behaving mice, we systematically mapped the activity of single STN neurons across diverse behavioral contexts, including locomotion, licking, and reward-driven actions. Our findings reveal that STN neurons exhibit mixed selectivity, encoding multiple behaviors with distinct temporal dynamics and excitatory or inhibitory response patterns. This mixed selectivity allows the STN to robustly encode motor parameters such as locomotion speed and licking intensity while integrating contextual information from different behavioral states. Comparisons with the adjacent zona incerta (ZI) revealed distinct encoding properties: while both regions represent locomotion, STN neurons more faithfully track motor states, whereas ZI neurons exhibit prolonged calcium events with weaker movement correlations. Population-level analysis showed STN activity in a low-dimensional neural manifold, with components linked to movement velocity and licking intensity. Notably, locomotion encoding in STN was context-dependent, diverging when movements were internally generated versus reward-modulated. Together, these findings highlight the specialized yet flexible role of the STN in integrating motor and reward-related signals, supporting a framework in which STN neurons contribute to motor control through multiplexed and context-dependent encoding. This work provides new insights into the functional organization of basal ganglia circuits and has implications for understanding STN’s role in both physiological and pathological conditions.}
-      \field{day}{13}
+      \field{abstract}{Summary The subthalamic nucleus (STN) plays a critical role in modulating motor and cognitive functions within the basal ganglia, with its dysfunction being implicated in movement disorders such as Parkinson's disease. However, the behavioral representations of individual STN neurons remain incompletely understood. Using in vivo two-photon calcium imaging in behaving mice, we systematically mapped the activity of single STN neurons across diverse behavioral contexts, including locomotion, licking, and reward-driven actions. Our findings reveal that STN neurons exhibit mixed selectivity, encoding multiple behaviors with distinct temporal dynamics and excitatory or inhibitory response patterns. This mixed selectivity allows the STN to robustly encode motor parameters such as locomotion speed and licking intensity while integrating contextual information from different behavioral states. Comparisons with the adjacent zona incerta (ZI) revealed distinct encoding properties: while both regions represent locomotion, STN neurons more faithfully track motor states, whereas ZI neurons exhibit prolonged calcium events with weaker movement correlations. Population-level analysis showed STN activity in a low-dimensional neural manifold, with components linked to movement velocity and licking intensity. Notably, locomotion encoding in STN was context-dependent, diverging when movements were internally generated versus reward-modulated. Together, these findings highlight the specialized yet flexible role of the STN in integrating motor and reward-related signals, supporting a framework in which STN neurons contribute to motor control through multiplexed and context-dependent encoding. This work provides new insights into the functional organization of basal ganglia circuits and has implications for understanding STN's role in both physiological and pathological conditions.}
       \field{eprinttype}{Neuroscience}
       \field{langid}{english}
       \field{month}{2}
@@ -2393,19 +2263,12 @@
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{year}{2025}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \verb{doi}
       \verb 10.1101/2025.02.12.637797
       \endverb
       \verb{file}
       \verb /home/giedriusmirklys/Zotero/storage/JGI3E6TD/2025.02.12.637797v1.full.pdf
-      \endverb
-      \verb{urlraw}
-      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
-      \endverb
-      \verb{url}
-      \verb http://biorxiv.org/lookup/doi/10.1101/2025.02.12.637797
       \endverb
     \endentry
     \entry{wuComputationalModelsAdvance2024}{article}{}
@@ -2441,29 +2304,20 @@
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{day}{26}
       \field{issn}{0954-898X, 1361-6536}
       \field{journaltitle}{Network: Computation in Neural Systems}
       \field{langid}{english}
       \field{month}{6}
-      \field{shortjournal}{Network: Computation in Neural Systems}
-      \field{title}{Computational Models Advance Deep Brain Stimulation for {{Parkinson}}’s Disease}
+      \field{title}{Computational Models Advance Deep Brain Stimulation for {{Parkinson}}'s Disease}
       \field{urlday}{28}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{year}{2024}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{1\bibrangedash 32}
       \range{pages}{32}
       \verb{doi}
       \verb 10.1080/0954898X.2024.2361799
-      \endverb
-      \verb{urlraw}
-      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
-      \endverb
-      \verb{url}
-      \verb https://www.tandfonline.com/doi/full/10.1080/0954898X.2024.2361799
       \endverb
     \endentry
     \entry{zarzyckiStimulationinducedSideEffects2020}{article}{}
@@ -2494,31 +2348,23 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Abstract Objective: Deep brain stimulation (DBS) was approved by Food and Drug Administration for Parkinson’s disease, essential tremor, primary generalised or segmental dystonia and obsessive-compulsive disorder (OCD) treatment. The exact mechanism of DBS remains unclear which causes side effects. The aim of this review was to assess variables causing stimulation-induced chronic psychiatric/personality-changing side effects. Methods: The analysis of scientific database (PubMed, Cochrane Library, EMBASE) was conducted. The included articles had to be research study or case report and DBS to be conducted in therapeutic purposes. The researches with mental disorders in patients’ medical histories were excluded. Results: Seventeen articles were used in the review. In the group of movement disorders the characteristic of side effects was strongly related to the placement of the electrode implantation. Tiredness/fatigue was correlated with DBS in thalamus. Implantations in subthalamic nucleus were mostly followed by affective side effects such as depression or suicide. The higher voltage of electrode was connected with more severe depression after implantation. The analysis of affective disorder contained only three articles – two about OCD and one about depression. Forgetfulness and word-finding problems as activities connected with cognition may be an inevitable side effect if obsessive thoughts are to be inhibited. Conclusion: DBS of subthalamic nucleus should be seen as the most hazardous place of implantation. As a result there is a strong need of ‘gold standards’ based on the connectivity research and closer cooperation of scientists and clinicians.}
+      \field{abstract}{Abstract Objective: Deep brain stimulation (DBS) was approved by Food and Drug Administration for Parkinson's disease, essential tremor, primary generalised or segmental dystonia and obsessive-compulsive disorder (OCD) treatment. The exact mechanism of DBS remains unclear which causes side effects. The aim of this review was to assess variables causing stimulation-induced chronic psychiatric/personality-changing side effects. Methods: The analysis of scientific database (PubMed, Cochrane Library, EMBASE) was conducted. The included articles had to be research study or case report and DBS to be conducted in therapeutic purposes. The researches with mental disorders in patients' medical histories were excluded. Results: Seventeen articles were used in the review. In the group of movement disorders the characteristic of side effects was strongly related to the placement of the electrode implantation. Tiredness/fatigue was correlated with DBS in thalamus. Implantations in subthalamic nucleus were mostly followed by affective side effects such as depression or suicide. The higher voltage of electrode was connected with more severe depression after implantation. The analysis of affective disorder contained only three articles -- two about OCD and one about depression. Forgetfulness and word-finding problems as activities connected with cognition may be an inevitable side effect if obsessive thoughts are to be inhibited. Conclusion: DBS of subthalamic nucleus should be seen as the most hazardous place of implantation. As a result there is a strong need of `gold standards' based on the connectivity research and closer cooperation of scientists and clinicians.}
       \field{issn}{0924-2708, 1601-5215}
       \field{journaltitle}{Acta Neuropsychiatrica}
       \field{langid}{english}
       \field{month}{4}
       \field{number}{2}
-      \field{shortjournal}{Acta Neuropsychiatr.}
-      \field{title}{Stimulation-Induced Side Effects after Deep Brain Stimulation – a Systematic Review}
+      \field{title}{Stimulation-Induced Side Effects after Deep Brain Stimulation -- a Systematic Review}
       \field{urlday}{28}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
       \field{volume}{32}
       \field{year}{2020}
-      \field{dateera}{ce}
       \field{urldateera}{ce}
       \field{pages}{57\bibrangedash 64}
       \range{pages}{8}
       \verb{doi}
       \verb 10.1017/neu.2019.35
-      \endverb
-      \verb{urlraw}
-      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
-      \endverb
-      \verb{url}
-      \verb https://www.cambridge.org/core/product/identifier/S0924270819000358/type/journal_article
       \endverb
     \endentry
   \enddatalist
