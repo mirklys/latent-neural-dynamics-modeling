@@ -1,3 +1,4 @@
+
 # Modeling Behavior-Relevant Latent Neural Dynamics in Parkinson's Disease
 
 ## Getting Started
@@ -15,4 +16,4 @@ cd latent-neural-dynamics-modeling
 
 ```bash
 bash environment/create_env.sh
-```
+
