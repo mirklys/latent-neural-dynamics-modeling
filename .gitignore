@@ -192,8 +192,20 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
-.vscode/
-data
-*.txt
-analysis_scripts
+
+*.mat
+*.npy
+*.joblib
+*.xdf
+*.p
 *.tar.gz
+*.hdf
+*.eeg
+*.vhdr
+*.vmrk
+
+block_*
+
+/data
+
+*.fif
