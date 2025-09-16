@@ -1,0 +1,9 @@
+root_directory: "/home/bobby/repos/latent-neural-dynamics-modeling"
+data_directory: "{root_directory}/data"
+save_directory: "{root_directory}/resampled_recordings"
+logger_directory: "{root_directory}/logs"
+participants_table_name: "participants.tsv"
+ieeg_process:
+  - low_freq: 3
+  - high_freq: 250
+  - resampled_freq: 1000
