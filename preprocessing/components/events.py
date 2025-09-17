@@ -16,7 +16,7 @@ EVENTS_SCHEMA = pl.List(
 
 def construct_events_table(participants: pl.DataFrame) -> pl.DataFrame:
     events_ = keep_rows_with(participants, type="events", data_format="tsv")
-    
+
     events_ = events_.select(
         "participant_id",
         "session",

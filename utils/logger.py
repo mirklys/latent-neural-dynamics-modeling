@@ -4,18 +4,25 @@ from datetime import datetime as dt
 from typing import Callable, Any
 from functools import wraps
 
+
 class MarkdownFormatter(logging.Formatter):
     """
     A custom formatter to clean up Polars markdown output by removing
     the header separator line.
     """
+
     def format(self, record):
         message = super().format(record)
-        lines = message.split('\n')
+        lines = message.split("\n")
         # Look for the separator line, which is typically something like "|---|---|"
-        if len(lines) > 2 and all(part.startswith('---') or part == '' for part in lines[1].strip().split('|') if part):
-            return '\n'.join([lines[0]] + lines[2:])
+        if len(lines) > 2 and all(
+            part.startswith("---") or part == ""
+            for part in lines[1].strip().split("|")
+            if part
+        ):
+            return "\n".join([lines[0]] + lines[2:])
         return message
+
 
 class Logger:
     def __init__(self, log_dir: str, name: str = "application"):
@@ -59,12 +66,14 @@ class Logger:
 
 _LOGGER_INSTANCE = None
 
+
 def setup_logger(log_dir: str, name: str = "application"):
     """Initializes the logger instance."""
     global _LOGGER_INSTANCE
     if _LOGGER_INSTANCE is None:
         _LOGGER_INSTANCE = Logger(log_dir, name)
     return _LOGGER_INSTANCE
+
 
 def get_logger():
     """Returns the single logger instance."""

@@ -15,9 +15,7 @@ def band_pass_resample(
         return None
 
     try:
-        raw = mne.io.read_raw_brainvision(
-            ieeg_path, preload=True, verbose=False
-        )
+        raw = mne.io.read_raw_brainvision(ieeg_path, preload=True, verbose=False)
 
         raw.notch_filter(freqs=notch_freqs, verbose=False)
         raw.filter(l_freq=low_freq, h_freq=high_freq)

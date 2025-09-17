@@ -40,7 +40,7 @@ class Config(dict):
 
     def __repr__(self):
         return f"Config({super().__repr__()})"
-    
+
     def __display_tree(self, indent=0):
         output = []
         for key, value in self.items():
@@ -61,7 +61,8 @@ class Config(dict):
 
     def __str__(self):
         return self.__display_tree()
-    
+
+
 def get_config(config_path: str) -> Config:
     with open(config_path, "r") as f:
         raw_config = yaml.safe_load(f)

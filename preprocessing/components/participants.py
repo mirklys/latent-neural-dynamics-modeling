@@ -9,10 +9,10 @@ from utils.polars import (
     explode_files,
     keep_rows_with,
     dict_to_struct,
-    read_motion_data,
 )
 from utils.ieeg import band_pass_resample
-from ..intermediate_tables.events import construct_events_table
+from .events import construct_events_table
+from .motion import construct_motion_table
 
 
 def construct_participants_table(config):
@@ -27,13 +27,14 @@ def construct_participants_table(config):
     participants = explode_files(participants, "participant_path", "session_path")
 
     ieeg_participants = _add_ieeg_data(participants, config)
-    motion_participants = _add_motion_data(participants, config)
+    motion_participants = construct_motion_table(participants)
 
     participants = ieeg_participants.join(
         motion_participants, on=["participant_id", "session", "run"], how="left"
     )
 
     return participants
+
 
 def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
     participants = add_modality_path(participants, "ieeg")
@@ -69,7 +70,8 @@ def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
     )
 
     participants = participants.with_columns(
-        pl.col("ieeg_headers_file").map_elements(
+        pl.col("ieeg_headers_file")
+        .map_elements(
             lambda hd: dict_to_struct(
                 band_pass_resample(
                     hd,
@@ -80,33 +82,7 @@ def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
                 )
             ),
             return_dtype=pl.List(pl.Struct),
-        ).alias("ieeg_raw")
+        )
+        .alias("ieeg_raw")
     )
     return participants
-
-def _add_motion_data(participants: pl.DataFrame, config) -> pl.DataFrame:
-    motion = add_modality_path(participants, "motion")
-    motion = explode_files(motion, "motion_path", "motion_file")
-    motion = split_file_path(
-        motion, "motion", {"run": -4, "chunk": -3, "session": -6}
-    )
-    motion = remove_rows_with(motion, type="channels", data_format="tsv")
-    motion = remove_rows_with(motion, type="motion", data_format="json")
-
-    motion_schema = pl.List(
-        pl.Struct(
-            [
-                pl.Field("x", pl.List(pl.Float64)),
-                pl.Field("y", pl.List(pl.Float64)),
-            ]
-        )
-    )
-    motion = motion.with_columns(
-        pl.struct(["motion_path", "motion_file"])
-        .map_elements(read_motion_data, return_dtype=motion_schema)
-        .alias("motion_coordinates"),
-    )
-
-    motion = motion.select("participant_id", "session", "run", "motion_coordinates")
-
-    return motion

@@ -3,6 +3,7 @@ from pathlib import Path
 from utils.file_handling import list_files
 from .logger import get_logger
 
+
 def read_tsv(path: Path) -> pl.DataFrame:
     df = pl.read_csv(
         path,
@@ -39,9 +40,11 @@ def explode_files(
 ) -> pl.DataFrame:
 
     participants_ = participants.with_columns(
-        pl.col(folder).map_elements(
+        pl.col(folder)
+        .map_elements(
             lambda folder: list_files(Path(folder)), return_dtype=pl.List(pl.String)
-        ).alias(out_file_col)
+        )
+        .alias(out_file_col)
     ).explode(pl.col(out_file_col))
 
     return participants_
@@ -52,7 +55,8 @@ def split_file_path(
 ) -> pl.DataFrame:
     logger = get_logger()
     participants_ = participants.with_columns(
-        pl.col(f"{modality}_file").str.split(by="/")
+        pl.col(f"{modality}_file")
+        .str.split(by="/")
         .list.get(-1)
         .str.split("_")
         .alias("split_file")
@@ -98,16 +102,6 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
 
     return table_
 
+
 def dict_to_struct(data: dict) -> pl.Series:
     return pl.DataFrame(data).to_struct()
-
-def read_motion_data(row: dict) -> pl.Series:
-    path_ = Path(row["motion_path"]) / row["motion_file"]
-    df = pl.read_csv(
-        path_,
-        separator="\t",
-        null_values="n/a",
-        has_header=False,
-        new_columns=["x", "y"]
-    )
-    return df.to_struct()
