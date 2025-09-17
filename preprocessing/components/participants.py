@@ -14,6 +14,35 @@ from utils.ieeg import band_pass_resample
 from .events import construct_events_table
 from .motion import construct_motion_table
 
+iEEG_SCHEMA = pl.Struct(
+    [
+        pl.Field("LFP_1", pl.List(pl.Float64)),
+        pl.Field("LFP_2", pl.List(pl.Float64)),
+        pl.Field("LFP_3", pl.List(pl.Float64)),
+        pl.Field("LFP_4", pl.List(pl.Float64)),
+        pl.Field("LFP_5", pl.List(pl.Float64)),
+        pl.Field("LFP_6", pl.List(pl.Float64)),
+        pl.Field("LFP_7", pl.List(pl.Float64)),
+        pl.Field("LFP_8", pl.List(pl.Float64)),
+        pl.Field("LFP_9", pl.List(pl.Float64)),
+        pl.Field("LFP_10", pl.List(pl.Float64)),
+        pl.Field("LFP_11", pl.List(pl.Float64)),
+        pl.Field("LFP_12", pl.List(pl.Float64)),
+        pl.Field("LFP_13", pl.List(pl.Float64)),
+        pl.Field("LFP_14", pl.List(pl.Float64)),
+        pl.Field("LFP_15", pl.List(pl.Float64)),
+        pl.Field("LFP_16", pl.List(pl.Float64)),
+        pl.Field("ECOG_1", pl.List(pl.Float64)),
+        pl.Field("ECOG_2", pl.List(pl.Float64)),
+        pl.Field("ECOG_3", pl.List(pl.Float64)),
+        pl.Field("ECOG_4", pl.List(pl.Float64)),
+        pl.Field("EOG_1", pl.List(pl.Float64)),
+        pl.Field("EOG_2", pl.List(pl.Float64)),
+        pl.Field("EOG_3", pl.List(pl.Float64)),
+        pl.Field("EOG_4", pl.List(pl.Float64)),
+    ]
+)
+
 
 def construct_participants_table(config):
     data_path = Path(config.data_directory)
@@ -81,7 +110,7 @@ def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
                     config.ieeg_process.notch_freqs,
                 )
             ),
-            return_dtype=pl.List(pl.Struct),
+            return_dtype=pl.List(iEEG_SCHEMA),
         )
         .alias("ieeg_raw")
     )

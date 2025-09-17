@@ -211,3 +211,4 @@ block_*
 *.fif
 
 /logs
+/resampled_recordings

@@ -1,7 +1,6 @@
 import polars as pl
 from pathlib import Path
 from utils.file_handling import list_files
-from .logger import get_logger
 
 
 def read_tsv(path: Path) -> pl.DataFrame:
@@ -53,7 +52,6 @@ def explode_files(
 def split_file_path(
     participants: pl.DataFrame, modality: str, positions: dict[str, int]
 ) -> pl.DataFrame:
-    logger = get_logger()
     participants_ = participants.with_columns(
         pl.col(f"{modality}_file")
         .str.split(by="/")
