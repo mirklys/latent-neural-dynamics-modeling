@@ -22,7 +22,7 @@ def main(args):
     
     participants.write_parquet(
         save_path / "participants.parquet",
-        partition_by=["participant_id", "session"],
+        partition_by=["participant_id", "session", "run"],
     )
 
 
