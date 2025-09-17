@@ -209,3 +209,5 @@ block_*
 /data
 
 *.fif
+
+/logs

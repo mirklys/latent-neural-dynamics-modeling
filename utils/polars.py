@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from utils.file_handling import list_files
 
-from .miscellaneous import lookup_keys
 from utils.logger import get_logger
 
 
@@ -101,3 +100,6 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
     table_ = table.filter(filter_)
 
     return table_
+
+def dict_to_struct(data: dict) -> pl.Series:
+    return pl.DataFrame(data).to_struct()

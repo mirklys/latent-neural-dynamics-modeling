@@ -4,30 +4,44 @@ from datetime import datetime as dt
 from typing import Callable, Any
 from functools import wraps
 
+class MarkdownFormatter(logging.Formatter):
+    """
+    A custom formatter to clean up Polars markdown output by removing
+    the header separator line.
+    """
+    def format(self, record):
+        message = super().format(record)
+        lines = message.split('\n')
+        # Look for the separator line, which is typically something like "|---|---|"
+        if len(lines) > 2 and all(part.startswith('---') or part == '' for part in lines[1].strip().split('|') if part):
+            return '\n'.join([lines[0]] + lines[2:])
+        return message
+
 class Logger:
     def __init__(self, log_dir: str, name: str = "application"):
         self.log_dir = Path(log_dir)
-
         self.log_dir.mkdir(parents=True, exist_ok=True)
-
-        log_file_name = f"{name}_{dt.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file_name = f"{name}_{dt.now().strftime('%Y%m%d_%H%M%S')}.md"
         self.log_file = self.log_dir / log_file_name
 
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.INFO)
 
-        formatter = logging.Formatter(
+        console_formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
 
         ch = logging.StreamHandler()
         ch.setLevel(logging.INFO)
-        ch.setFormatter(formatter)
+        ch.setFormatter(console_formatter)
         self.logger.addHandler(ch)
 
+        file_formatter = MarkdownFormatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
         fh = logging.FileHandler(self.log_file)
         fh.setLevel(logging.INFO)
-        fh.setFormatter(formatter)
+        fh.setFormatter(file_formatter)
         self.logger.addHandler(fh)
 
     def info(self, message: str):
