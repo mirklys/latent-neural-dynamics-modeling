@@ -61,7 +61,10 @@ def construct_participants_table(config):
     participants = ieeg_participants.join(
         motion_participants, on=["participant_id", "session", "run"], how="left"
     )
-
+    # TODO: transpose the recordings
+    # TODO: get only records based on the marker of 9 seconds
+    # TODO: get tracing coordinates between the markers, extrapolate the time around 9 seconds, and calculate the speed in each trial (between the markers)
+    # TODO: create the trial partition column for between the markers and start and end time in the recording itself
     return participants
 
 
