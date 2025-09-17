@@ -1,10 +1,7 @@
 import polars as pl
-import os
 from pathlib import Path
 from utils.file_handling import list_files
-
-from utils.logger import get_logger
-
+from .logger import get_logger
 
 def read_tsv(path: Path) -> pl.DataFrame:
     df = pl.read_csv(
@@ -103,3 +100,14 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
 
 def dict_to_struct(data: dict) -> pl.Series:
     return pl.DataFrame(data).to_struct()
+
+def read_motion_data(row: dict) -> pl.Series:
+    path_ = Path(row["motion_path"]) / row["motion_file"]
+    df = pl.read_csv(
+        path_,
+        separator="\t",
+        null_values="n/a",
+        has_header=False,
+        new_columns=["x", "y"]
+    )
+    return df.to_struct()
