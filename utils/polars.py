@@ -102,4 +102,5 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
 
 
 def dict_to_struct(data: dict) -> pl.Series:
-    return pl.DataFrame(data).to_struct()
+    data_df = pl.DataFrame(data)
+    return data_df.select(pl.all().list()).to_struct()
