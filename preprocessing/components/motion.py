@@ -11,8 +11,8 @@ from utils.polars import (
 MOTION_SCHEMA = pl.List(
     pl.Struct(
         [
-            pl.Field("x", pl.List(pl.Float64)),
-            pl.Field("y", pl.List(pl.Float64)),
+            pl.Field("x", pl.Float64),
+            pl.Field("y", pl.Float64),
         ]
     )
 )

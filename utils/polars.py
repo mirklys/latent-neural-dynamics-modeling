@@ -18,6 +18,10 @@ def read_tsv_to_struct(path: Path) -> pl.Series:
 
     return df.to_struct()
 
+def read_tsv_to_dict(path: Path) -> dict:
+    df = read_tsv(path)
+
+    return df.to_dict(as_series=True)
 
 def add_modality_path(participants: pl.DataFrame, modality: str) -> pl.DataFrame:
 
@@ -102,5 +106,4 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
 
 
 def dict_to_struct(data: dict) -> pl.Series:
-    data_df = pl.DataFrame(data)
-    return data_df.select(pl.all().list()).to_struct()
+    return pl.DataFrame(data).select(pl.all().implode()).to_struct()
