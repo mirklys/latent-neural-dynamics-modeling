@@ -30,17 +30,24 @@ def construct_events_table(participants: pl.DataFrame) -> pl.DataFrame:
         pl.col("events").struct.field("value") != 25
     )
 
-    events_ = events_.sort(
-        by=[
-            pl.col("participant_id"),
-            pl.col("session"),
-            pl.col("run"),
-            pl.col("events").struct.field("onset"),
-        ]
-    )
-
-    events_ = events_.group_by(["participant_id", "session", "run"]).agg(
-        pl.col("events")
+    events_ = (
+        events_.sort(
+            by=[
+                pl.col("participant_id"),
+                pl.col("session"),
+                pl.col("run"),
+                pl.col("events").struct.field("onset"),
+            ]
+        )
+        .with_columns(pl.col("events").struct.unnest())
+        .group_by(["participant_id", "session", "run"], maintain_order=True)
+        .agg(
+            pl.col("onset"),
+            pl.col("duration"),
+            pl.col("trial_type"),
+            pl.col("value"),
+            pl.col("sample"),
+        )
     )
 
     return events_

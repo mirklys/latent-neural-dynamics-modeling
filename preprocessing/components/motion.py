@@ -20,11 +20,8 @@ MOTION_SCHEMA = pl.List(
 
 def construct_motion_table(participants: pl.DataFrame) -> pl.DataFrame:
     participants_ = participants.unique(["participant_id", "session_path"])
-    participants_ = add_modality_path(participants_, "motion")
-    from utils.logger import get_logger
 
-    logger = get_logger()
-    logger.info(participants_)
+    participants_ = add_modality_path(participants_, "motion")
     participants_ = explode_files(participants_, "motion_path", "motion_file")
     participants_ = split_file_path(
         participants_, "motion", {"run": -4, "chunk": -3, "session": -6}
@@ -36,18 +33,20 @@ def construct_motion_table(participants: pl.DataFrame) -> pl.DataFrame:
         .alias("motion_coordinates")
     )
     participants_ = (
-        participants_.sort(
-            by=[
-                pl.col("participant_id"),
-                pl.col("session"),
-                pl.col("run"),
-                pl.col("chunk"),
-            ]
+        participants_.sort(by=["participant_id", "session", "run", "chunk"])
+        .group_by(["participant_id", "session", "run"], maintain_order=True)
+        .agg(
+            pl.col("motion_coordinates")
+            .flatten()
+            .flatten()
+            .struct.field("x")
+            .alias("x_coord"),
+            pl.col("motion_coordinates")
+            .flatten()
+            .flatten()
+            .struct.field("y")
+            .alias("y_coord"),
         )
-        .group_by(["participant_id", "session", "run"])
-        .agg(pl.col("motion_coordinates"))
     )
-
-    logger.info(participants_)
 
     return participants_

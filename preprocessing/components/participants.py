@@ -8,7 +8,6 @@ from utils.polars import (
     remove_rows_with,
     explode_files,
     keep_rows_with,
-    dict_to_struct,
 )
 from utils.ieeg import band_pass_resample
 from .events import construct_events_table
@@ -62,9 +61,8 @@ def construct_participants_table(config):
         motion_participants, on=["participant_id", "session", "run"], how="left"
     )
     # TODO: get only records based on the marker of 9 seconds
-    # TODO: get tracing coordinates between the markers, extrapolate the time around 9 seconds, and calculate the speed in each trial (between the markers)
+    # TODO: get tracing coordinates between the markers
     # TODO: create the trial partition column for between the markers and start and end time in the recording itself
-    # TODO: process recordings per runs
     return participants
 
 
@@ -104,16 +102,39 @@ def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
     participants = participants.with_columns(
         pl.col("ieeg_headers_file")
         .map_elements(
-            lambda hd: 
-                band_pass_resample(
-                    hd,
-                    config.ieeg_process.resampled_freq,
-                    config.ieeg_process.low_freq,
-                    config.ieeg_process.high_freq,
-                    config.ieeg_process.notch_freqs,
-                ),
+            lambda hd: band_pass_resample(
+                hd,
+                config.ieeg_process.resampled_freq,
+                config.ieeg_process.low_freq,
+                config.ieeg_process.high_freq,
+                config.ieeg_process.notch_freqs,
+            ),
             return_dtype=iEEG_SCHEMA,
         )
         .alias("ieeg_raw")
     )
+
+    participants = participants.with_columns(pl.col("ieeg_raw").struct.unnest()).drop(
+        "ieeg_raw"
+    )
+
+    participants = participants.with_columns(
+        pl.col("onset")
+        .list.take(pl.int_ranges(0, pl.col("onset").list.len(), step=2))
+        .alias("dbs_on_onset"),
+        pl.col("duration")
+        .list.take(pl.int_ranges(0, pl.col("duration").list.len(), step=2))
+        .alias("dbs_on_duration"),
+        pl.col("onset")
+        .list.take(pl.int_ranges(1, pl.col("onset").list.len(), step=2))
+        .alias("dbs_off_onset"),
+        pl.col("duration")
+        .list.take(pl.int_ranges(1, pl.col("duration").list.len(), step=2))
+        .alias("dbs_off_duration"),
+    ).drop("onset", "duration", "trial_type", "value", "sample")
+
+    participants = participants.with_columns(
+        pl.col("dbs_on_duration").list.sum().alias("run_duration")
+    )
+
     return participants
