@@ -12,7 +12,6 @@ def main(args):
     logger.info(f"Config content: \n{config}")
 
     participants = construct_participants_table(config)
-
     logger.info(participants)
 
     save_path = Path(config.save_directory)

@@ -75,7 +75,7 @@ def split_file_path(
 
     for part, indx in positions.items():
         participants_ = participants_.with_columns(
-            pl.col("split_file").list.get(indx).alias(part),
+            pl.col("split_file").list.get(indx).str.split("-").get(-1).alias(part),
         )
 
     return participants_.drop("split_file")

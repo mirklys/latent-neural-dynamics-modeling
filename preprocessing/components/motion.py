@@ -32,20 +32,12 @@ def construct_motion_table(participants: pl.DataFrame) -> pl.DataFrame:
         .map_elements(read_tsv_to_struct, return_dtype=MOTION_SCHEMA)
         .alias("motion_coordinates")
     )
+    
     participants_ = (
         participants_.sort(by=["participant_id", "session", "run", "chunk"])
-        .group_by(["participant_id", "session", "run"], maintain_order=True)
+        .group_by(["participant_id", "session", "run", "chunk"], maintain_order=True)
         .agg(
             pl.col("motion_coordinates")
-            .flatten()
-            .flatten()
-            .struct.field("x")
-            .alias("x_coord"),
-            pl.col("motion_coordinates")
-            .flatten()
-            .flatten()
-            .struct.field("y")
-            .alias("y_coord"),
         )
     )
 

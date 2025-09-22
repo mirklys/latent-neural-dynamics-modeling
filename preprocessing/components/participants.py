@@ -118,23 +118,4 @@ def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
         "ieeg_raw"
     )
 
-    participants = participants.with_columns(
-        pl.col("onset")
-        .list.take(pl.int_ranges(0, pl.col("onset").list.len(), step=2))
-        .alias("dbs_on_onset"),
-        pl.col("duration")
-        .list.take(pl.int_ranges(0, pl.col("duration").list.len(), step=2))
-        .alias("dbs_on_duration"),
-        pl.col("onset")
-        .list.take(pl.int_ranges(1, pl.col("onset").list.len(), step=2))
-        .alias("dbs_off_onset"),
-        pl.col("duration")
-        .list.take(pl.int_ranges(1, pl.col("duration").list.len(), step=2))
-        .alias("dbs_off_duration"),
-    ).drop("onset", "duration", "trial_type", "value", "sample")
-
-    participants = participants.with_columns(
-        pl.col("dbs_on_duration").list.sum().alias("run_duration")
-    )
-
     return participants

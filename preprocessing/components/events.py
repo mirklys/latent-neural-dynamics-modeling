@@ -26,28 +26,28 @@ def construct_events_table(participants: pl.DataFrame) -> pl.DataFrame:
         .alias("events"),
     )
 
-    events_ = events_.explode("events").filter(
-        pl.col("events").struct.field("value") != 25
-    )
-
     events_ = (
-        events_.sort(
+        events_.explode("events")
+        .with_columns(pl.col("events").struct.unnest())
+        .sort(
             by=[
                 pl.col("participant_id"),
                 pl.col("session"),
                 pl.col("run"),
-                pl.col("events").struct.field("onset"),
+                pl.col("onset"),
             ]
         )
-        .with_columns(pl.col("events").struct.unnest())
-        .group_by(["participant_id", "session", "run"], maintain_order=True)
-        .agg(
-            pl.col("onset"),
-            pl.col("duration"),
-            pl.col("trial_type"),
-            pl.col("value"),
-            pl.col("sample"),
-        )
+    )
+
+    events_ = events_.filter(
+        (pl.col("trial_type") >= 10) & (pl.col("trial_type") <= 21)
+    ).drop("trial_type", "value", "sample")
+
+    events_ = events_.group_by(
+        ["participant_id", "session", "run"], maintain_order=True
+    ).agg(
+        pl.col("onset"),
+        pl.col("duration"),
     )
 
     return events_
