@@ -68,7 +68,7 @@ def construct_participants_table(config: Config):
         motion_participants, on=["participant_id", "session", "run"], how="left"
     )
 
-    participants.drop(
+    participants = participants.drop(
         "participant_path",
         "session_path",
         "participant_path_right",
