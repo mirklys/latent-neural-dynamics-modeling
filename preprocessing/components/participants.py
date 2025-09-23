@@ -76,6 +76,10 @@ def construct_participants_table(config: Config):
         "ieeg_path",
         "ieeg_file",
         "ieeg_headers_file",
+        "motion_path",
+        "motion_file",
+        "type",
+        "data_format"
     )
 
     participants = _chunk_recordings(participants, config.ieeg_process.chunk_margin)

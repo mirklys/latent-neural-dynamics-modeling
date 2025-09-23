@@ -60,6 +60,9 @@ def split_file_path(
     modality: str,
     positions: list[tuple[str, int, pl.DataType]],
 ) -> pl.DataFrame:
+    
+    from utils.logger import get_logger
+    logger = get_logger()
 
     participants_ = participants.with_columns(
         pl.col(f"{modality}_file")
