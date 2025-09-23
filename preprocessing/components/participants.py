@@ -60,6 +60,17 @@ def construct_participants_table(config):
     participants = ieeg_participants.join(
         motion_participants, on=["participant_id", "session", "run"], how="left"
     )
+
+    ieeg_participants.write_parquet(
+        Path(config.save_directory) / "ieeg_participants.parquet",
+        partition_by=["participant_id", "session", "run"],
+    )
+
+    motion_participants.write_parquet(
+        Path(config.save_directory) / "motion_participants.parquet",
+        partition_by=["participant_id", "session", "run"],
+    )
+
     # TODO: get only records based on the marker of 9 seconds
     # TODO: get tracing coordinates between the markers
     # TODO: create the trial partition column for between the markers and start and end time in the recording itself
@@ -71,7 +82,7 @@ def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
 
     participants = explode_files(participants, "ieeg_path", "ieeg_file")
 
-    participants = split_file_path(participants, "ieeg", {"run": -2, "session": -4})
+    participants = split_file_path(participants, "ieeg", [("session", -4, pl.UInt64), ("run", -2, pl.UInt64)])
     participants = remove_rows_with(participants, type="channels", data_format="tsv")
 
     events = construct_events_table(participants)

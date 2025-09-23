@@ -18,10 +18,12 @@ def read_tsv_to_struct(path: Path) -> pl.Series:
 
     return df.to_struct()
 
+
 def read_tsv_to_dict(path: Path) -> dict:
     df = read_tsv(path)
 
     return df.to_dict(as_series=True)
+
 
 def add_modality_path(participants: pl.DataFrame, modality: str) -> pl.DataFrame:
 
@@ -54,7 +56,7 @@ def explode_files(
 
 
 def split_file_path(
-    participants: pl.DataFrame, modality: str, positions: dict[str, int]
+    participants: pl.DataFrame, modality: str, positions: list[tuple[str, int, pl.DataType]]
 ) -> pl.DataFrame:
     participants_ = participants.with_columns(
         pl.col(f"{modality}_file")
@@ -73,9 +75,14 @@ def split_file_path(
         .alias("data_format"),
     )
 
-    for part, indx in positions.items():
+    for part, indx, dtype in positions:
         participants_ = participants_.with_columns(
-            pl.col("split_file").list.get(indx).str.split("-").get(-1).alias(part),
+            pl.col("split_file")
+            .list.get(indx)
+            .str.split("-")
+            .list.get(-1)
+            .cast(dtype)
+            .alias(part),
         )
 
     return participants_.drop("split_file")
