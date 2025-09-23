@@ -10,6 +10,7 @@ from utils.polars import (
 
 from utils.file_handling import read_json
 
+
 def _get_motion_coordinates(motion: pl.DataFrame) -> pl.DataFrame:
     motion_coords = keep_rows_with(motion, type="motion", data_format="tsv")
     motion_coords = motion_coords.with_columns(
@@ -18,8 +19,12 @@ def _get_motion_coordinates(motion: pl.DataFrame) -> pl.DataFrame:
         .alias("motion_coordinates")
     )
     motion_coords = motion_coords.with_columns(
-        pl.col("motion_coordinates").map_elements(lambda md: md["x"], pl.List(pl.Int64)).alias("x"),
-        pl.col("motion_coordinates").map_elements(lambda md: md["y"], pl.List(pl.Int64)).alias("y")
+        pl.col("motion_coordinates")
+        .map_elements(lambda md: md["x"], pl.List(pl.Int64))
+        .alias("x"),
+        pl.col("motion_coordinates")
+        .map_elements(lambda md: md["y"], pl.List(pl.Int64))
+        .alias("y"),
     ).drop("motion_coordinates")
 
     motion_coords = motion_coords.sort(by=["participant_id", "session", "run", "chunk"])

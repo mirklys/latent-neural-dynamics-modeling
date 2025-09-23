@@ -79,7 +79,7 @@ def construct_participants_table(config: Config):
         "motion_path",
         "motion_file",
         "type",
-        "data_format"
+        "data_format",
     )
 
     participants = _chunk_recordings(participants, config.ieeg_process.chunk_margin)
@@ -169,6 +169,8 @@ def _chunk_recordings(participants: pl.DataFrame, chunk_margin: float) -> pl.Dat
             )
         )
 
-    participants_ = participants_.with_columns(pl.lit(chunk_margin).alias("chunk_margin"))
+    participants_ = participants_.with_columns(
+        pl.lit(chunk_margin).alias("chunk_margin")
+    )
 
     return participants_
