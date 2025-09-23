@@ -13,6 +13,8 @@ from utils.ieeg import band_pass_resample
 from .events import construct_events_table
 from .motion import construct_motion_table
 
+from utils.config import Config
+
 iEEG_SCHEMA = pl.Struct(
     [
         pl.Field("LFP_1", pl.List(pl.Float64)),
@@ -39,13 +41,15 @@ iEEG_SCHEMA = pl.Struct(
         pl.Field("EOG_2", pl.List(pl.Float64)),
         pl.Field("EOG_3", pl.List(pl.Float64)),
         pl.Field("EOG_4", pl.List(pl.Float64)),
+        pl.Field("sfreq", pl.List(pl.Float64)),
     ]
 )
 
 
-def construct_participants_table(config):
+def construct_participants_table(config: Config):
     data_path = Path(config.data_directory)
     participants = read_tsv(data_path / config.participants_table_name)
+    participants = participants.drop("age", "sex", "hand", "weight", "height")
 
     participants = participants.with_columns(
         pl.concat_str(
@@ -61,28 +65,26 @@ def construct_participants_table(config):
         motion_participants, on=["participant_id", "session", "run"], how="left"
     )
 
-    ieeg_participants.write_parquet(
-        Path(config.save_directory) / "ieeg_participants.parquet",
-        partition_by=["participant_id", "session", "run"],
+    participants.drop(
+        "participant_path",
+        "session_path",
+        "ieeg_path",
+        "ieeg_file",
+        "ieeg_headers_file",
     )
 
-    motion_participants.write_parquet(
-        Path(config.save_directory) / "motion_participants.parquet",
-        partition_by=["participant_id", "session", "run"],
-    )
-
-    # TODO: get only records based on the marker of 9 seconds
-    # TODO: get tracing coordinates between the markers
-    # TODO: create the trial partition column for between the markers and start and end time in the recording itself
+    participants = _chunk_recordings(participants)
     return participants
 
 
-def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
+def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     participants = add_modality_path(participants, "ieeg")
 
     participants = explode_files(participants, "ieeg_path", "ieeg_file")
 
-    participants = split_file_path(participants, "ieeg", [("session", -4, pl.UInt64), ("run", -2, pl.UInt64)])
+    participants = split_file_path(
+        participants, "ieeg", [("session", 1, pl.UInt64), ("run", 3, pl.UInt64)]
+    )
     participants = remove_rows_with(participants, type="channels", data_format="tsv")
 
     events = construct_events_table(participants)
@@ -130,3 +132,25 @@ def _add_ieeg_data(participants: pl.DataFrame, config) -> pl.DataFrame:
     )
 
     return participants
+
+def _chunk_recordings(participants: pl.DataFrame) -> pl.DataFrame:
+    participants_ = participants.with_columns(
+        pl.col("onset").list.get(pl.col("chunk") - 1).alias("onset"),
+        pl.col("duration").list.get(pl.col("chunk") - 1).alias("duration"),
+    )
+
+    participants_ = participants_.with_columns(
+        (pl.col("onset") * pl.col("sfreq")).alias("start_ts"),
+        (pl.col("duration") * pl.col("sfreq")).alias("chunk_length_ts")
+    )
+
+    ieeg_fields = list(iEEG_SCHEMA.fields).remove("sfreq")
+
+    for ieeg_field in ieeg_fields:
+        participants_ = participants_.with_columns(
+            pl.col(ieeg_field).list.slice(pl.col("start_ts"), pl.col("chunk_length_ts"))
+        )
+
+    return participants_
+    
+
