@@ -15,6 +15,7 @@ EVENTS_SCHEMA = pl.List(
 
 
 def construct_events_table(participants: pl.DataFrame) -> pl.DataFrame:
+    # event remove duplicates
     events_ = keep_rows_with(participants, type="events", data_format="tsv")
 
     events_ = events_.select(
@@ -46,8 +47,8 @@ def construct_events_table(participants: pl.DataFrame) -> pl.DataFrame:
     events_ = events_.group_by(
         ["participant_id", "session", "run"], maintain_order=True
     ).agg(
-        pl.col("onset"),
-        pl.col("duration"),
+        pl.col("onset").alias("onsets"),
+        pl.col("duration").alias("durations"),
     )
 
     return events_

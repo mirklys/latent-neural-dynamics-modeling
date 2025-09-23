@@ -41,7 +41,7 @@ iEEG_SCHEMA = pl.Struct(
         pl.Field("EOG_2", pl.List(pl.Float64)),
         pl.Field("EOG_3", pl.List(pl.Float64)),
         pl.Field("EOG_4", pl.List(pl.Float64)),
-        pl.Field("sfreq", pl.List(pl.Float64)),
+        pl.Field("sfreq", pl.Float64),
     ]
 )
 
@@ -49,6 +49,9 @@ iEEG_SCHEMA = pl.Struct(
 def construct_participants_table(config: Config):
     data_path = Path(config.data_directory)
     participants = read_tsv(data_path / config.participants_table_name)
+    participants = participants.filter(
+        pl.col("participant_id").str.starts_with("sub-PD")
+    )
     participants = participants.drop("age", "sex", "hand", "weight", "height")
 
     participants = participants.with_columns(
@@ -68,12 +71,14 @@ def construct_participants_table(config: Config):
     participants.drop(
         "participant_path",
         "session_path",
+        "participant_path_right",
+        "session_path_right",
         "ieeg_path",
         "ieeg_file",
         "ieeg_headers_file",
     )
 
-    participants = _chunk_recordings(participants)
+    participants = _chunk_recordings(participants, config.ieeg_process.chunk_margin)
     return participants
 
 
@@ -133,24 +138,31 @@ def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
 
     return participants
 
-def _chunk_recordings(participants: pl.DataFrame) -> pl.DataFrame:
+
+def _chunk_recordings(participants: pl.DataFrame, chunk_margin: float) -> pl.DataFrame:
+
     participants_ = participants.with_columns(
-        pl.col("onset").list.get(pl.col("chunk") - 1).alias("onset"),
-        pl.col("duration").list.get(pl.col("chunk") - 1).alias("duration"),
+        pl.col("onsets").list.get(pl.col("chunk") - 1).alias("onset"),
+        pl.col("durations").list.get(pl.col("chunk") - 1).alias("duration"),
+    ).drop("onsets", "durations")
+
+    participants_ = participants_.with_columns(
+        (pl.col("onset") - pl.lit(chunk_margin)).alias("onset"),
+        (pl.col("duration") + pl.lit(chunk_margin)).alias("duration"),
     )
 
     participants_ = participants_.with_columns(
-        (pl.col("onset") * pl.col("sfreq")).alias("start_ts"),
-        (pl.col("duration") * pl.col("sfreq")).alias("chunk_length_ts")
+        (pl.col("onset") * pl.col("sfreq")).cast(pl.Int64).alias("start_ts"),
+        (pl.col("duration") * pl.col("sfreq")).cast(pl.Int64).alias("chunk_length_ts"),
     )
 
-    ieeg_fields = list(iEEG_SCHEMA.fields).remove("sfreq")
-
-    for ieeg_field in ieeg_fields:
+    for ieeg_field in iEEG_SCHEMA.fields:
+        if ieeg_field.name == "sfreq":
+            continue
         participants_ = participants_.with_columns(
-            pl.col(ieeg_field).list.slice(pl.col("start_ts"), pl.col("chunk_length_ts"))
+            pl.col(ieeg_field.name).list.slice(
+                pl.col("start_ts"), pl.col("chunk_length_ts")
+            )
         )
 
     return participants_
-    
-

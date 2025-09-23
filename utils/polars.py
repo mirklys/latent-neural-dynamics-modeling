@@ -8,7 +8,7 @@ def read_tsv(path: Path) -> pl.DataFrame:
         path,
         separator="\t",
         null_values="n/a",
-    )
+    ).unique()
 
     return df
 
@@ -61,10 +61,6 @@ def split_file_path(
     positions: list[tuple[str, int, pl.DataType]],
 ) -> pl.DataFrame:
 
-    from utils.logger import get_logger
-
-    logger = get_logger()
-
     participants_ = participants.with_columns(
         pl.col(f"{modality}_file")
         .str.split(by="/")
@@ -72,8 +68,6 @@ def split_file_path(
         .str.split("_")
         .alias("split_file")
     )
-
-    logger.info(list(participants_["split_file"][0]))
 
     participants_ = participants_.with_columns(
         pl.col("split_file").list.get(-1).str.split(".").list.get(0).alias("type"),
@@ -85,21 +79,15 @@ def split_file_path(
     )
 
     for part, indx, dtype in positions:
-        logger.info(f"{part}, indx, {dtype}")
-        try:
-            participants_ = participants_.with_columns(
-                pl.col("split_file")
-                .list.get(indx)
-                .str.split("-")
-                .list.get(-1)
-                .cast(dtype)
-                .alias(part),
-            )
-        except Exception as e:
-            logger.info("Could not get the part of the file, returning null instead")
-            participants_ = participants_.with_columns(
-                pl.lit(None).alias(part),
-            )
+        logger.info(f"Extracting '{part}' from filename at index {indx} as {dtype}")
+        participants_ = participants_.with_columns(
+            pl.col("split_file")
+            .list.get(indx)
+            .str.split("-")
+            .list.get(-1)
+            .cast(dtype, strict=False)
+            .alias(part),
+        )
 
     return participants_.drop("split_file")
 

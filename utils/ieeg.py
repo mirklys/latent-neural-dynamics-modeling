@@ -20,7 +20,7 @@ def band_pass_resample(
 
         data = raw.get_data()
         channels_data = {ch: d.tolist() for ch, d in zip(raw.ch_names, data)}
-        channels_data["sfreq"] = sfreq
+        channels_data["sfreq"] = float(sfreq)
         return channels_data
     except Exception as e:
         return None
