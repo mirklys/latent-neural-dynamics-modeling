@@ -1,24 +1,17 @@
 name: neuro
-
 channels:
-  - conda-forge
-  - defaults
-
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
 dependencies:
-  - python=3.11
-
-  - tensorflow=2.15
-  - numpy
-  - scipy
-  - polars
-  - scikit-learn
-  - matplotlib
-  - seaborn
-
-  - jupyterlab
   - ipykernel
-
   - pip
-  - pip:
-    - dpad==0.0.9
-    - psid==1.2.6
+  - seaborn
+  - scikit-learn
+  - tensorflow=2.15
+  - jupyterlab
+  - polars
+  - scipy
+  - python=3.11
+  - matplotlib
+  - black
+prefix: /home/bobby/miniconda3/envs/neuro
