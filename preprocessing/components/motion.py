@@ -56,8 +56,14 @@ def construct_motion_table(participants: pl.DataFrame) -> pl.DataFrame:
     motion_ = split_file_path(
         motion_,
         "motion",
-        [("session", 1, pl.UInt64), ("run", 3, pl.UInt64), ("chunk", 4, pl.UInt64)],
+        [
+            ("session", 1, pl.UInt64),
+            ("task", 2, pl.String),
+            ("run", 3, pl.UInt64),
+            ("chunk", 4, pl.UInt64),
+        ],
     )
+    motion_ = keep_rows_with(motion_, task="copydraw").drop("task")
 
     motion_coords = _get_motion_coordinates(motion_)
     motion_dbs_cond = _get_motion_dbs_cond(

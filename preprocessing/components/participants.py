@@ -92,8 +92,11 @@ def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     participants = explode_files(participants, "ieeg_path", "ieeg_file")
 
     participants = split_file_path(
-        participants, "ieeg", [("session", 1, pl.UInt64), ("run", 3, pl.UInt64)]
+        participants,
+        "ieeg",
+        [("session", 1, pl.UInt64), ("task", 2, pl.String), ("run", 3, pl.UInt64)],
     )
+    participants = keep_rows_with(participants, task="copydraw").drop("task")
     participants = remove_rows_with(participants, type="channels", data_format="tsv")
 
     events = construct_events_table(participants)

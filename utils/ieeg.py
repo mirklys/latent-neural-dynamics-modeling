@@ -1,7 +1,5 @@
 from pathlib import Path
 import mne
-from typing import Any
-
 
 def band_pass_resample(
     ieeg_headers_file: str, sfreq: int, low_freq: int, high_freq: int, notch_freqs
@@ -23,4 +21,8 @@ def band_pass_resample(
         channels_data["sfreq"] = float(sfreq)
         return channels_data
     except Exception as e:
+        from utils.logger import get_logger
+        logger = get_logger()
+
+        logger.info(str(e))
         return None
