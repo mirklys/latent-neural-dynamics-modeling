@@ -8,8 +8,8 @@ from utils.polars import (
     remove_rows_with,
     explode_files,
     keep_rows_with,
+    band_pass_resample,
 )
-from utils.ieeg import band_pass_resample
 from .events import construct_events_table
 from .motion import construct_motion_table
 
@@ -124,24 +124,7 @@ def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
         "type", "data_format", "channels_info_right", strict=False
     )
 
-    participants = participants.with_columns(
-        pl.col("ieeg_headers_file")
-        .map_elements(
-            lambda hd: band_pass_resample(
-                hd,
-                config.ieeg_process.resampled_freq,
-                config.ieeg_process.low_freq,
-                config.ieeg_process.high_freq,
-                config.ieeg_process.notch_freqs,
-            ),
-            return_dtype=iEEG_SCHEMA,
-        )
-        .alias("ieeg_raw")
-    )
-
-    participants = participants.with_columns(pl.col("ieeg_raw").struct.unnest()).drop(
-        "ieeg_raw"
-    )
+    participants = band_pass_resample(participants, config, iEEG_SCHEMA)
 
     return participants
 
