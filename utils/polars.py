@@ -142,6 +142,12 @@ def band_pass_resample(
 
     ieeg_headers_files = participants["ieeg_headers_file"].to_list()
 
+    participants.write_parquet(
+        save_dir / "participants_intermediate.parquet",
+        partition_by=["participant_id", "session", "run"],
+    )
+    del participants
+
     for iegg_hf in ieeg_headers_files:
         base_file = iegg_hf.split("/")[-1].split(".")[0]
         ieeg_dict = preprocess_ieeg(
@@ -152,7 +158,9 @@ def band_pass_resample(
 
         savemat(save_dir / f"{base_file}.mat", ieeg_dict)
 
-    participants_ = participants.with_columns(
+    participants_ = pl.read_parquet(save_dir / "participants_intermediate.parquet")
+
+    participants_ = participants_.with_columns(
         pl.col("ieeg_headers_file")
         .str.split("/")
         .list.get(-1)
