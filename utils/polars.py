@@ -125,6 +125,13 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
     return table_
 
 
+def load_parquet_as_dict(parquet_file: str) -> dict:
+
+    df_ = pl.read_parquet(parquet_file)
+
+    return df_.to_dict()
+
+
 def dict_to_struct(data: dict) -> pl.Series:
     return pl.DataFrame(data).select(pl.all().implode()).to_struct()
 
@@ -132,7 +139,7 @@ def dict_to_struct(data: dict) -> pl.Series:
 def band_pass_resample(
     participants: pl.DataFrame, config: Config, iEEG_SCHEMA: pl.Struct
 ):
-
+    """CODE IF PARTIAL PREPROCESSING IS NOT DONE
     save_dir = Path(config.ieeg_process.resampled_dir)
     save_dir.mkdir(parents=True, exist_ok=True)
     resampled_freq = config.ieeg_process.resampled_freq
@@ -186,6 +193,40 @@ def band_pass_resample(
         participants_ = participants_.with_columns(
             pl.col("ieeg_raw")
             .map_elements(lambda ieeg_raw: ieeg_raw[ieeg_field.name][0], ieeg_field.dtype)
+            .alias(ieeg_field.name)
+        )
+
+    return participants_.drop("ieeg_raw")
+    """
+    resampled_dir = Path(config.data_directory) / "resampled"
+    participants_ = participants_.with_columns(
+        pl.col("ieeg_headers_file")
+        .str.split("/")
+        .list.get(-1)
+        .str.split(".")
+        .list.get(0)
+        .alias("base_ieeg_file")
+    )
+    participants_ = participants_.with_columns(
+        pl.concat_str(
+            pl.lit(str(resampled_dir)),
+            pl.concat_str(pl.col("base_ieeg_file"), pl.lit("parquet"), separator="."),
+            separator="/",
+        ).alias("iegg_parquet")
+    ).drop("base_ieeg_file")
+
+    participants_ = participants_.with_columns(
+        pl.col("iegg_parquet")
+        .map_elements(load_parquet_as_dict, return_dtype=pl.Object)
+        .alias("ieeg_raw")
+    )
+
+    for ieeg_field in iEEG_SCHEMA.fields:
+        participants_ = participants_.with_columns(
+            pl.col("ieeg_raw")
+            .map_elements(
+                lambda ieeg_raw: ieeg_raw[ieeg_field.name][0], ieeg_field.dtype
+            )
             .alias(ieeg_field.name)
         )
 

@@ -48,6 +48,9 @@ iEEG_SCHEMA = pl.Struct(
 
 def construct_participants_table(config: Config):
     data_path = Path(config.data_directory)
+    participants = pl.read_parquet(data_path / "resampled/participants_intermediate.parquet")
+
+    """ CODE IF PARTIAL PREPROCESSING IS NOT DONE
     participants = read_tsv(data_path / config.participants_table_name)
     participants = participants.filter(
         pl.col("participant_id").str.starts_with("sub-PD")
@@ -60,14 +63,18 @@ def construct_participants_table(config: Config):
         ).alias("participant_path")
     )
     participants = explode_files(participants, "participant_path", "session_path")
-
+    """
     ieeg_participants = _add_ieeg_data(participants, config)
-    motion_participants = construct_motion_table(participants)
+
+    # TODO uncomment once you get the data
+    """
+    motion_participants = construct_motion_table(participants, config)
 
     participants = ieeg_participants.join(
         motion_participants, on=["participant_id", "session", "run"], how="left"
     )
-
+    """
+    participants = ieeg_participants # TODO uncomment 
     participants = participants.drop(
         "participant_path",
         "session_path",
@@ -80,13 +87,18 @@ def construct_participants_table(config: Config):
         "motion_file",
         "type",
         "data_format",
+        strict=False
     )
 
-    participants = _chunk_recordings(participants, config.ieeg_process.chunk_margin)
+    # TODO: will be uncommented once the rest of the data is gotten
+    # participants = _chunk_recordings(participants, config.ieeg_process.chunk_margin)
     return participants
 
 
 def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
+
+    """ CODE IF PARTIAL PREPROCESSING IS NOT DONE
+    
     participants = add_modality_path(participants, "ieeg")
 
     participants = explode_files(participants, "ieeg_path", "ieeg_file")
@@ -123,7 +135,7 @@ def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     participants = participants.drop(
         "type", "data_format", "channels_info_right", strict=False
     )
-
+    """
     participants = band_pass_resample(participants, config, iEEG_SCHEMA)
 
     return participants

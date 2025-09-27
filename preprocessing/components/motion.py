@@ -7,8 +7,10 @@ from utils.polars import (
     split_file_path,
     keep_rows_with,
 )
+from utils.config import Config
 
 from utils.file_handling import read_json
+from pathlib import Path
 
 
 def _get_motion_coordinates(motion: pl.DataFrame) -> pl.DataFrame:
@@ -48,8 +50,19 @@ def _get_motion_dbs_cond(motion: pl.DataFrame) -> pl.DataFrame:
     return motion_dbs_cond
 
 
-def construct_motion_table(participants: pl.DataFrame) -> pl.DataFrame:
+def construct_motion_table(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     motion_ = participants.unique(["participant_id", "session_path"])
+
+    #### DUE TO PARTIAL PREPROCESSED DATA
+    motion_ = motion_.select("participant_id", "session_path")
+    motion_ = motion_.with_columns(
+        pl.col("session_path").str.split(by="/")
+        .list.tail(2)
+        .list.join(separator="/")
+        .map(lambda s: str(Path(config.data_directory).joinpath(s)))
+        .alias("session_path")
+    )
+    ####
 
     motion_ = add_modality_path(motion_, "motion")
     motion_ = explode_files(motion_, "motion_path", "motion_file")
