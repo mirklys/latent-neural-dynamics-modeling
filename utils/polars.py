@@ -199,7 +199,7 @@ def band_pass_resample(
     return participants_.drop("ieeg_raw")
     """
     resampled_dir = Path(config.data_directory) / "resampled"
-    participants_ = participants_.with_columns(
+    participants_ = participants.with_columns(
         pl.col("ieeg_headers_file")
         .str.split("/")
         .list.get(-1)
