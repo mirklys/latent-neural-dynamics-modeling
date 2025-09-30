@@ -1,7 +1,10 @@
 import polars as pl
 from pathlib import Path
+import shutil
+import uuid
 from utils.file_handling import list_files, load_mat_into_dict
 from utils.config import Config
+from tqdm import tqdm
 
 from utils.ieeg import preprocess_ieeg
 
@@ -198,7 +201,16 @@ def band_pass_resample(
 
     return participants_.drop("ieeg_raw")
     """
+    from utils.logger import get_logger
+
+    logger = get_logger()
+
     resampled_dir = Path(config.data_directory) / "resampled"
+    tmp_dir = Path(config.save_directory) / f"tmp_{uuid.uuid4()}"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+
+    logger.info("Starting band-pass resampling process...")
+    participants_ = participants.unique()
     participants_ = participants.with_columns(
         pl.col("ieeg_headers_file")
         .str.split("/")
@@ -212,22 +224,24 @@ def band_pass_resample(
             pl.lit(str(resampled_dir)),
             pl.concat_str(pl.col("base_ieeg_file"), pl.lit("parquet"), separator="."),
             separator="/",
-        ).alias("iegg_parquet")
+        ).alias("ieeg_parquet")
     ).drop("base_ieeg_file")
 
-    participants_ = participants_.with_columns(
-        pl.col("iegg_parquet")
-        .map_elements(load_parquet_as_dict, return_dtype=pl.Object)
-        .alias("ieeg_raw")
-    )
+    meta_schema = participants_.drop("ieeg_parquet").schema
+    # sort it out here and save by session becausewe do within session stuff
+    for row in tqdm(
+        participants_.iter_rows(named=True), total=len(participants_), desc="Loading Tables"
+    ):
+        ieeg_parquet_path = row.pop("ieeg_parquet")
+        ieeg_df = pl.read_parquet(ieeg_parquet_path)
+        ieeg_df_imploded = ieeg_df.select(pl.all().implode())
+        meta_df = pl.DataFrame([row], schema=meta_schema)
+        combined_df = pl.concat([meta_df, ieeg_df_imploded], how="horizontal")
+        combined_df.write_parquet(tmp_dir / f"{uuid.uuid4()}.parquet")
 
-    for ieeg_field in iEEG_SCHEMA.fields:
-        participants_ = participants_.with_columns(
-            pl.col("ieeg_raw")
-            .map_elements(
-                lambda ieeg_raw: ieeg_raw[ieeg_field.name][0], ieeg_field.dtype
-            )
-            .alias(ieeg_field.name)
-        )
+    logger.info("Combining processed files...")
+    final_df = pl.read_parquet(tmp_dir / "*.parquet")
+    shutil.rmtree(tmp_dir)
+    logger.info("Band-pass resampling complete.")
 
-    return participants_.drop("ieeg_raw")
+    return final_df

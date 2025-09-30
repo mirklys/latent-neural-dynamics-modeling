@@ -48,7 +48,7 @@ iEEG_SCHEMA = pl.Struct(
 
 def construct_participants_table(config: Config):
     data_path = Path(config.data_directory)
-    participants = pl.read_parquet(data_path / "resampled/participants_intermediate.parquet")
+    participants = pl.read_parquet(data_path / "resampled/participants_intermediate.parquet").unique()
 
     """ CODE IF PARTIAL PREPROCESSING IS NOT DONE
     participants = read_tsv(data_path / config.participants_table_name)
