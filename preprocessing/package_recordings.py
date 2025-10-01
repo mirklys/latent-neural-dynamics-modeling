@@ -11,17 +11,7 @@ def main(args):
     logger.info(f"Configuration loaded from: {args.config}")
     logger.info(f"Config content: \n{config}")
 
-    participants = construct_participants_table(config)
-
-    save_path = Path(config.save_directory)
-    save_path.mkdir(parents=True, exist_ok=True)
-
-    logger.info(f"Saving participants table to: {save_path}")
-
-    participants.write_parquet(
-        save_path / "participants.parquet",
-        partition_by=["participant_id", "session", "run"],
-    )
+    construct_participants_table(config)
 
 
 if __name__ == "__main__":

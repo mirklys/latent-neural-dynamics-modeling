@@ -13,15 +13,26 @@ class Config(dict):
                     Config(item) if isinstance(item, dict) else item for item in value
                 ]
 
-        # handle variable substitution
+    def _substitute_values(self, full_config=None):
+        if full_config is None:
+            full_config = self
+
         for key, value in self.items():
             if isinstance(value, str):
                 try:
-                    self[key] = value.format(**self)
-                except KeyError:
-                    print(f"{key} was not found!")
-                except IndexError:
-                    print(f"{value} is malformatted")
+                    while "{" in self[key] and "}" in self[key]:
+                        formatted_value = self[key].format(**full_config)
+                        if formatted_value == self[key]:  # Break if no change
+                            break
+                        self[key] = formatted_value
+                except (KeyError, IndexError):
+                    pass
+            elif isinstance(value, Config):
+                value._substitute_values(full_config)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, Config):
+                        item._substitute_values(full_config)
 
     def __getattr__(self, key: str) -> Any:
         try:
@@ -68,4 +79,5 @@ def get_config(config_path: str) -> Config:
         raw_config = yaml.safe_load(f)
 
     config_ = Config(raw_config)
+    config_._substitute_values()
     return config_
