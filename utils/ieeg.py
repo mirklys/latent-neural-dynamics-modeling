@@ -1,6 +1,9 @@
 from pathlib import Path
 import mne
 
+from scipy.signal import butter, filtfilt
+import numpy as np
+
 
 def preprocess_ieeg(
     ieeg_headers_file: str, sfreq: int, low_freq: int, high_freq: int, notch_freqs
@@ -28,3 +31,22 @@ def preprocess_ieeg(
 
         logger.info(str(e))
         return None
+
+
+def filter_recording(
+    recording: list[float],
+    low_freq: int,
+    high_freq: int,
+    notch_freqs: list[int],
+    sfreq: int,
+) -> list[float]:
+    recording_ = np.array(recording, dtype=np.float64)
+
+    recording_ = mne.filter.filter_data(
+        data=recording_, sfreq=sfreq, l_freq=low_freq, h_freq=high_freq, verbose=False
+    )
+    recording_ = mne.filter.notch_filter(
+        x=recording_, Fs=sfreq, freqs=notch_freqs, verbose=False
+    )
+
+    return list(recording_)

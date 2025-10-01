@@ -6,7 +6,7 @@ from utils.file_handling import list_files, load_mat_into_dict
 from utils.config import Config
 from tqdm import tqdm
 
-from utils.ieeg import preprocess_ieeg
+from utils.ieeg import preprocess_ieeg, filter_recording
 
 from scipy.io import savemat
 
@@ -139,12 +139,17 @@ def dict_to_struct(data: dict) -> pl.Series:
     return pl.DataFrame(data).select(pl.all().implode()).to_struct()
 
 
+def read_and_implode_parquet(path: str) -> pl.Series:
+    if not Path(path).exists():
+        return None
+    df = pl.read_parquet(path)
+    return df.select(pl.all().implode()).to_struct()
+
+
 def band_pass_resample(
     participants: pl.DataFrame, config: Config, iEEG_SCHEMA: pl.Struct
 ):
     """CODE IF PARTIAL PREPROCESSING IS NOT DONE
-    save_dir = Path(config.ieeg_process.resampled_dir)
-    save_dir.mkdir(parents=True, exist_ok=True)
     resampled_freq = config.ieeg_process.resampled_freq
     low_freq = config.ieeg_process.low_freq
     high_freq = config.ieeg_process.high_freq
@@ -201,47 +206,32 @@ def band_pass_resample(
 
     return participants_.drop("ieeg_raw")
     """
-    from utils.logger import get_logger
 
-    logger = get_logger()
-
-    resampled_dir = Path(config.data_directory) / "resampled"
-    tmp_dir = Path(config.save_directory) / f"tmp_{uuid.uuid4()}"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
-
-    logger.info("Starting band-pass resampling process...")
-    participants_ = participants.unique()
-    participants_ = participants.with_columns(
-        pl.col("ieeg_headers_file")
-        .str.split("/")
-        .list.get(-1)
-        .str.split(".")
-        .list.get(0)
-        .alias("base_ieeg_file")
+    participants_ = (
+        participants.with_columns(
+            pl.col("ieeg_parquet")
+            .map_elements(read_and_implode_parquet, return_dtype=pl.List(iEEG_SCHEMA))
+            .alias("ieeg_data")
+        )
+        .explode("ieeg_data")
+        .unnest("ieeg_data")
+        .drop("sfreq")
     )
-    participants_ = participants_.with_columns(
-        pl.concat_str(
-            pl.lit(str(resampled_dir)),
-            pl.concat_str(pl.col("base_ieeg_file"), pl.lit("parquet"), separator="."),
-            separator="/",
-        ).alias("ieeg_parquet")
-    ).drop("base_ieeg_file")
 
-    meta_schema = participants_.drop("ieeg_parquet").schema
-    # sort it out here and save by session becausewe do within session stuff
-    for row in tqdm(
-        participants_.iter_rows(named=True), total=len(participants_), desc="Loading Tables"
-    ):
-        ieeg_parquet_path = row.pop("ieeg_parquet")
-        ieeg_df = pl.read_parquet(ieeg_parquet_path)
-        ieeg_df_imploded = ieeg_df.select(pl.all().implode())
-        meta_df = pl.DataFrame([row], schema=meta_schema)
-        combined_df = pl.concat([meta_df, ieeg_df_imploded], how="horizontal")
-        combined_df.write_parquet(tmp_dir / f"{uuid.uuid4()}.parquet")
+    for ieeg_field in iEEG_SCHEMA.fields:
+        if ieeg_field.name == "sfreq":
+            continue
+        participants_ = participants_.with_columns(
+            pl.col(ieeg_field.name).map_elements(
+                lambda r: filter_recording(
+                    r,
+                    low_freq=config.ieeg_process.low_freq,
+                    high_freq=config.ieeg_process.high_freq,
+                    notch_freqs=config.ieeg_process.notch_freqs,
+                    sfreq=config.ieeg_process.resampled_freq,
+                ),
+                return_dtype=pl.List(pl.Float32),
+            )
+        )
 
-    logger.info("Combining processed files...")
-    final_df = pl.read_parquet(tmp_dir / "*.parquet")
-    shutil.rmtree(tmp_dir)
-    logger.info("Band-pass resampling complete.")
-
-    return final_df
+    return participants_

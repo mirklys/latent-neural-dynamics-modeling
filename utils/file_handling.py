@@ -14,6 +14,25 @@ def load_mat_into_dict(mat_file: str) -> dict:
     return data_dict
 
 
-def list_files(folder_path: Path) -> list:
-
+def list_files(folder_path: Path) -> list[str]:
     return [str(item) for item in folder_path.iterdir()]
+
+
+def get_child_subchilds_tuples(
+    parent_folder: Path, full_paths: bool = False
+) -> list[tuple[str, ...]]:
+    def recurse(folder: Path) -> list[tuple[str, ...]]:
+        tuples = []
+        for child in folder.iterdir():
+            if child.is_dir():
+                parent_part = str(folder) if full_paths else folder.name
+                child_part = str(child) if full_paths else child.name
+                tuples.append((parent_part, child_part))
+                tuples.extend(recurse(child))
+        return tuples
+
+    all_tuples = []
+    for child in parent_folder.iterdir():
+        if child.is_dir():
+            all_tuples.extend(recurse(child))
+    return all_tuples

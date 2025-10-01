@@ -56,10 +56,14 @@ def construct_motion_table(participants: pl.DataFrame, config: Config) -> pl.Dat
     #### DUE TO PARTIAL PREPROCESSED DATA
     motion_ = motion_.select("participant_id", "session_path")
     motion_ = motion_.with_columns(
-        pl.col("session_path").str.split(by="/")
+        pl.col("session_path")
+        .str.split(by="/")
         .list.tail(2)
         .list.join(separator="/")
-        .map(lambda s: str(Path(config.data_directory).joinpath(s)))
+        .map_elements(
+            lambda s: str(Path(config.data_directory).joinpath(s)),
+            return_dtype=pl.String,
+        )
         .alias("session_path")
     )
     ####
@@ -78,21 +82,7 @@ def construct_motion_table(participants: pl.DataFrame, config: Config) -> pl.Dat
     )
     motion_ = keep_rows_with(motion_, task="copydraw").drop("task")
 
-    motion_coords = _get_motion_coordinates(motion_)
-    motion_dbs_cond = _get_motion_dbs_cond(
-        motion_.select(
-            "participant_id",
-            "session",
-            "run",
-            "chunk",
-            "motion_file",
-            "type",
-            "data_format",
-        )
-    )
-
-    motion_ = motion_coords.join(
-        motion_dbs_cond, on=["participant_id", "session", "run"], how="left"
-    )
+    motion_ = _get_motion_coordinates(motion_)
+    motion_ = motion_.rename({"run": "block", "chunk": "trial"})
 
     return motion_
