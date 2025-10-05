@@ -7,8 +7,10 @@ from utils.polars import (
     split_file_path,
     keep_rows_with,
 )
+from utils.config import Config
 
 from utils.file_handling import read_json
+from pathlib import Path
 
 
 def _get_motion_coordinates(motion: pl.DataFrame) -> pl.DataFrame:
@@ -48,32 +50,39 @@ def _get_motion_dbs_cond(motion: pl.DataFrame) -> pl.DataFrame:
     return motion_dbs_cond
 
 
-def construct_motion_table(participants: pl.DataFrame) -> pl.DataFrame:
+def construct_motion_table(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     motion_ = participants.unique(["participant_id", "session_path"])
+
+    #### DUE TO PARTIAL PREPROCESSED DATA
+    motion_ = motion_.select("participant_id", "session_path")
+    motion_ = motion_.with_columns(
+        pl.col("session_path")
+        .str.split(by="/")
+        .list.tail(2)
+        .list.join(separator="/")
+        .map_elements(
+            lambda s: str(Path(config.data_directory).joinpath(s)),
+            return_dtype=pl.String,
+        )
+        .alias("session_path")
+    )
+    ####
 
     motion_ = add_modality_path(motion_, "motion")
     motion_ = explode_files(motion_, "motion_path", "motion_file")
     motion_ = split_file_path(
         motion_,
         "motion",
-        [("session", 1, pl.UInt64), ("run", 3, pl.UInt64), ("chunk", 4, pl.UInt64)],
+        [
+            ("session", 1, pl.UInt64),
+            ("task", 2, pl.String),
+            ("run", 3, pl.UInt64),
+            ("chunk", 4, pl.UInt64),
+        ],
     )
+    motion_ = keep_rows_with(motion_, task="copydraw").drop("task")
 
-    motion_coords = _get_motion_coordinates(motion_)
-    motion_dbs_cond = _get_motion_dbs_cond(
-        motion_.select(
-            "participant_id",
-            "session",
-            "run",
-            "chunk",
-            "motion_file",
-            "type",
-            "data_format",
-        )
-    )
-
-    motion_ = motion_coords.join(
-        motion_dbs_cond, on=["participant_id", "session", "run"], how="left"
-    )
+    motion_ = _get_motion_coordinates(motion_)
+    motion_ = motion_.rename({"run": "block", "chunk": "trial"})
 
     return motion_

@@ -1,9 +1,11 @@
 from pathlib import Path
 import mne
-from typing import Any
+
+from scipy.signal import butter, filtfilt
+import numpy as np
 
 
-def band_pass_resample(
+def preprocess_ieeg(
     ieeg_headers_file: str, sfreq: int, low_freq: int, high_freq: int, notch_freqs
 ) -> dict[str, list[float]] | None:
     ieeg_path = Path(ieeg_headers_file)
@@ -23,4 +25,28 @@ def band_pass_resample(
         channels_data["sfreq"] = float(sfreq)
         return channels_data
     except Exception as e:
+        from utils.logger import get_logger
+
+        logger = get_logger()
+
+        logger.info(str(e))
         return None
+
+
+def filter_recording(
+    recording: list[float],
+    low_freq: int,
+    high_freq: int,
+    notch_freqs: list[int],
+    sfreq: int,
+) -> list[float]:
+    recording_ = np.array(recording, dtype=np.float64)
+
+    recording_ = mne.filter.filter_data(
+        data=recording_, sfreq=sfreq, l_freq=low_freq, h_freq=high_freq, verbose=False
+    )
+    recording_ = mne.filter.notch_filter(
+        x=recording_, Fs=sfreq, freqs=notch_freqs, verbose=False
+    )
+
+    return list(recording_)

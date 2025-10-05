@@ -1,10 +1,12 @@
 name: "package_recordings"
-root_directory: YOUR_ROOT_PATH/latent-neural-dynamics-modeling
+root_directory: "/home/bobby/repos/latent-neural-dynamics-modeling"
 data_directory: "{root_directory}/data"
 save_directory: "{root_directory}/resampled_recordings"
 logger_directory: "{root_directory}/logs"
 participants_table_name: "participants.tsv"
+participants_intermediate_table_name: "participants.parquet"
 ieeg_process:
+  resampled_dir: "{save_directory}/resampled_mat_recordings"
   chunk_margin: 2
   low_freq: 3
   high_freq: 250

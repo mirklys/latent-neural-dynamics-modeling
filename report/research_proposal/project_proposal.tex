@@ -78,7 +78,8 @@ This project uses data from the Dareplane project \parencite{doldLFPECoGData2024
 The PSID and DPAD models will be trained on one-second epochs of the minimally preprocessed data. Model generalization will be assessed using within session chronological validation and if the performance is strong, leave-one-session-out cross-validation, stratified by participant, will be performed as well. Within each training fold, data will be split in a way that the training set would contain at least 120 epochs or 80\% of the fold whichever is the largest and the rest of the samples would belong to the validation set. 
 \subsection{Exploratory Data Analysis}
 
-Exploratory data analysis will be performed to characterize the dataset's statistical properties. First, the relationship between neural signals (LFP and ECoG) and behavior (tracing speed) will be quantified using Pearson correlation, as well as between LFP and ECoG. Second, Power Spectral Density (PSD) estimates for DBS ON vs. OFF conditions will be compared to support the task 2 using a cluster-based permutation test \parencite{marisNonparametricStatisticalTesting2007}.
+Exploratory data analysis will be performed to characterize the dataset’s statistical properties. First, a signal quality check will involve visually inspecting time-series data, plotting the recordings with markers and different DBS ONN and OFF conditions, and verifying if artifacts are removed. Second, Power Spectral Density (PSD) estimates for DBS ON vs. OFF conditions will be compared to identify neural markers for brain state classification (RQ2), using a cluster-based permutation test \parencite{marisNonparametricStatisticalTesting2007}.
+Finally, for the motor decoding task (RQ3), tracing speed will be derived from hand position coordinates. For each 9-second trial, instantaneous speed will be calculated by taking the first derivative of the position data, and the resulting signal will be smoothed using a moving average filter to yield a continuous behavioral trace.
 
 \subsection{Preferential Subspace Identification (PSID)}
 
@@ -150,18 +151,16 @@ This task assesses the models' ability to identify distinct, clinically relevant
 
 \subsection{RQ3: Continuous Motor Behavior Decoding}
 \begin{quote}
-    \textbf{Research Question 3:} How effectively can PSID and DPAD decode continuous motor behavior (tracing speed) from LFP activity, and what do their respective latent dynamics reveal about the linear vs. nonlinear neural control of movement?
+    \textbf{Research Question 3:} How effectively can PSID and DPAD decode continuous motor behavior (tracing speed) from LFP and/or ECoG activity, and what do their respective latent dynamics reveal about the linear vs. nonlinear neural control of movement?
 \end{quote}
 
-This research question targets the primary challenge in developing future adaptive DBS systems. The main analysis will involve training models to decode tracing speed directly from LFP signals. As a secondary analysis, a two-stage decoding approach will be investigated to evaluate the "virtual sensor" concept. First, the models from RQ1 will be used to generate predicted ECoG signals from the LFP data. Second, these predicted ECoG signals will serve as input for decoding the tracing speed. This will quantify how much behaviorally relevant information is preserved or possibly enriched in the cross-modally predicted cortical signals.
-
-Decoding performance for both approaches will be evaluated using a Pearson's correlation coefficient. The relationship between model dynamics and behavior will be further quantified using Canonical Correlation Analysis (CCA) to measure the correlation between latent state trajectories and tracing speed data. For the DPAD model, the contributions of its prioritized ($\mathbf{x}^{(1)}$) and non-prioritized ($\mathbf{x}^{(2)}$) subspaces will be directly compared. Representational Similarity Analysis (RSA) will also be used to compare the geometric structure of the latent spaces to the structure of the behavior itself.
+This research question targets the primary challenge in developing future adaptive DBS systems. The analysis will involve training models to decode tracing speed directly from LFP and/or ECoG signals. Decoding performance for both imaging modalities will be evaluated using a Pearson's correlation coefficient. The relationship between model dynamics and behavior will be further quantified using Canonical Correlation Analysis (CCA) to measure the correlation between latent state trajectories and tracing speed data. For the DPAD model, the contributions of its prioritized ($\mathbf{x}^{(1)}$) and non-prioritized ($\mathbf{x}^{(2)}$) subspaces will be directly compared. Representational Similarity Analysis (RSA) will also be used to compare the geometric structure of the latent spaces to the structure of the behavior itself.
 
 \subsection{Quality of Fit Analysis}
 Both PSID and DPAD and their baseline version will be tested for a lack of autocorrelation using a Ljung-Box test \parencite{ljungMeasureLackFit1978}. This will validate that the models have captured the underlying dynamics if the residuals resemble white noise or there is no dependence on the past residual values.
 
 \vspace{1em}
-\noindent\textbf{Word Count:} 1846
+\noindent\textbf{Word Count:} 1841
 \newpage
 \section{SCHEDULE}
 \begin{table}[h!]
@@ -171,7 +170,7 @@ Both PSID and DPAD and their baseline version will be tested for a lack of autoc
         \begin{tabularx}{\textwidth}{>{\RaggedRight}X l l >{\RaggedRight}X}
             \textbf{Task}                                        & \textbf{Start Date} & \textbf{End Date} & \textbf{Key Goals / Milestones}                                                                                             \\
             \midrule
-            Finalizing project proposal                          & 2025-09-01          & 2025-09-07        &                                                                                                                             \\
+            Finalizing project proposal                          & 2025-09-01          & 2025-09-19        &                                                                                                                             \\
 
             Data Analysis \& pipeline scaffolding                & 2025-09-08          & 2025-09-28        & Pipeline for DBS/ECoG preprocessing                                                                                         \\
 

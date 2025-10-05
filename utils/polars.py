@@ -1,6 +1,14 @@
 import polars as pl
 from pathlib import Path
-from utils.file_handling import list_files
+import shutil
+import uuid
+from utils.file_handling import list_files, load_mat_into_dict
+from utils.config import Config
+from tqdm import tqdm
+
+from utils.ieeg import preprocess_ieeg, filter_recording
+
+from scipy.io import savemat
 
 
 def read_tsv(path: Path) -> pl.DataFrame:
@@ -120,5 +128,110 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
     return table_
 
 
+def load_parquet_as_dict(parquet_file: str) -> dict:
+
+    df_ = pl.read_parquet(parquet_file)
+
+    return df_.to_dict()
+
+
 def dict_to_struct(data: dict) -> pl.Series:
     return pl.DataFrame(data).select(pl.all().implode()).to_struct()
+
+
+def read_and_implode_parquet(path: str) -> pl.Series:
+    if not Path(path).exists():
+        return None
+    df = pl.read_parquet(path)
+    return df.select(pl.all().implode()).to_struct()
+
+
+def band_pass_resample(
+    participants: pl.DataFrame, config: Config, iEEG_SCHEMA: pl.Struct
+):
+    """CODE IF PARTIAL PREPROCESSING IS NOT DONE
+    resampled_freq = config.ieeg_process.resampled_freq
+    low_freq = config.ieeg_process.low_freq
+    high_freq = config.ieeg_process.high_freq
+    notch_freqs = config.ieeg_process.notch_freqs
+
+    ieeg_headers_files = participants["ieeg_headers_file"].to_list()
+
+    participants.write_parquet(
+        save_dir / "participants_intermediate.parquet",
+        partition_by=["participant_id", "session", "run"],
+    )
+    del participants
+
+    for iegg_hf in ieeg_headers_files:
+        base_file = iegg_hf.split("/")[-1].split(".")[0]
+        ieeg_dict = preprocess_ieeg(
+            iegg_hf, resampled_freq, low_freq, high_freq, notch_freqs
+        )
+
+        print(save_dir / f"{base_file}.mat")
+
+        savemat(save_dir / f"{base_file}.mat", ieeg_dict)
+
+    participants_ = pl.read_parquet(save_dir / "participants_intermediate.parquet")
+
+    participants_ = participants_.with_columns(
+        pl.col("ieeg_headers_file")
+        .str.split("/")
+        .list.get(-1)
+        .str.split(".")
+        .list.get(0)
+        .alias("iegg_hf_base_file")
+    )
+    participants_ = participants_.with_columns(
+        pl.concat_str(
+            pl.lit(str(save_dir)),
+            pl.concat_str(pl.col("iegg_hf_base_file"), pl.lit("mat"), separator="."),
+            separator="/",
+        ).alias("iegg_mat_file")
+    ).drop("iegg_hf_base_file")
+
+    participants_ = participants_.with_columns(
+        pl.col("iegg_mat_file")
+        .map_elements(load_mat_into_dict, return_dtype=pl.Object)
+        .alias("ieeg_raw")
+    )
+
+    for ieeg_field in iEEG_SCHEMA.fields:
+        participants_ = participants_.with_columns(
+            pl.col("ieeg_raw")
+            .map_elements(lambda ieeg_raw: ieeg_raw[ieeg_field.name][0], ieeg_field.dtype)
+            .alias(ieeg_field.name)
+        )
+
+    return participants_.drop("ieeg_raw")
+    """
+
+    participants_ = (
+        participants.with_columns(
+            pl.col("ieeg_parquet")
+            .map_elements(read_and_implode_parquet, return_dtype=pl.List(iEEG_SCHEMA))
+            .alias("ieeg_data")
+        )
+        .explode("ieeg_data")
+        .unnest("ieeg_data")
+        .drop("sfreq")
+    )
+
+    for ieeg_field in iEEG_SCHEMA.fields:
+        if ieeg_field.name == "sfreq":
+            continue
+        participants_ = participants_.with_columns(
+            pl.col(ieeg_field.name).map_elements(
+                lambda r: filter_recording(
+                    r,
+                    low_freq=config.ieeg_process.low_freq,
+                    high_freq=config.ieeg_process.high_freq,
+                    notch_freqs=config.ieeg_process.notch_freqs,
+                    sfreq=config.ieeg_process.resampled_freq,
+                ),
+                return_dtype=pl.List(pl.Float32),
+            )
+        )
+
+    return participants_
