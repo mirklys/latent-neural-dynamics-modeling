@@ -1,0 +1,58 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Chavas%
+\ \BBA {} Shi%
+}{%
+Chavas%
+\ \BBA {} Shi%
+}{%
+{\protect \APACyear {2015}}%
+}]{%
+Chavas2015}
+\APACinsertmetastar {%
+Chavas2015}%
+\begin{APACrefauthors}%
+Chavas, J\BHBI P.%
+\BCBT {}\ \BBA {} Shi, G.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2015}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{An Economic Analysis of Risk, Management, and Agricultural Technology}} {{An Economic Analysis of Risk, Management, and Agricultural Technology}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Agricultural and Resource Economics}{40}{1}{63--79}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Hardaker%
+, Richardson%
+, Lien%
+\BCBL {}\ \BBA {} Schumann%
+}{%
+Hardaker%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2004}}%
+}]{%
+Hardaker2004}
+\APACinsertmetastar {%
+Hardaker2004}%
+\begin{APACrefauthors}%
+Hardaker, J\BPBI B.%
+, Richardson, J\BPBI W.%
+, Lien, G.%
+\BCBL {}\ \BBA {} Schumann, K\BPBI D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2004}{6}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{Stochastic efficiency analysis with risk aversion bounds: a simplified approach}} {{Stochastic efficiency analysis with risk aversion bounds: a simplified approach}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{The Australian Journal of Agricultural and Resource Economics}{48}{2}{253--270}.
+\newblock
+\begin{APACrefDOI} \doi{10.1111/j.1467-8489.2004.00239.x} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}
