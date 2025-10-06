@@ -128,6 +128,30 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
     return table_
 
 
+def get_trial(
+    participants: pl.DataFrame,
+    participant_id: str,
+    session: int,
+    block: int,
+    trial: int,
+    columns: list[str] = None,
+    explode: list[str] = None,
+) -> pl.DataFrame:
+    
+    trial_df = keep_rows_with(
+        participants,
+        participant_id=participant_id,
+        session=session,
+        block=block,
+        trial=trial,
+    )
+    if columns:
+        trial_df = trial_df.select(columns)
+    if explode:
+        trial_df = trial_df.explode(explode)
+    return trial_df
+
+
 def load_parquet_as_dict(parquet_file: str) -> dict:
 
     df_ = pl.read_parquet(parquet_file)

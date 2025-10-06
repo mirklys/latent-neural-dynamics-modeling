@@ -16,6 +16,7 @@ from utils.file_handling import get_child_subchilds_tuples
 
 from utils.config import Config
 from utils.logger import get_logger
+from utils.motion import interpolate
 
 iEEG_SCHEMA = pl.Struct(
     [
@@ -215,12 +216,13 @@ def _chunk_recordings(
 
     participants_ = participants.with_columns(
         (pl.col("onset") - chunk_margin).alias("onset"),
-        (pl.col("dt_s") + chunk_margin).alias("duration"),
+        (pl.col("dt_s") + 2 * chunk_margin).alias("duration"),
     )
 
     participants_ = participants_.with_columns(
         (pl.col("onset") * sfreq).cast(pl.UInt32).alias("start_ts"),
         (pl.col("duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
+        (pl.col("dt_s") * sfreq).cast(pl.UInt32).alias("original_length_ts"),
     ).with_columns(
         pl.int_ranges(0, pl.col("chunk_length_ts"), dtype=pl.UInt32)
         .truediv(sfreq)
@@ -233,12 +235,27 @@ def _chunk_recordings(
             continue
         participants_ = participants_.with_columns(
             pl.col(ieeg_field.name).list.slice(
-                pl.col("start_ts"), pl.col("chunk_length_ts") + pl.col("start_ts")
+                pl.col("start_ts"), pl.col("chunk_length_ts")
             )
         )
 
     participants_ = participants_.with_columns(
         pl.lit(chunk_margin).alias("chunk_margin")
+    )
+
+    participants_ = participants_.with_columns(
+        pl.struct([pl.col("x").alias("coordinates"), "original_length_ts"])
+        .map_elements(
+            lambda s: interpolate(s["coordinates"], s["original_length_ts"]),
+            return_dtype=pl.List(pl.Float32),
+        )
+        .alias("x"),
+        pl.struct([pl.col("y").alias("coordinates"), "original_length_ts"])
+        .map_elements(
+            lambda s: interpolate(s["coordinates"], s["original_length_ts"]),
+            return_dtype=pl.List(pl.Float32),
+        )
+        .alias("y"),
     )
 
     return participants_
