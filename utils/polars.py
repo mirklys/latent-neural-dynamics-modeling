@@ -137,7 +137,7 @@ def get_trial(
     columns: list[str] = None,
     explode: list[str] = None,
 ) -> pl.DataFrame:
-    
+
     trial_df = keep_rows_with(
         participants,
         participant_id=participant_id,
@@ -161,6 +161,25 @@ def load_parquet_as_dict(parquet_file: str) -> dict:
 
 def dict_to_struct(data: dict) -> pl.Series:
     return pl.DataFrame(data).select(pl.all().implode()).to_struct()
+
+
+def remove_chunk_margin(
+    participants: pl.DataFrame, col: str, return_as: str
+) -> pl.DataFrame:
+    participants_ = participants.with_columns(
+        (pl.col("chunk_margin") * 1000).alias("chunk_margin_ts")
+    )
+
+    participants_ = participants_.with_columns(
+        pl.col(col)
+        .list.slice(
+            pl.col("chunk_margin_ts"),
+            pl.col("trial_length_ts") - 2 * pl.col("chunk_margin_ts"),
+        )
+        .alias(return_as)
+    ).drop("chunk_margin_ts")
+
+    return participants_
 
 
 def read_and_implode_parquet(path: str) -> pl.Series:

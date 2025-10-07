@@ -50,3 +50,25 @@ def filter_recording(
     )
 
     return list(recording_)
+
+
+def epoch_trials(
+    recording: list[float],
+    window_size: int = 500,
+    step_size: int = 250,
+) -> list[list[float]]:
+    n_samples = len(recording)
+    recording_ = np.array(recording, dtype=np.float64)
+
+    epochs = []
+    for start in range(0, n_samples, step_size):
+        end = start + window_size
+        if end > n_samples:
+            last_epoch = recording_[start:]
+            padding = np.zeros(end - n_samples)
+            epoch = np.concatenate([last_epoch, padding])
+        else:
+            epoch = recording_[start:end]
+        epochs.append(epoch.tolist())
+
+    return epochs

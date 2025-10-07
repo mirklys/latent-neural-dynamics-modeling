@@ -145,8 +145,12 @@ def construct_participants_table(config: Config):
             "block",
             "trial",
             "onset",
-            "duration",
+            "margined_onset",
+            "margined_duration",
             "time",
+            "time_original",
+            "motion_time",
+            "original_length_ts",
             "start_ts",
             pl.col("chunk_length_ts").alias("trial_length_ts"),
             "chunk_margin",
@@ -156,6 +160,8 @@ def construct_participants_table(config: Config):
             pl.col("^ECOG_.*$"),
             "x",
             "y",
+            "x_interpolated",
+            "y_interpolated",
             pl.col("labels").alias("tracing_coordinates_present"),
         )
 
@@ -215,19 +221,23 @@ def _chunk_recordings(
 ) -> pl.DataFrame:
 
     participants_ = participants.with_columns(
-        (pl.col("onset") - chunk_margin).alias("onset"),
-        (pl.col("dt_s") + 2 * chunk_margin).alias("duration"),
+        (pl.col("onset") - chunk_margin).alias("margined_onset"),
+        (pl.col("dt_s") + 2 * chunk_margin).alias("margined_duration"),
     )
 
     participants_ = participants_.with_columns(
-        (pl.col("onset") * sfreq).cast(pl.UInt32).alias("start_ts"),
-        (pl.col("duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
+        (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("start_ts"),
+        (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
         (pl.col("dt_s") * sfreq).cast(pl.UInt32).alias("original_length_ts"),
     ).with_columns(
         pl.int_ranges(0, pl.col("chunk_length_ts"), dtype=pl.UInt32)
         .truediv(sfreq)
+        .add(pl.col("margined_onset"))
+        .alias("time"),
+        pl.int_ranges(0, pl.col("original_length_ts"), dtype=pl.UInt32)
+        .truediv(sfreq)
         .add(pl.col("onset"))
-        .alias("time")
+        .alias("time_original"),
     )
 
     for ieeg_field in iEEG_SCHEMA.fields:
@@ -244,18 +254,33 @@ def _chunk_recordings(
     )
 
     participants_ = participants_.with_columns(
+        pl.when(pl.col("x").list.len() > 0)
+        .then(
+            (
+                pl.int_ranges(0, pl.col("x").list.len())
+                * (pl.col("dt_s") / pl.col("x").list.len())
+            )
+            + pl.col("onset")
+        )
+        .otherwise(
+            pl.lit(None, dtype=pl.List(pl.Float64))
+        )
+        .alias("motion_time")
+    )
+
+    participants_ = participants_.with_columns(
         pl.struct([pl.col("x").alias("coordinates"), "original_length_ts"])
         .map_elements(
             lambda s: interpolate(s["coordinates"], s["original_length_ts"]),
             return_dtype=pl.List(pl.Float32),
         )
-        .alias("x"),
+        .alias("x_interpolated"),
         pl.struct([pl.col("y").alias("coordinates"), "original_length_ts"])
         .map_elements(
             lambda s: interpolate(s["coordinates"], s["original_length_ts"]),
             return_dtype=pl.List(pl.Float32),
         )
-        .alias("y"),
+        .alias("y_interpolated"),
     )
 
     return participants_

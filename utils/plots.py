@@ -1,6 +1,5 @@
 import polars as pl
 import plotly.graph_objects as go
-from utils.polars import get_trial
 
 
 def _create_base_figure(title: str, x_axis_title: str, y_axis_title: str) -> go.Figure:
@@ -19,27 +18,37 @@ def _create_base_figure(title: str, x_axis_title: str, y_axis_title: str) -> go.
 
 
 def plot_trial_coordinates(
-    participants: pl.DataFrame,
-    participant_id: str,
-    session: int,
-    block: int,
-    trial: int,
+    trial_df: pl.DataFrame,
+    x: str = "x",
+    y: str = "y",
+    time: str = "time_original",
     plot_over_time: bool = False,
 ):
     """
     Plots the x, y coordinates for a specific trial in two ways:
     1. A 2D plot of y vs. x.
     2. A plot of x and y coordinates over time.
+
+    Args:
+        trial_df: A DataFrame for a single trial, with 'x', 'y', and 'time_original' columns exploded.
+        plot_over_time: If True, plots coordinates over time. Otherwise, plots 2D trajectory.
     """
-    trial_df = get_trial(
-        participants,
-        participant_id=participant_id,
-        session=session,
-        block=block,
-        trial=trial,
-        columns=["x", "y", "time"],
-        explode=["x", "y", "time"],
-    )
+    if trial_df.is_empty():
+        print("Input trial DataFrame is empty. Cannot plot.")
+        return
+
+    # Extract metadata for title from the DataFrame
+    try:
+        participant_id = trial_df.select(pl.col("participant_id").first()).item()
+        session = trial_df.select(pl.col("session").first()).item()
+        block = trial_df.select(pl.col("block").first()).item()
+        trial = trial_df.select(pl.col("trial").first()).item()
+    except pl.exceptions.ColumnNotFoundError:
+        print(
+            "Warning: Could not find participant/session/block/trial columns for plot title."
+        )
+        participant_id, session, block, trial = "N/A", "N/A", "N/A", "N/A"
+
     if trial_df.is_empty():
         print(
             f"No data found for participant {participant_id}, session {session}, block {block}, trial {trial}"
@@ -50,8 +59,8 @@ def plot_trial_coordinates(
         fig = _create_base_figure(title, "Time (s)", "Coordinate Value")
         fig.add_trace(
             go.Scatter(
-                x=trial_df["time"],
-                y=trial_df["x"],
+                x=trial_df[time],
+                y=trial_df[x],
                 mode="lines",
                 name="X coordinate",
                 line=dict(color="red"),
@@ -59,8 +68,8 @@ def plot_trial_coordinates(
         )
         fig.add_trace(
             go.Scatter(
-                x=trial_df["time"],
-                y=trial_df["y"],
+                x=trial_df[time],
+                y=trial_df[y],
                 mode="lines",
                 name="Y coordinate",
                 line=dict(color="blue"),
@@ -71,17 +80,17 @@ def plot_trial_coordinates(
         fig = _create_base_figure(title, "X Coordinate", "Y Coordinate")
         fig.add_trace(
             go.Scatter(
-                x=trial_df["x"],
-                y=trial_df["y"],
-                mode="lines",
+                x=trial_df[x],
+                y=trial_df[y],
+                mode="markers",
                 name="Trajectory",
-                line=dict(color="blue", width=2),
+                marker=dict(color="blue", size=2),
             )
         )
         fig.add_trace(
             go.Scatter(
-                x=trial_df.head(1)["x"],
-                y=trial_df.head(1)["y"],
+                x=trial_df.head(1)[x],
+                y=trial_df.head(1)[y],
                 mode="markers",
                 marker=dict(color="green", size=10, symbol="circle"),
                 name="Start",
@@ -89,48 +98,46 @@ def plot_trial_coordinates(
         )
         fig.add_trace(
             go.Scatter(
-                x=trial_df.tail(1)["x"],
-                y=trial_df.tail(1)["y"],
+                x=trial_df.tail(1)[x],
+                y=trial_df.tail(1)[y],
                 mode="markers",
                 marker=dict(color="red", size=10, symbol="x"),
                 name="End",
             )
         )
-        fig.update_yaxes(autorange="reversed")
+        # fig.update_yaxes(autorange="reversed")
     fig.show()
 
 
 def plot_trial_channel(
-    participants: pl.DataFrame,
+    trial_df: pl.DataFrame,
     channel: str,
-    participant_id: str,
-    session: int,
-    block: int,
-    trial: int,
 ):
-    trial_df = get_trial(
-        participants,
-        participant_id=participant_id,
-        session=session,
-        block=block,
-        trial=trial,
-        columns=["time", channel, "chunk_margin", "duration", "dbs_stim"],
-        explode=["time", channel],
-    )
+    """
+    Plots a single iEEG channel for a given trial.
 
+    Args:
+        trial_df: A DataFrame for a single trial with required columns exploded.
+        channel: The name of the channel column to plot.
+    """
     if trial_df.is_empty():
-        print(
-            f"No data found for participant {participant_id}, session {session}, block {block}, trial {trial}"
-        )
+        print("Input trial DataFrame is empty. Cannot plot.")
+        return
+
+    try:
+        participant_id = trial_df.select(pl.col("participant_id").first()).item()
+        trial = trial_df.select(pl.col("trial").first()).item()
+    except pl.exceptions.ColumnNotFoundError:
+        print("Warning: Could not find participant_id/trial columns for plot title.")
         return
 
     time_end_absolute = trial_df.select(pl.col("time").max()).item()
     time_start = trial_df.select(pl.col("time").min()).item()
-    trial_df = trial_df.with_columns(time_relative=(pl.col("time") - time_start))
+    trial_df = trial_df.with_columns(time_original=(pl.col("time") - time_start))
 
     chunk_margin = trial_df.select(pl.col("chunk_margin").first()).item()
     original_duration = (
-        trial_df.select(pl.col("duration").first()).item() - 2 * chunk_margin
+        trial_df.select(pl.col("margined_duration").first()).item() - 2 * chunk_margin
     )
     dbs_stim_val = trial_df.select(pl.col("dbs_stim").first()).item()
     dbs_state = "ON" if dbs_stim_val == 1 else "OFF"
@@ -147,7 +154,7 @@ def plot_trial_channel(
 
     fig.add_trace(
         go.Scatter(
-            x=trial_df["time_relative"],
+            x=trial_df["time_original"],
             y=trial_df[channel],
             mode="lines",
             name=channel,
@@ -188,6 +195,48 @@ def plot_trial_channel(
             visible=True,
             showticklabels=True,
         ),
+    )
+
+    fig.show()
+
+
+def plot_tracing_speed(
+    trial_df: pl.DataFrame,
+    tracing_speed: str = "tracing_speed",
+    time: str = "time_original",
+):
+    """
+    Plots the tracing speed for a single trial.
+
+    Args:
+        trial_df: A DataFrame for a single trial with 'time_original' and 'tracing_speed' columns exploded.
+    """
+    if trial_df.is_empty():
+        print("Input trial DataFrame is empty. Cannot plot.")
+        return
+
+    # Extract metadata for title from the DataFrame
+    try:
+        participant_id = trial_df.select(pl.col("participant_id").first()).item()
+        session = trial_df.select(pl.col("session").first()).item()
+        block = trial_df.select(pl.col("block").first()).item()
+        trial = trial_df.select(pl.col("trial").first()).item()
+    except pl.exceptions.ColumnNotFoundError:
+        print(
+            "Warning: Could not find participant/session/block/trial columns for plot title."
+        )
+        participant_id, session, block, trial = "N/A", "N/A", "N/A", "N/A"
+
+    title = f"Tracing Speed for P{participant_id}, S{session}, B{block}, T{trial}"
+    fig = _create_base_figure(title, "Time (s)", "Tracing Speed (pixels/s)")
+
+    fig.add_trace(
+        go.Scatter(
+            x=trial_df[time],
+            y=trial_df[tracing_speed],
+            mode="lines",
+            name="Speed",
+        )
     )
 
     fig.show()
