@@ -1,4 +1,5 @@
 import polars as pl
+import numpy as np
 import plotly.graph_objects as go
 
 
@@ -15,98 +16,6 @@ def _create_base_figure(title: str, x_axis_title: str, y_axis_title: str) -> go.
         margin=dict(l=50, r=50, t=50, b=50),
     )
     return fig
-
-
-def plot_trial_coordinates(
-    trial_df: pl.DataFrame,
-    x: str = "x",
-    y: str = "y",
-    time: str = "time_original",
-    plot_over_time: bool = False,
-):
-    """
-    Plots the x, y coordinates for a specific trial in two ways:
-    1. A 2D plot of y vs. x.
-    2. A plot of x and y coordinates over time.
-
-    Args:
-        trial_df: A DataFrame for a single trial, with 'x', 'y', and 'time_original' columns exploded.
-        plot_over_time: If True, plots coordinates over time. Otherwise, plots 2D trajectory.
-    """
-    if trial_df.is_empty():
-        print("Input trial DataFrame is empty. Cannot plot.")
-        return
-
-    # Extract metadata for title from the DataFrame
-    try:
-        participant_id = trial_df.select(pl.col("participant_id").first()).item()
-        session = trial_df.select(pl.col("session").first()).item()
-        block = trial_df.select(pl.col("block").first()).item()
-        trial = trial_df.select(pl.col("trial").first()).item()
-    except pl.exceptions.ColumnNotFoundError:
-        print(
-            "Warning: Could not find participant/session/block/trial columns for plot title."
-        )
-        participant_id, session, block, trial = "N/A", "N/A", "N/A", "N/A"
-
-    if trial_df.is_empty():
-        print(
-            f"No data found for participant {participant_id}, session {session}, block {block}, trial {trial}"
-        )
-        return
-    if plot_over_time:
-        title = f"Coordinates over Time for P{participant_id}, S{session}, B{block}, T{trial}"
-        fig = _create_base_figure(title, "Time (s)", "Coordinate Value")
-        fig.add_trace(
-            go.Scatter(
-                x=trial_df[time],
-                y=trial_df[x],
-                mode="lines",
-                name="X coordinate",
-                line=dict(color="red"),
-            )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=trial_df[time],
-                y=trial_df[y],
-                mode="lines",
-                name="Y coordinate",
-                line=dict(color="blue"),
-            )
-        )
-    else:
-        title = f"2D Trajectory for P{participant_id}, S{session}, B{block}, T{trial}"
-        fig = _create_base_figure(title, "X Coordinate", "Y Coordinate")
-        fig.add_trace(
-            go.Scatter(
-                x=trial_df[x],
-                y=trial_df[y],
-                mode="markers",
-                name="Trajectory",
-                marker=dict(color="blue", size=2),
-            )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=trial_df.head(1)[x],
-                y=trial_df.head(1)[y],
-                mode="markers",
-                marker=dict(color="green", size=10, symbol="circle"),
-                name="Start",
-            )
-        )
-        fig.add_trace(
-            go.Scatter(
-                x=trial_df.tail(1)[x],
-                y=trial_df.tail(1)[y],
-                mode="markers",
-                marker=dict(color="red", size=10, symbol="x"),
-                name="End",
-            )
-        )
-        # fig.update_yaxes(autorange="reversed")
-    fig.show()
 
 
 def plot_trial_channel(
@@ -200,6 +109,68 @@ def plot_trial_channel(
     fig.show()
 
 
+def plot_trial_coordinates(
+    trial_df: pl.DataFrame,
+    x: str = "x",
+    y: str = "y",
+    time: str = None,
+    plot_over_time: bool = False,
+):
+    """
+    Plots the x, y coordinates for a specific trial in two ways:
+    1. A 2D plot of y vs. x.
+    2. A plot of x and y coordinates over time.
+
+    Args:
+        trial_df: A DataFrame for a single trial, with 'x', 'y', and 'time_original' columns exploded.
+        plot_over_time: If True, plots coordinates over time. Otherwise, plots 2D trajectory.
+    """
+    trial_df = trial_df.sort(by=time) if time else trial_df
+    if trial_df.is_empty():
+        print("Input trial DataFrame is empty. Cannot plot.")
+        return
+
+    # Extract metadata for title from the DataFrame
+    try:
+        participant_id = trial_df.select(pl.col("participant_id").first()).item()
+        session = trial_df.select(pl.col("session").first()).item()
+        block = trial_df.select(pl.col("block").first()).item()
+        trial = trial_df.select(pl.col("trial").first()).item()
+    except pl.exceptions.ColumnNotFoundError:
+        print(
+            "Warning: Could not find participant/session/block/trial columns for plot title."
+        )
+        participant_id, session, block, trial = "N/A", "N/A", "N/A", "N/A"
+
+    if plot_over_time:
+        title = f"Coordinates over Time for P{participant_id}, S{session}, B{block}, T{trial}"
+        fig = _create_base_figure(title, "Time (s)", "Coordinate Value")
+        fig.add_trace(
+            go.Scatter(x=trial_df[time], y=trial_df[x], mode="lines", name="X")
+        )
+        fig.add_trace(
+            go.Scatter(x=trial_df[time], y=trial_df[y], mode="lines", name="Y")
+        )
+    else:
+        title = f"2D Trajectory for P{participant_id}, S{session}, B{block}, T{trial}"
+        fig = _create_base_figure(title, "X Coordinate", "Y Coordinate")
+        fig.add_trace(
+            go.Scatter(x=trial_df[x], y=trial_df[y], mode="markers", name="Trajectory")
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=trial_df.head(1)[x], y=trial_df.head(1)[y], mode="markers", name="Start"
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=trial_df.tail(1)[x], y=trial_df.tail(1)[y], mode="markers", name="End"
+            )
+        )
+
+    fig.show()
+
+
 def plot_tracing_speed(
     trial_df: pl.DataFrame,
     tracing_speed: str = "tracing_speed",
@@ -236,6 +207,63 @@ def plot_tracing_speed(
             y=trial_df[tracing_speed],
             mode="lines",
             name="Speed",
+        )
+    )
+
+    fig.show()
+
+
+def plot_psd_heatmap(
+    freqs: np.ndarray, psds: np.ndarray, title: str = "PSD Heatmap per Trial"
+):
+    """
+    Plots a heatmap of the Power Spectral Density (PSD) for a single trial.
+
+    The heatmap shows frequency on the y-axis, time (as epochs) on the x-axis,
+    and power as the color intensity.
+
+    Args:
+        freqs: A 1D numpy array of frequency values.
+        psds: A 2D numpy array of PSD values with shape (n_epochs, n_freqs).
+        title: The title for the plot.
+    """
+    fig = _create_base_figure(
+        title=title, x_axis_title="Epoch Number", y_axis_title="Frequency (Hz)"
+    )
+
+    # Transpose PSDs so that shape is (n_freqs, n_epochs) for the heatmap
+    # Use log power for better color contrast
+    log_psds = 10 * np.log10(psds.T) + 120
+
+    fig.add_trace(
+        go.Heatmap(
+            z=log_psds,
+            x=np.arange(psds.shape[0]),  # Epoch numbers
+            y=freqs,
+            colorscale="Viridis",
+            colorbar=dict(title="Power/Frequency (dB/Hz)"),
+        )
+    )
+
+    fig.show()
+
+
+def plot_avg_psd(
+    freqs: np.ndarray, psds: np.ndarray, title: str = "Average PSD" # Corrected title
+):
+    fig = _create_base_figure(
+        title=title, x_axis_title="Frequency (Hz)", y_axis_title="Power/Frequency (dB/Hz)"
+    )
+
+    mean_psd_linear = np.mean(psds, axis=0) # Average across epochs (axis 0)
+
+    mean_psd_db = 10 * np.log10(mean_psd_linear) + 120
+
+
+    fig.add_trace(
+        go.Scatter(
+            x=freqs,
+            y=mean_psd_db,
         )
     )
 

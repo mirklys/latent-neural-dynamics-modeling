@@ -11,24 +11,25 @@ from utils.ieeg import preprocess_ieeg, filter_recording
 from scipy.io import savemat
 
 
-def read_tsv(path: Path) -> pl.DataFrame:
+def read_tsv(path: Path, unique: bool = True) -> pl.DataFrame:
     df = pl.read_csv(
         path,
         separator="\t",
         null_values="n/a",
-    ).unique()
-
+    )
+    if unique:
+        df = df.unique(maintain_order=True)
     return df
 
 
 def read_tsv_to_struct(path: Path) -> pl.Series:
-    df = read_tsv(path)
+    df = read_tsv(path, unique=False)
 
     return df.to_struct()
 
 
 def read_tsv_to_dict(path: Path) -> dict:
-    df = read_tsv(path)
+    df = read_tsv(path, unique=False)
 
     return df.to_dict(as_series=True)
 

@@ -18,7 +18,7 @@ from utils.config import Config
 from utils.logger import get_logger
 from utils.motion import interpolate
 
-iEEG_SCHEMA = pl.Struct(
+LFP_SCHEMA = pl.Struct(
     [
         pl.Field("LFP_1", pl.List(pl.Float32)),
         pl.Field("LFP_2", pl.List(pl.Float32)),
@@ -36,14 +36,32 @@ iEEG_SCHEMA = pl.Struct(
         pl.Field("LFP_14", pl.List(pl.Float32)),
         pl.Field("LFP_15", pl.List(pl.Float32)),
         pl.Field("LFP_16", pl.List(pl.Float32)),
+    ]
+)
+
+ECOG_SCHEMA = pl.Struct(
+    [
         pl.Field("ECOG_1", pl.List(pl.Float32)),
         pl.Field("ECOG_2", pl.List(pl.Float32)),
         pl.Field("ECOG_3", pl.List(pl.Float32)),
         pl.Field("ECOG_4", pl.List(pl.Float32)),
+    ]
+)
+
+EOG_SCHEMA = pl.Struct(
+    [
         pl.Field("EOG_1", pl.List(pl.Float32)),
         pl.Field("EOG_2", pl.List(pl.Float32)),
         pl.Field("EOG_3", pl.List(pl.Float32)),
         pl.Field("EOG_4", pl.List(pl.Float32)),
+    ]
+)
+
+iEEG_SCHEMA = pl.Struct(
+    [
+        *LFP_SCHEMA.fields,
+        *ECOG_SCHEMA.fields,
+        *EOG_SCHEMA.fields,
         pl.Field("sfreq", pl.List(pl.Float32)),
     ]
 )
@@ -87,6 +105,9 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
         "data_format",
         strict=False,
     )
+
+    participants = apply_car(participants, [field.name for field in LFP_SCHEMA.fields])
+    participants = apply_car(participants, [field.name for field in ECOG_SCHEMA.fields])
 
     participants = (
         participants.with_columns(
@@ -262,9 +283,7 @@ def _chunk_recordings(
             )
             + pl.col("onset")
         )
-        .otherwise(
-            pl.lit(None, dtype=pl.List(pl.Float64))
-        )
+        .otherwise(pl.lit(None, dtype=pl.List(pl.Float64)))
         .alias("motion_time")
     )
 
@@ -282,5 +301,26 @@ def _chunk_recordings(
         )
         .alias("y_interpolated"),
     )
+
+    return participants_
+
+
+def apply_car(participants: pl.DataFrame, channels: list[str]) -> pl.DataFrame:
+
+    car_per_block = participants.group_by(["participant_id", "session", "block"]).agg(
+        pl.mean_horizontal(
+            pl.col(channels).explode()
+        ).mean().alias("car_scalar")
+    )
+
+    participants_ = participants.join(car_per_block, on=["participant_id", "session", "block"])
+    participants_ = participants_.with_columns(
+        *[
+            (pl.col(ch) - pl.col("car_scalar")).alias(ch)
+            for ch in channels
+        ]
+    )
+    
+    participants_ = participants_.drop("car_scalar")
 
     return participants_

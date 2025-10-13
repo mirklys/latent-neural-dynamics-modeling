@@ -1,7 +1,5 @@
 from pathlib import Path
 import mne
-
-from scipy.signal import butter, filtfilt
 import numpy as np
 
 
@@ -18,7 +16,7 @@ def preprocess_ieeg(
 
         raw.notch_filter(freqs=notch_freqs, verbose=False)
         raw.filter(l_freq=low_freq, h_freq=high_freq)
-        raw.resample(sfreq=sfreq, verbose=False)
+        # raw.resample(sfreq=sfreq, verbose=False) # already resampled data
 
         data = raw.get_data()
         channels_data = {ch: d.tolist() for ch, d in zip(raw.ch_names, data)}
@@ -54,8 +52,8 @@ def filter_recording(
 
 def epoch_trials(
     recording: list[float],
-    window_size: int = 500,
-    step_size: int = 250,
+    window_size: int = 2000,
+    step_size: int = 500,
 ) -> list[list[float]]:
     n_samples = len(recording)
     recording_ = np.array(recording, dtype=np.float64)
@@ -72,3 +70,22 @@ def epoch_trials(
         epochs.append(epoch.tolist())
 
     return epochs
+
+
+def calculate_psd_multitaper(
+    epochs: list[list[float]],
+) -> list[list]:
+    epochs_arr = np.array([np.asarray(epoch, dtype=np.float64) for epoch in epochs])
+    psds, freqs = mne.time_frequency.psd_array_multitaper(
+        epochs_arr,
+        sfreq=1000,
+        fmin=3.0,
+        fmax=250.0,
+        bandwidth=2.0,
+        adaptive=True,
+        low_bias=True,
+        normalization="length",
+        remove_dc=True,
+        n_jobs=-1,
+    )
+    return [freqs.tolist(), psds.tolist()]
