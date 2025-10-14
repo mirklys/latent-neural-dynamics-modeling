@@ -1,22 +1,28 @@
 import polars as pl
 from pathlib import Path
 
-from utils.polars import (
-    read_tsv,
-    add_modality_path,
-    split_file_path,
-    remove_rows_with,
-    explode_files,
-    keep_rows_with,
-    band_pass_resample,
+from utils.ieeg import (
+    epoch_trials,
+    calculate_psd_welch,
 )
-from .events import construct_events_table
+from utils.polars import (
+    # read_tsv,
+    # add_modality_path,
+    # split_file_path,
+    # remove_rows_with,
+    # explode_files,
+    # keep_rows_with,
+    band_pass_resample,
+    # stack_columns,
+)
+
+# from .events import construct_events_table
 from .motion import construct_motion_table
 from utils.file_handling import get_child_subchilds_tuples
 
 from utils.config import Config
 from utils.logger import get_logger
-from utils.motion import interpolate
+from utils.motion import tracing_speed
 
 LFP_SCHEMA = pl.Struct(
     [
@@ -68,6 +74,9 @@ iEEG_SCHEMA = pl.Struct(
 
 
 def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
+
+    logger = get_logger()
+
     """CODE IF PARTIAL PREPROCESSING IS NOT DONE
     participants = read_tsv(data_path / config.participants_table_name)
     participants = participants.filter(
@@ -83,8 +92,16 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     participants = explode_files(participants, "participant_path", "session_path")
     """
     ieeg_participants = _add_ieeg_data(participants, config)
+
+    lfp_channels = [field.name for field in LFP_SCHEMA.fields]
+    ecog_channels = [field.name for field in ECOG_SCHEMA.fields]
+    all_channels = lfp_channels + ecog_channels
+
+    ieeg_participants = apply_car(ieeg_participants, lfp_channels)
+    ieeg_participants = apply_car(ieeg_participants, ecog_channels)
+
     motion_participants = construct_motion_table(
-        participants.filter(pl.col("labels")), config
+        ieeg_participants.filter(pl.col("labels")), config
     )
 
     participants = ieeg_participants.join(
@@ -106,9 +123,6 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
         strict=False,
     )
 
-    participants = apply_car(participants, [field.name for field in LFP_SCHEMA.fields])
-    participants = apply_car(participants, [field.name for field in ECOG_SCHEMA.fields])
-
     participants = (
         participants.with_columns(
             (pl.col("trials") - pl.col("trial"))
@@ -129,12 +143,48 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
         )
         .drop("trials", "onsets", "yscores", "trial_index")
     )
-
     participants = _chunk_recordings(
         participants,
         config.ieeg_process.chunk_margin,
         config.ieeg_process.resampled_freq,
-    ).drop("ieeg_parquet")
+    )
+
+    for channel in all_channels:
+        participants = participants.with_columns(
+            pl.col(channel)
+            .map_elements(
+                epoch_trials,
+                return_dtype=pl.List(pl.List(pl.Float64)),
+            )
+            .alias(f"{channel}_epochs")
+        )
+
+    for channel in all_channels:
+        participants = (
+            participants.with_columns(
+                pl.col(f"{channel}_epochs")
+                .map_elements(
+                    lambda x: calculate_psd_welch(
+                        x,
+                        sfreq=config.ieeg_process.resampled_freq,
+                        low_freq=config.ieeg_process.low_freq,
+                        high_freq=config.ieeg_process.high_freq,
+                    ),
+                    return_dtype=pl.Object,
+                )
+                .alias(f"{channel}_psd")
+            )
+            .with_columns(
+                pl.col(f"{channel}_psd")
+                .map_elements(lambda x: x[0], return_dtype=pl.List(pl.Float64))
+                .alias(f"{channel}_psd_freq"),
+                pl.col(f"{channel}_psd")
+                .map_elements(lambda x: x[1], return_dtype=pl.List(pl.List(pl.Float64)))
+                .alias(f"{channel}_psd_values"),
+            )
+            .drop(f"{channel}_psd")
+        )
+
     return participants
 
 
@@ -181,8 +231,7 @@ def construct_participants_table(config: Config):
             pl.col("^ECOG_.*$"),
             "x",
             "y",
-            "x_interpolated",
-            "y_interpolated",
+            "tracing_speed",
             pl.col("labels").alias("tracing_coordinates_present"),
         )
 
@@ -283,23 +332,34 @@ def _chunk_recordings(
             )
             + pl.col("onset")
         )
-        .otherwise(pl.lit(None, dtype=pl.List(pl.Float64)))
         .alias("motion_time")
     )
 
+    from utils.logger import get_logger
+
+    logger = get_logger()
+    logger.info(
+        f"""There are null values in motion_time column: 
+        {participants_.select("participant_id", "session", "block", "trial", "motion_time").filter(pl.col('motion_time').is_null())}"""
+    )
+
+    logger.info(
+        f"""There are null values within motion_time column: 
+        {participants_.select("participant_id", "session", "block", "trial", "motion_time").filter(pl.col('motion_time').list.contains(None))}"""
+    )
+
     participants_ = participants_.with_columns(
-        pl.struct([pl.col("x").alias("coordinates"), "original_length_ts"])
-        .map_elements(
-            lambda s: interpolate(s["coordinates"], s["original_length_ts"]),
-            return_dtype=pl.List(pl.Float32),
+        pl.when(
+            pl.col("motion_time").is_not_null()
+            & (pl.col("motion_time").list.drop_nulls().list.len() > 0)
         )
-        .alias("x_interpolated"),
-        pl.struct([pl.col("y").alias("coordinates"), "original_length_ts"])
-        .map_elements(
-            lambda s: interpolate(s["coordinates"], s["original_length_ts"]),
-            return_dtype=pl.List(pl.Float32),
+        .then(
+            pl.struct(pl.col("x"), pl.col("y"), "motion_time").map_elements(
+                lambda s: tracing_speed(s["x"], s["y"], s["motion_time"]),
+                return_dtype=pl.List(pl.Float64),
+            )
         )
-        .alias("y_interpolated"),
+        .alias("tracing_speed")
     )
 
     return participants_
@@ -308,19 +368,16 @@ def _chunk_recordings(
 def apply_car(participants: pl.DataFrame, channels: list[str]) -> pl.DataFrame:
 
     car_per_block = participants.group_by(["participant_id", "session", "block"]).agg(
-        pl.mean_horizontal(
-            pl.col(channels).explode()
-        ).mean().alias("car_scalar")
+        pl.mean_horizontal(pl.col(channels).explode()).mean().alias("car_scalar")
     )
 
-    participants_ = participants.join(car_per_block, on=["participant_id", "session", "block"])
-    participants_ = participants_.with_columns(
-        *[
-            (pl.col(ch) - pl.col("car_scalar")).alias(ch)
-            for ch in channels
-        ]
+    participants_ = participants.join(
+        car_per_block, on=["participant_id", "session", "block"]
     )
-    
+    participants_ = participants_.with_columns(
+        *[(pl.col(ch) - pl.col("car_scalar")).alias(ch) for ch in channels]
+    )
+
     participants_ = participants_.drop("car_scalar")
 
     return participants_

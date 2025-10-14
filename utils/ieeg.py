@@ -4,7 +4,11 @@ import numpy as np
 
 
 def preprocess_ieeg(
-    ieeg_headers_file: str, sfreq: int, low_freq: int, high_freq: int, notch_freqs
+    ieeg_headers_file: str,
+    sfreq: int,
+    low_freq: int,
+    high_freq: int,
+    notch_freqs: list[int],
 ) -> dict[str, list[float]] | None:
     ieeg_path = Path(ieeg_headers_file)
 
@@ -19,8 +23,10 @@ def preprocess_ieeg(
         # raw.resample(sfreq=sfreq, verbose=False) # already resampled data
 
         data = raw.get_data()
-        channels_data = {ch: d.tolist() for ch, d in zip(raw.ch_names, data)}
+        channels = raw.ch_names
+        channels_data = {f"art_{ch}": d.tolist() for ch, d in zip(raw.ch_names, data)}
         channels_data["sfreq"] = float(sfreq)
+
         return channels_data
     except Exception as e:
         from utils.logger import get_logger
@@ -72,20 +78,21 @@ def epoch_trials(
     return epochs
 
 
-def calculate_psd_multitaper(
+def calculate_psd_welch(
     epochs: list[list[float]],
+    sfreq: int = 1000,
+    low_freq: float = 3.0,
+    high_freq: float = 250.0,
 ) -> list[list]:
     epochs_arr = np.array([np.asarray(epoch, dtype=np.float64) for epoch in epochs])
-    psds, freqs = mne.time_frequency.psd_array_multitaper(
+    psds, freqs = mne.time_frequency.psd_array_welch(
         epochs_arr,
-        sfreq=1000,
-        fmin=3.0,
-        fmax=250.0,
-        bandwidth=2.0,
-        adaptive=True,
-        low_bias=True,
-        normalization="length",
-        remove_dc=True,
+        sfreq=sfreq,
+        fmin=low_freq,
+        fmax=high_freq,
+        average="mean",
+        n_fft=sfreq, 
         n_jobs=-1,
+        verbose=False,
     )
     return [freqs.tolist(), psds.tolist()]

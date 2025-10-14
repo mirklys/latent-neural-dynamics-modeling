@@ -106,7 +106,7 @@ def plot_trial_channel(
         ),
     )
 
-    fig.show()
+    return fig
 
 
 def plot_trial_coordinates(
@@ -159,7 +159,10 @@ def plot_trial_coordinates(
         )
         fig.add_trace(
             go.Scatter(
-                x=trial_df.head(1)[x], y=trial_df.head(1)[y], mode="markers", name="Start"
+                x=trial_df.head(1)[x],
+                y=trial_df.head(1)[y],
+                mode="markers",
+                name="Start",
             )
         )
         fig.add_trace(
@@ -168,7 +171,7 @@ def plot_trial_coordinates(
             )
         )
 
-    fig.show()
+    return fig
 
 
 def plot_tracing_speed(
@@ -210,7 +213,7 @@ def plot_tracing_speed(
         )
     )
 
-    fig.show()
+    return fig
 
 
 def plot_psd_heatmap(
@@ -245,26 +248,46 @@ def plot_psd_heatmap(
         )
     )
 
-    fig.show()
+    return fig
 
 
-def plot_avg_psd(
-    freqs: np.ndarray, psds: np.ndarray, title: str = "Average PSD" # Corrected title
+def plot_average_psd(
+    freqs: np.ndarray,
+    psds_on: np.ndarray,
+    psds_off: np.ndarray,
+    title: str = "Average PSD (DBS ON vs. OFF)",
 ):
     fig = _create_base_figure(
-        title=title, x_axis_title="Frequency (Hz)", y_axis_title="Power/Frequency (dB/Hz)"
+        title=title,
+        x_axis_title="Frequency (Hz)",
+        y_axis_title="Power/Frequency (dB/Hz)",
     )
+    fig.update_layout(legend_title_text="DBS State")
 
-    mean_psd_linear = np.mean(psds, axis=0) # Average across epochs (axis 0)
-
-    mean_psd_db = 10 * np.log10(mean_psd_linear) + 120
-
-
-    fig.add_trace(
-        go.Scatter(
-            x=freqs,
-            y=mean_psd_db,
+    if psds_on.size > 0:
+        mean_psd_on_linear = np.mean(psds_on, axis=0)
+        mean_psd_on_db = 10 * np.log10(mean_psd_on_linear)
+        fig.add_trace(
+            go.Scatter(
+                x=freqs,
+                y=mean_psd_on_db,
+                mode="lines",
+                name="ON",
+                line=dict(color="red"),
+            )
         )
-    )
 
-    fig.show()
+    if psds_off.size > 0:
+        mean_psd_off_linear = np.mean(psds_off, axis=0)
+        mean_psd_off_db = 10 * np.log10(mean_psd_off_linear)
+        fig.add_trace(
+            go.Scatter(
+                x=freqs,
+                y=mean_psd_off_db,
+                mode="lines",
+                name="OFF",
+                line=dict(color="blue"),
+            )
+        )
+
+    return fig
