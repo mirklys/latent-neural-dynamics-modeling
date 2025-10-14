@@ -1,14 +1,14 @@
 import polars as pl
 from pathlib import Path
-import shutil
-import uuid
+
 from utils.file_handling import list_files, load_mat_into_dict
 from utils.config import Config
-from tqdm import tqdm
 
 from utils.ieeg import preprocess_ieeg, filter_recording
 
 from scipy.io import savemat
+
+import numpy as np
 
 
 def read_tsv(path: Path, unique: bool = True) -> pl.DataFrame:
@@ -279,3 +279,17 @@ def band_pass_resample(
         )
 
     return participants_
+
+
+def stack_columns(participants: pl.DataFrame, cols: list[str]) -> pl.DataFrame:
+    segments_per_col = []
+    for col in cols:
+        lists = participants[col].to_list()
+        arrs = [np.asarray(x, dtype=np.float64) for x in lists]
+        segments_per_col.append(arrs)
+
+    concatenated = [np.concatenate(col_segs) for col_segs in segments_per_col]
+
+    matrix = np.vstack(concatenated)
+
+    return matrix, segments_per_col

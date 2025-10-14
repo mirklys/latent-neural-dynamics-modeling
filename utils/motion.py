@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.interpolate import interp1d
+from utils.miscellaneous import contains_nulls
 
 
 def interpolate(coordinates: list, original_length_ts: int) -> list:
@@ -24,6 +25,9 @@ def tracing_speed(
     moving_avg_window_ms: int = 50,
 ) -> list:
 
+    if contains_nulls(x) or contains_nulls(y) or contains_nulls(time):
+        return None
+    
     dx = np.diff(x)
     dy = np.diff(y)
     dt = np.diff(time)

@@ -106,7 +106,7 @@ def plot_trial_channel(
         ),
     )
 
-    fig.show()
+    return fig
 
 
 def plot_trial_coordinates(
@@ -159,7 +159,10 @@ def plot_trial_coordinates(
         )
         fig.add_trace(
             go.Scatter(
-                x=trial_df.head(1)[x], y=trial_df.head(1)[y], mode="markers", name="Start"
+                x=trial_df.head(1)[x],
+                y=trial_df.head(1)[y],
+                mode="markers",
+                name="Start",
             )
         )
         fig.add_trace(
@@ -168,7 +171,7 @@ def plot_trial_coordinates(
             )
         )
 
-    fig.show()
+    return fig
 
 
 def plot_tracing_speed(
@@ -210,7 +213,7 @@ def plot_tracing_speed(
         )
     )
 
-    fig.show()
+    return fig
 
 
 def plot_psd_heatmap(
@@ -245,20 +248,21 @@ def plot_psd_heatmap(
         )
     )
 
-    fig.show()
+    return fig
 
 
 def plot_avg_psd(
-    freqs: np.ndarray, psds: np.ndarray, title: str = "Average PSD" # Corrected title
+    freqs: np.ndarray, psds: np.ndarray, title: str = "Average PSD"  # Corrected title
 ):
     fig = _create_base_figure(
-        title=title, x_axis_title="Frequency (Hz)", y_axis_title="Power/Frequency (dB/Hz)"
+        title=title,
+        x_axis_title="Frequency (Hz)",
+        y_axis_title="Power/Frequency (dB/Hz)",
     )
 
-    mean_psd_linear = np.mean(psds, axis=0) # Average across epochs (axis 0)
+    mean_psd_linear = np.mean(psds, axis=0)  # Average across epochs (axis 0)
 
     mean_psd_db = 10 * np.log10(mean_psd_linear) + 120
-
 
     fig.add_trace(
         go.Scatter(
@@ -267,4 +271,4 @@ def plot_avg_psd(
         )
     )
 
-    fig.show()
+    return fig
