@@ -136,10 +136,7 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
             .alias("onset"),
             pl.col("trials")
             .list.get(pl.col("trial_index"), null_on_oob=True)
-            .alias("trial"),
-            pl.col("yscores")
-            .list.get(pl.col("trial_index"), null_on_oob=True)
-            .alias("yscore"),
+            .alias("trial")
         )
         .drop("trials", "onsets", "yscores", "trial_index")
     )
@@ -226,7 +223,6 @@ def construct_participants_table(config: Config):
             pl.col("chunk_length_ts").alias("trial_length_ts"),
             "chunk_margin",
             "dbs_stim",
-            "yscore",
             pl.col("^LFP_.*$"),
             pl.col("^ECOG_.*$"),
             "x",

@@ -27,7 +27,7 @@ def tracing_speed(
 
     if contains_nulls(x) or contains_nulls(y) or contains_nulls(time):
         return None
-    
+
     dx = np.diff(x)
     dy = np.diff(y)
     dt = np.diff(time)

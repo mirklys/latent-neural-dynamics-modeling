@@ -91,7 +91,7 @@ def calculate_psd_welch(
         fmin=low_freq,
         fmax=high_freq,
         average="mean",
-        n_fft=sfreq, 
+        n_fft=sfreq,
         n_jobs=-1,
         verbose=False,
     )

@@ -1,293 +1,222 @@
 import polars as pl
 import numpy as np
 import plotly.graph_objects as go
+import plotly.express as px
 
 
 def _create_base_figure(title: str, x_axis_title: str, y_axis_title: str) -> go.Figure:
-    """Creates a base Plotly figure with a standardized layout."""
+    """Creates a base Plotly figure with a standardized 'academic' layout."""
     fig = go.Figure()
     fig.update_layout(
-        title=dict(text=title, x=0.5, font=dict(size=14)),
-        xaxis_title=x_axis_title,
-        yaxis_title=y_axis_title,
+        title=dict(text=title, x=0.5, font=dict(size=18, family="Times New Roman")),
+        xaxis_title=dict(
+            text=x_axis_title, font=dict(size=14, family="Times New Roman")
+        ),
+        yaxis_title=dict(
+            text=y_axis_title, font=dict(size=14, family="Times New Roman")
+        ),
         template="plotly_white",
         font=dict(family="Times New Roman", size=12, color="black"),
+        legend=dict(font=dict(size=12, family="Times New Roman")),
         showlegend=True,
-        margin=dict(l=50, r=50, t=50, b=50),
+        margin=dict(l=60, r=30, t=60, b=60),
     )
     return fig
 
 
-def plot_trial_channel(
-    trial_df: pl.DataFrame,
-    channel: str,
-):
-    """
-    Plots a single iEEG channel for a given trial.
-
-    Args:
-        trial_df: A DataFrame for a single trial with required columns exploded.
-        channel: The name of the channel column to plot.
-    """
+def plot_trial_channel(trial_df: pl.DataFrame, channel: str) -> go.Figure:
+    """Plots a single iEEG channel for a given trial with improved styling."""
     if trial_df.is_empty():
-        print("Input trial DataFrame is empty. Cannot plot.")
-        return
+        return go.Figure().update_layout(title_text=f"No data for {channel}")
 
-    try:
-        participant_id = trial_df.select(pl.col("participant_id").first()).item()
-        trial = trial_df.select(pl.col("trial").first()).item()
-    except pl.exceptions.ColumnNotFoundError:
-        print("Warning: Could not find participant_id/trial columns for plot title.")
-        return
+    participant_id = trial_df["participant_id"][0]
+    trial = trial_df["trial"][0]
+    dbs_state = "ON" if trial_df["dbs_stim"][0] else "OFF"
 
-    time_end_absolute = trial_df.select(pl.col("time").max()).item()
-    time_start = trial_df.select(pl.col("time").min()).item()
-    trial_df = trial_df.with_columns(time_original=(pl.col("time") - time_start))
+    title = f"{channel.replace('_', ' ')} Signal (P{participant_id}, Trial {trial}, DBS {dbs_state})"
+    fig = _create_base_figure(title, "Time (s)", "Amplitude (µV)")
 
-    chunk_margin = trial_df.select(pl.col("chunk_margin").first()).item()
-    original_duration = (
-        trial_df.select(pl.col("margined_duration").first()).item() - 2 * chunk_margin
+    time_start = trial_df["time"].min()
+    trial_df = trial_df.with_columns(
+        (pl.col("time") - time_start).alias("relative_time")
     )
-    dbs_stim_val = trial_df.select(pl.col("dbs_stim").first()).item()
-    dbs_state = "ON" if dbs_stim_val == 1 else "OFF"
-
-    event_start_relative = chunk_margin
-    event_end_relative = event_start_relative + original_duration
-
-    title_text = (
-        f"{channel.replace('_', ' ')} Signal for Participant {participant_id}, "
-        f"Trial {trial} (DBS {dbs_state})"
-    )
-    fig = _create_base_figure(title_text, "Relative Time (s)", "Signal Amplitude (µV)")
-    fig.update_layout(showlegend=False)
 
     fig.add_trace(
         go.Scatter(
-            x=trial_df["time_original"],
+            x=trial_df["relative_time"],
             y=trial_df[channel],
             mode="lines",
             name=channel,
-            line=dict(color="black", width=1.5),
+            line=dict(color="black", width=1),
         )
     )
 
-    fig.add_vline(
-        x=event_start_relative,
-        line_width=1.5,
-        line_dash="dash",
-        line_color="darkgreen",
-        annotation_text="Event Start",
-        annotation_position="top left",
-    )
-    fig.add_vline(
-        x=event_end_relative,
-        line_width=1.5,
-        line_dash="dash",
-        line_color="darkred",
-        annotation_text="Event End",
-        annotation_position="top right",
-    )
+    # Add annotations for event start/end
+    chunk_margin = trial_df["chunk_margin"][0]
+    original_duration = trial_df["margined_duration"][0] - 2 * chunk_margin
+    event_start = chunk_margin
+    event_end = event_start + original_duration
+
     fig.add_vrect(
-        x0=event_start_relative,
-        x1=event_end_relative,
+        x0=event_start,
+        x1=event_end,
         fillcolor="rgba(0, 100, 0, 0.1)",
         layer="below",
         line_width=0,
     )
-
-    fig.update_layout(
-        xaxis2=dict(
-            title="Absolute Time (s)",
-            side="top",
-            overlaying="x",
-            range=[time_start, time_end_absolute],
-            visible=True,
-            showticklabels=True,
-        ),
+    fig.add_vline(
+        x=event_start,
+        line_dash="dash",
+        line_color="green",
+        annotation_text="Event Start",
+    )
+    fig.add_vline(
+        x=event_end, line_dash="dash", line_color="red", annotation_text="Event End"
     )
 
+    fig.update_layout(showlegend=False)
     return fig
 
 
 def plot_trial_coordinates(
-    trial_df: pl.DataFrame,
-    x: str = "x",
-    y: str = "y",
-    time: str = None,
-    plot_over_time: bool = False,
-):
-    """
-    Plots the x, y coordinates for a specific trial in two ways:
-    1. A 2D plot of y vs. x.
-    2. A plot of x and y coordinates over time.
+    trial_df: pl.DataFrame, time: str, plot_over_time: bool = False
+) -> go.Figure:
+    """Plots trial coordinates with improved styling."""
+    if trial_df.is_empty() or trial_df["x"].is_null().all():
+        return go.Figure().update_layout(title_text="No coordinate data available")
 
-    Args:
-        trial_df: A DataFrame for a single trial, with 'x', 'y', and 'time_original' columns exploded.
-        plot_over_time: If True, plots coordinates over time. Otherwise, plots 2D trajectory.
-    """
-    trial_df = trial_df.sort(by=time) if time else trial_df
-    if trial_df.is_empty():
-        print("Input trial DataFrame is empty. Cannot plot.")
-        return
-
-    # Extract metadata for title from the DataFrame
-    try:
-        participant_id = trial_df.select(pl.col("participant_id").first()).item()
-        session = trial_df.select(pl.col("session").first()).item()
-        block = trial_df.select(pl.col("block").first()).item()
-        trial = trial_df.select(pl.col("trial").first()).item()
-    except pl.exceptions.ColumnNotFoundError:
-        print(
-            "Warning: Could not find participant/session/block/trial columns for plot title."
-        )
-        participant_id, session, block, trial = "N/A", "N/A", "N/A", "N/A"
+    p_id = trial_df["participant_id"][0]
+    session = trial_df["session"][0]
+    trial = trial_df["trial"][0]
 
     if plot_over_time:
-        title = f"Coordinates over Time for P{participant_id}, S{session}, B{block}, T{trial}"
-        fig = _create_base_figure(title, "Time (s)", "Coordinate Value")
+        title = f"Coordinates vs. Time (P{p_id}, S{session}, T{trial})"
+        fig = _create_base_figure(title, "Time (s)", "Position")
         fig.add_trace(
-            go.Scatter(x=trial_df[time], y=trial_df[x], mode="lines", name="X")
+            go.Scatter(x=trial_df[time], y=trial_df["x"], mode="lines", name="X-coord")
         )
         fig.add_trace(
-            go.Scatter(x=trial_df[time], y=trial_df[y], mode="lines", name="Y")
+            go.Scatter(x=trial_df[time], y=trial_df["y"], mode="lines", name="Y-coord")
         )
     else:
-        title = f"2D Trajectory for P{participant_id}, S{session}, B{block}, T{trial}"
+        title = f"2D Trajectory (P{p_id}, S{session}, T{trial})"
         fig = _create_base_figure(title, "X Coordinate", "Y Coordinate")
         fig.add_trace(
-            go.Scatter(x=trial_df[x], y=trial_df[y], mode="markers", name="Trajectory")
+            go.Scatter(
+                x=trial_df["x"], y=trial_df["y"], mode="lines+markers", name="Path"
+            )
         )
+        fig.update_xaxes(scaleanchor="y", scaleratio=1)
         fig.add_trace(
             go.Scatter(
-                x=trial_df.head(1)[x],
-                y=trial_df.head(1)[y],
+                x=trial_df.head(1)["x"],
+                y=trial_df.head(1)["y"],
                 mode="markers",
+                marker=dict(color="green", size=10),
                 name="Start",
             )
         )
         fig.add_trace(
             go.Scatter(
-                x=trial_df.tail(1)[x], y=trial_df.tail(1)[y], mode="markers", name="End"
+                x=trial_df.tail(1)["x"],
+                y=trial_df.tail(1)["y"],
+                mode="markers",
+                marker=dict(color="red", size=10),
+                name="End",
             )
         )
 
     return fig
 
 
-def plot_tracing_speed(
-    trial_df: pl.DataFrame,
-    tracing_speed: str = "tracing_speed",
-    time: str = "time_original",
-):
-    """
-    Plots the tracing speed for a single trial.
+def plot_tracing_speed(trial_df: pl.DataFrame, time: str) -> go.Figure:
+    """Plots tracing speed with improved styling."""
+    if trial_df.is_empty() or trial_df["tracing_speed"].is_null().all():
+        return go.Figure().update_layout(title_text="No speed data available")
 
-    Args:
-        trial_df: A DataFrame for a single trial with 'time_original' and 'tracing_speed' columns exploded.
-    """
-    if trial_df.is_empty():
-        print("Input trial DataFrame is empty. Cannot plot.")
-        return
+    p_id = trial_df["participant_id"][0]
+    session = trial_df["session"][0]
+    trial = trial_df["trial"][0]
 
-    # Extract metadata for title from the DataFrame
-    try:
-        participant_id = trial_df.select(pl.col("participant_id").first()).item()
-        session = trial_df.select(pl.col("session").first()).item()
-        block = trial_df.select(pl.col("block").first()).item()
-        trial = trial_df.select(pl.col("trial").first()).item()
-    except pl.exceptions.ColumnNotFoundError:
-        print(
-            "Warning: Could not find participant/session/block/trial columns for plot title."
-        )
-        participant_id, session, block, trial = "N/A", "N/A", "N/A", "N/A"
-
-    title = f"Tracing Speed for P{participant_id}, S{session}, B{block}, T{trial}"
-    fig = _create_base_figure(title, "Time (s)", "Tracing Speed (pixels/s)")
-
+    title = f"Tracing Speed (P{p_id}, S{session}, T{trial})"
+    fig = _create_base_figure(title, "Time (s)", "Speed (pixels/s)")
     fig.add_trace(
         go.Scatter(
-            x=trial_df[time],
-            y=trial_df[tracing_speed],
-            mode="lines",
-            name="Speed",
+            x=trial_df[time], y=trial_df["tracing_speed"], mode="lines", name="Speed"
         )
     )
+    fig.update_layout(showlegend=False)
 
     return fig
 
 
-def plot_psd_heatmap(
-    freqs: np.ndarray, psds: np.ndarray, title: str = "PSD Heatmap per Trial"
-):
-    """
-    Plots a heatmap of the Power Spectral Density (PSD) for a single trial.
+def plot_psd_heatmap(freqs: np.ndarray, psds: np.ndarray, title: str) -> go.Figure:
+    """Plots a PSD heatmap with improved styling."""
+    if freqs.size == 0 or psds.size == 0:
+        return go.Figure().update_layout(title_text="No PSD data for heatmap")
 
-    The heatmap shows frequency on the y-axis, time (as epochs) on the x-axis,
-    and power as the color intensity.
+    fig = _create_base_figure(title, "Time Epoch", "Frequency (Hz)")
+    # Ensure psds is a float array for log calculation
 
-    Args:
-        freqs: A 1D numpy array of frequency values.
-        psds: A 2D numpy array of PSD values with shape (n_epochs, n_freqs).
-        title: The title for the plot.
-    """
-    fig = _create_base_figure(
-        title=title, x_axis_title="Epoch Number", y_axis_title="Frequency (Hz)"
-    )
-
-    # Transpose PSDs so that shape is (n_freqs, n_epochs) for the heatmap
-    # Use log power for better color contrast
-    log_psds = 10 * np.log10(psds.T) + 120
+    psds_arr = np.asarray([np.array(psd, dtype=float) for psd in psds])
+    log_psds = 10 * np.log10(psds_arr.T) + 120
 
     fig.add_trace(
         go.Heatmap(
             z=log_psds,
-            x=np.arange(psds.shape[0]),  # Epoch numbers
+            x=np.arange(psds_arr.shape[0]),
             y=freqs,
             colorscale="Viridis",
-            colorbar=dict(title="Power/Frequency (dB/Hz)"),
+            colorbar=dict(title="Power/Freq (dB/Hz)"),
         )
     )
-
     return fig
 
 
 def plot_average_psd(
     freqs: np.ndarray,
-    psds_on: np.ndarray,
-    psds_off: np.ndarray,
-    title: str = "Average PSD (DBS ON vs. OFF)",
-):
-    fig = _create_base_figure(
-        title=title,
-        x_axis_title="Frequency (Hz)",
-        y_axis_title="Power/Frequency (dB/Hz)",
-    )
-    fig.update_layout(legend_title_text="DBS State")
+    psd_data: dict,  # {channel: {'on': psds_on, 'off': psds_off}}
+    title: str,
+) -> go.Figure:
+    """
+    Plots the average PSD for multiple channels, comparing DBS ON and OFF states.
+    """
+    fig = _create_base_figure(title, "Frequency (Hz)", "Power/Frequency (dB/Hz)")
+    fig.update_layout(legend_title_text="Channel (DBS State)")
 
-    if psds_on.size > 0:
-        mean_psd_on_linear = np.mean(psds_on, axis=0)
-        mean_psd_on_db = 10 * np.log10(mean_psd_on_linear)
-        fig.add_trace(
-            go.Scatter(
-                x=freqs,
-                y=mean_psd_on_db,
-                mode="lines",
-                name="ON",
-                line=dict(color="red"),
-            )
-        )
+    colors = px.colors.qualitative.Plotly
+    color_idx = 0
 
-    if psds_off.size > 0:
-        mean_psd_off_linear = np.mean(psds_off, axis=0)
-        mean_psd_off_db = 10 * np.log10(mean_psd_off_linear)
-        fig.add_trace(
-            go.Scatter(
-                x=freqs,
-                y=mean_psd_off_db,
-                mode="lines",
-                name="OFF",
-                line=dict(color="blue"),
+    for channel, data in psd_data.items():
+        color_on = colors[color_idx % len(colors)]
+        color_off = colors[(color_idx + 1) % len(colors)]
+
+        # Plot DBS ON
+        if "on" in data and data["on"].size > 0:
+            mean_psd_on = 10 * np.log10(np.mean(data["on"], axis=0)) + 120
+            fig.add_trace(
+                go.Scatter(
+                    x=freqs,
+                    y=mean_psd_on,
+                    mode="lines",
+                    name=f"{channel} (ON)",
+                    line=dict(color=color_on),
+                )
             )
-        )
+
+        # Plot DBS OFF
+        if "off" in data and data["off"].size > 0:
+            mean_psd_off = 10 * np.log10(np.mean(data["off"], axis=0)) + 120
+            fig.add_trace(
+                go.Scatter(
+                    x=freqs,
+                    y=mean_psd_off,
+                    mode="lines",
+                    name=f"{channel} (OFF)",
+                    line=dict(color=color_off, dash="dash"),
+                )
+            )
+
+        color_idx += 2
 
     return fig

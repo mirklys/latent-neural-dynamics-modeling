@@ -13,6 +13,7 @@ def lookup_keys(keys: KeysView[str], lookup_keywords: list) -> tuple:
 
     return tuple(fetched_keys)
 
+
 def contains_nulls(lst: list) -> bool:
     """Check if a list contains any None values."""
     return any(x is None for x in lst)
