@@ -202,3 +202,5 @@ logs/
 resampled_recordings/
 DPAD-main/
 PyPSID-main/
+
+.idea
