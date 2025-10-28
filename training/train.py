@@ -3,12 +3,15 @@ from utils.logger import get_logger
 import argparse
 from training.components.trainer import Trainer
 
+
 def train(config):
     logger = get_logger()
     logger.info("Initializing training...")
     logger.info(f"Training configuration:\n{config}")
 
     trainer = Trainer(config)
+    trainer.split_data()
+    trainer.train()
 
     logger.info("Training completed successfully!")
 

@@ -5,24 +5,30 @@ class BaseFramework:
 
     def _initalize_model(self):
         raise NotImplemented
+
     def _train(self, Y, Z=None, U=None):
         self.model = self._initalize_model()
 
         return self.model.train(Y, Z, U)
+
     def _validate(self, Y, Z=None, U=None):
         return self.model.validate(Y, Z, U)
+
     def _test(self, Y, Z=None, U=None):
         return self.model.test(Y, Z, U)
+
 
 class PSIDFramework(BaseFramework):
     def _initalize_model(self):
         kwargs = _get_model_params(self.config)
         return PSID(**kwargs)
 
+
 class DPADFramework(BaseFramework):
     def _initalize_model(self):
         kwargs = _get_model_params(self.config)
         return DPAD(**kwargs)
+
 
 def _common_model_kwargs(config: Config) -> Dict[str, Any]:
     model_cfg = config.model
