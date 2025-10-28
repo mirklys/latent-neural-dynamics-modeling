@@ -37,7 +37,7 @@ training:
 
 results:
   save_dir: "results/{model.name}"
-  log_dir: "logs"
+  log_dir: "{results.save_dir}/logs"
   checkpoint_dir: "checkpoints"
 
 search:

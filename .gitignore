@@ -203,3 +203,6 @@ resampled_recordings/
 DPAD-main/
 PyPSID-main/
 .idea
+
+results/*/split
+results/*/logs

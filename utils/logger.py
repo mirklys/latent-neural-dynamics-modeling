@@ -6,11 +6,6 @@ from functools import wraps
 
 
 class MarkdownFormatter(logging.Formatter):
-    """
-    A custom formatter to clean up Polars markdown output by removing
-    the header separator line.
-    """
-
     def format(self, record):
         message = super().format(record)
         lines = message.split("\n")
@@ -26,11 +21,12 @@ class MarkdownFormatter(logging.Formatter):
 
 class Logger:
     def __init__(self, log_dir: str, name: str = "application"):
-        self.log_dir = Path(log_dir)
+        self.log_dir = Path(log_dir).resolve()
+        print(self.log_dir)
         self.log_dir.mkdir(parents=True, exist_ok=True)
-        log_file_name = f"{name}_{dt.now().strftime('%Y%m%d_%H%M%S')}.md"
+        log_file_name = f"{Path(name).stem}_{dt.now().strftime('%Y%m%d_%H%M%S')}.md"
         self.log_file = self.log_dir / log_file_name
-
+        print(self.log_file)
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.INFO)
 

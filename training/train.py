@@ -1,5 +1,5 @@
 from utils.config import get_config
-from utils.logger import get_logger
+from utils.logger import setup_logger, get_logger
 import argparse
 from training.components.trainer import Trainer
 
@@ -11,14 +11,14 @@ def train(config):
 
     trainer = Trainer(config)
     trainer.split_data()
-    trainer.train()
+    # trainer.train()
 
     logger.info("Training completed successfully!")
 
 
 def main(args):
     config = get_config(args.config)
-    logger = get_logger()
+    logger = setup_logger(config.results.log_dir, name=__file__)
     logger.info(f"Configuration loaded from: {args.config}")
     logger.info(f"Config content:\n{config}")
 

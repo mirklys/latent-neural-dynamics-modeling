@@ -20,28 +20,36 @@ class Trainer:
             / f"participant_id={self.data_params.participant}"
             / f"session={self.data_params.session}"
         )
-
-        inputs_cols = [
-            pl.col(f"^{inpt_col}.*$") for inpt_col in self.model_params.input
-        ]
-        output_cols = [
-            pl.col(f"^{outpt_col}.*$") for outpt_col in self.model_params.output
-        ]
-
-        session = pl.read_parquet(self.data_params.data_path).select(
-            pl.col("participant_id"),
-            pl.col("session"),
-            pl.col("block"),
-            pl.col("trial"),
-            *inputs_cols,
-            *output_cols,
-            pl.col("onset"),
-            pl.col("duration"),
-            "time",
-            "start_ts",
-            pl.col("chunk_length_ts").alias("trial_length_ts"),
-            "chunk_margin",
-            "dbs_stim",
+        combined_cols = list(
+            set(self.data_params.channels.input) | set(self.data_params.channels.output)
+        )
+        combined_cols = [pl.col(f"^{col}.*$") for col in combined_cols]
+        session = (
+            pl.read_parquet(self.data_params.root)
+            .select(
+                pl.col("participant_id"),
+                pl.col("session"),
+                pl.col("block"),
+                pl.col("trial"),
+                *combined_cols,
+                pl.col("onset"),
+                pl.col("margined_duration"),
+                "time",
+                "start_ts",
+                pl.col("trial_length_ts"),
+                "chunk_margin",
+                "dbs_stim",
+            )
+            .with_columns(pl.col("^.*epochs.*$").list.len().alias("n_epochs"))
+            .sort(
+                [
+                    pl.col("participant_id"),
+                    pl.col("session"),
+                    pl.col("block"),
+                    pl.col("trial"),
+                ],
+                maintain_order=True,
+            )
         )
 
         create_splits(session, self.data_params.split, self.results_config)
