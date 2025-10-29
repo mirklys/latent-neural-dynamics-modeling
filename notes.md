@@ -392,3 +392,72 @@ fused_latent = fusion_model(fusion_input)  # Fusion into latent space
 ---
 
 Let me know if you'd like details on setting data preprocessing pipelines, interpretation of matrix outputs, or advanced training steps.
+
+
+---
+
+### Hankel matrix and the “depth” (horizon i) used in PSID
+
+What is a Hankel matrix?
+- A Hankel matrix is a matrix where each descending diagonal from left to right has the same value. In time‑series identification we typically use a block Hankel matrix, which stacks consecutive time windows of a multivariate signal into block‑rows.
+
+Block Hankel for a multivariate time series y(t) in R^ny
+- Given samples y(1), y(2), ..., y(T), choose a depth (also called horizon) i ≥ 2 and a number of columns N = T - 2i + 1 (effective columns given the chosen horizon).
+- The past block Hankel Yp has i block‑rows, each block row holding ny channels at consecutive lags:
+  Yp ∈ R^{(i·ny) × N}
+  Yp = [
+    y(1)      y(2)      ... y(N)
+    y(2)      y(3)      ... y(N+1)
+    ...       ...            ...
+    y(i)      y(i+1)    ... y(N+i-1)
+  ]
+  where each y(k) is a column vector of length ny. In code this matches PyPSID’s blkhankskip(Y, i, ...).
+
+Future block Hankel for z(t) in R^nz
+- Similarly, a future block Hankel of depth i is constructed by stacking i future steps. In PSID this is denoted Zf ∈ R^{(i·nz) × N} and is used to find states predictive of z.
+
+How the “depth” (horizon i) looks
+- The depth i is literally the number of block‑rows in the Hankel stacking. Increasing i:
+  - Increases the number of stacked lags/leads used in the subspace projections.
+  - Increases the row dimension linearly: (i·ny) for Yp and (i·nz) for Zf.
+  - Decreases the number of usable columns N, since you need more samples per segment: N = T - 2i + 1 for a single continuous segment (PyPSID handles multiple segments similarly and discards those that are too short).
+
+ASCII picture with i = 3 and ny = 2 (two channels)
+- Let y(k) = [y1(k); y2(k)]. Then Yp has 3 block‑rows (depth 3), 2 rows each per block‑row:
+  Rows 1..2   -> [y1(1) y1(2) ... y1(N); y2(1) y2(2) ... y2(N)]
+  Rows 3..4   -> [y1(2) y1(3) ... y1(N+1); y2(2) y2(3) ... y2(N+1)]
+  Rows 5..6   -> [y1(3) y1(4) ... y1(N+2); y2(3) y2(4) ... y2(N+2)]
+  So Yp ∈ R^{6 × N} when i = 3 and ny = 2.
+
+Interleaved 1‑step blocks used in PSID
+- PSID also builds 1‑row‑depth Hankel stacks with a skip (Yii and Zii in the code) to align “current” samples adjacent to the past stack. Concretely, you’ll see:
+  - WS["Yp"] = blkhankskip(Y, i, ...): past Hankel with depth i
+  - WS["Yii"] = blkhankskip(Y, 1, ..., i): i single‑step blocks of Y starting at offsets that align with the columns of Yp
+  - WS["Zii"] = blkhankskip(Z, 1, ..., i): same for Z
+  These help build the minus/plus versions used in Eqs. (10)–(16) of the PSID implementation.
+
+Dimensionality constraints driven by i
+- Because the subspace comes from an SVD of Hankel projections with row dimensions (i·ny) or (i·nz), the identifiable state dimensions are limited by the horizon:
+  - n1 ≤ i · nz
+  - nx ≤ i · ny
+  If ny or nz is small, choose a larger i to allow more latent states.
+
+Rule of thumb for picking i
+- Start with i in the range 5–10 when you have enough samples per segment.
+- Ensure segments are long enough so that N is positive; very short trials will be discarded automatically with a warning.
+
+Quick NumPy snippet to build a simple past Hankel (time‑first array Y: T × ny)
+- This is for intuition only; PyPSID uses optimized routines.
+
+  def hankel_past(Y, i):
+      T, ny = Y.shape
+      N = T - 2*i + 1
+      assert N > 0, "Not enough samples for this depth i"
+      rows = []
+      for r in range(i):
+          rows.append(Y[r:r+N, :].T)  # shape ny × N
+      return np.vstack(rows)          # shape (i·ny) × N
+
+References in this repo
+- Code: PyPSID-main/source/PSID/PSID.py (functions getHSize and blkhankskip usage)
+- Where i matters: see the checks enforcing n1 ≤ i·nz and nx ≤ i·ny in PSID.py

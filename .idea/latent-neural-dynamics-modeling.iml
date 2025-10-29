@@ -2,13 +2,14 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/DPAD-main" />
-      <excludeFolder url="file://$MODULE_DIR$/PyPSID-main" />
+      <sourceFolder url="file://$MODULE_DIR$/DPAD-main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/PyPSID-main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/preprocessing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/training" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/utils" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/data" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
-      <excludeFolder url="file://$MODULE_DIR$/resampled_recordings" />
       <excludeFolder url="file://$MODULE_DIR$/results/psid_neural/logs" />
-      <excludeFolder url="file://$MODULE_DIR$/results/psid_neural/split" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

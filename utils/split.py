@@ -1,45 +1,68 @@
 from utils.config import Config
 import polars as pl
 from pathlib import Path
+from utils.logger import get_logger
 
 
 def create_splits(
     recordings: pl.DataFrame, split_params: Config, results_config: Config
 ):
+    logger = get_logger()
+
     assert split_params.within_session_split, "Only within-session split is supported"
 
     recordings = recordings.with_columns(
         pl.col("n_epochs").cum_sum().alias("cum_sum_epochs")
     )
 
-    total_epochs = recordings["cum_sum_epochs"][-1]
+    total_epochs = int(recordings.select(pl.col("n_epochs").sum()).item())
 
-    if total_epochs == 0:
+    if total_epochs <= 0:
         raise ValueError("Total epochs cannot be zero. Check the input data.")
 
-    if total_epochs * 0.8 >= split_params.min_train_epochs:
-        train_epochs = total_epochs * split_params.train
-        val_epochs = total_epochs * split_params.val
-        test_epochs = total_epochs * split_params.test
-    elif total_epochs * 0.8 < split_params.min_train_epochs <= total_epochs:
-        train_epochs = split_params.min_train_epochs
-        leftover_epochs = total_epochs - train_epochs
+    min_train = int(split_params.min_train_epochs)
+    train_epochs_target = max(int(round(split_params.train * total_epochs)), min_train)
+    train_epochs = min(train_epochs_target, total_epochs)
 
-        val_ratio = split_params.val / (split_params.val + split_params.test)
-        val_epochs = leftover_epochs * val_ratio
-        test_epochs = leftover_epochs * (1 - val_ratio)
-    else:
-        raise ValueError(
-            "Not enough total epochs to satisfy the minimum training requirement."
-        )
+    leftover_epochs = max(total_epochs - train_epochs, 0)
+
+    vt_sum = float(split_params.val) + float(split_params.test)
+    val_ratio = float(split_params.val) / vt_sum
+    val_epochs = int(round(leftover_epochs * val_ratio))
+    test_epochs = leftover_epochs - val_epochs
+
+    logger.info(
+        f"Split plan (epochs): total={total_epochs}, train={train_epochs}, val={val_epochs}, test={test_epochs}"
+    )
 
     train_trials = recordings.filter(pl.col("cum_sum_epochs") <= train_epochs)
 
-    remaining_trials = recordings.filter(~pl.col("trial").is_in(train_trials["trial"]))
-    val_trials = remaining_trials.filter(
-        pl.col("cum_sum_epochs") <= train_epochs + val_epochs
+    val_cutoff = train_epochs + val_epochs
+    val_trials = recordings.filter(
+        (pl.col("cum_sum_epochs") > train_epochs)
+        & (pl.col("cum_sum_epochs") <= val_cutoff)
     )
-    test_trials = remaining_trials.filter(~pl.col("trial").is_in(val_trials["trial"]))
+    test_trials = recordings.filter(pl.col("cum_sum_epochs") >= val_cutoff)
+
+    train_ep = (
+        int(train_trials.select(pl.col("n_epochs").sum()).item())
+        if train_trials.height > 0
+        else 0
+    )
+    val_ep = (
+        int(val_trials.select(pl.col("n_epochs").sum()).item())
+        if val_trials.height > 0
+        else 0
+    )
+    test_ep = (
+        int(test_trials.select(pl.col("n_epochs").sum()).item())
+        if test_trials.height > 0
+        else 0
+    )
+    logger.info(
+        f"Resulting splits: train={train_trials.height} trials ({train_ep} epochs), "
+        f"val={val_trials.height} trials ({val_ep} epochs), test={test_trials.height} trials ({test_ep} epochs)"
+    )
 
     save_dir = Path(results_config.save_dir) / "split"
     save_dir.mkdir(parents=True, exist_ok=True)

@@ -1,46 +1,34 @@
 model:
   name: "psid_neural"
-  n_states: 20          # latent dimensionality
-  horizons:             # Combine past_horizon and future_horizon
-    past: 10
-    future: 10
-  regularization:       # Simplify alpha and noise options
-    alpha: 0.01          # L2 regularization
-    estimate_noise: false
-  stability: true       # Enforces stable A matrix if supported by PSID
+  nx: 1
+  n1: 0
+  i: 5
+  time_first: True
+  remove_mean_Y: False
+  remove_mean_Z: False
+  zscore_Y: False
+  zscore_Z: False
 
 data:
   root: "resampled_recordings/participants"
   participant: "PDI1"
   session: "2"
+  blocks: [1, 2]
+  preprocess: true
   channels:
-    input: ["LFP_12"]
-    output: ["LFP_12"]
+    is_neural_behavioral: false
+    input: ["LFP_12"] # Y
+    output: None # Z
   split:
     within_session_split: true
-    train: 0.8
-    val: 0.1
-    test: 0.1
-    min_train_epochs: 120
+    train: 0.6
+    val: 0.2
+    test: 0.2
+    min_train_epochs: 50
   batch_size: 32
   prefetch: 4           # Combines num_workers and shuffle into simpler terms
-
-training:
-  epochs: 100
-  learning_rate: 0.001
-  scheduler:
-    step: 30            # Epochs after which LR decays
-    decay_factor: 0.1   # Gamma parameter for StepLR
-  early_stopping:
-    metric: "val_loss"  # Defaults to monitoring validation loss
-    patience: 10        # Early stop once improvement halts
 
 results:
   save_dir: "results/{model.name}"
   log_dir: "{results.save_dir}/logs"
   checkpoint_dir: "checkpoints"
-
-search:
-  enabled: true
-  strategy: "light"      # Options: "light", "extensive"
-  objective: "val_loss"

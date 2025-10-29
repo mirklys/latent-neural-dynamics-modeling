@@ -7,22 +7,24 @@ from training.components.trainer import Trainer
 def train(config):
     logger = get_logger()
     logger.info("Initializing training...")
-    logger.info(f"Training configuration:\n{config}")
 
     trainer = Trainer(config)
     trainer.split_data()
-    # trainer.train()
+    val_results = trainer.train()
 
+    logger.info(f"Validation results: {val_results}")
     logger.info("Training completed successfully!")
 
 
 def main(args):
     config = get_config(args.config)
     logger = setup_logger(config.results.log_dir, name=__file__)
+
     logger.info(f"Configuration loaded from: {args.config}")
     logger.info(f"Config content:\n{config}")
-
     train(config)
+
+    logger.close()
 
 
 if __name__ == "__main__":
