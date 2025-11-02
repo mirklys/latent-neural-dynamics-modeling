@@ -1,6 +1,7 @@
 from pathlib import Path
 import mne
 import numpy as np
+from utils.logger import get_logger
 
 
 def preprocess_ieeg(
@@ -44,6 +45,7 @@ def filter_recording(
     notch_freqs: list[int],
     sfreq: int,
 ) -> list[float]:
+
     recording_ = np.array(recording, dtype=np.float64)
 
     recording_ = mne.filter.filter_data(

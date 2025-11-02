@@ -91,8 +91,12 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     )
     participants = explode_files(participants, "participant_path", "session_path")
     """
+    logger.info("Adding full data")
     ieeg_participants = _add_ieeg_data(participants, config)
-
+    logger.info(
+        participants.group_by(["participant_id", "session", "block", "trials"]).len()
+    )
+    logger.info("Loaded iEEG data")
     lfp_channels = [field.name for field in LFP_SCHEMA.fields]
     ecog_channels = [field.name for field in ECOG_SCHEMA.fields]
     all_channels = lfp_channels + ecog_channels
@@ -100,14 +104,30 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     ieeg_participants = apply_car(ieeg_participants, lfp_channels)
     ieeg_participants = apply_car(ieeg_participants, ecog_channels)
 
-    motion_participants = construct_motion_table(
-        ieeg_participants.filter(pl.col("labels")), config
-    )
+    motion_participants = construct_motion_table(ieeg_participants, config)
+    logger.info("Loaded motion data")
 
+    ieeg_participants = (
+        (
+            ieeg_participants.explode("trials")
+            .with_columns(
+                pl.col("onsets")
+                .list.get(pl.col("trials") - 1, null_on_oob=True)
+                .alias("onset")
+            )
+            .drop("onsets", "yscores", "trial_index", strict=False)
+        )
+        .with_columns(pl.col("trials").alias("trial"))
+        .drop("trials")
+    )
     participants = ieeg_participants.join(
-        motion_participants, on=["participant_id", "session", "block"], how="left"
+        motion_participants,
+        on=["participant_id", "session", "block", "trial"],
+        how="left",
     )
-
+    logger.info(
+        participants.group_by(["participant_id", "session", "block", "trial"]).len()
+    )
     participants = participants.drop(
         "participant_path",
         "session_path",
@@ -123,23 +143,6 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
         strict=False,
     )
 
-    participants = (
-        participants.with_columns(
-            (pl.col("trials") - pl.col("trial"))
-            .list.eval(pl.element().eq(0))
-            .list.arg_max()
-            .alias("trial_index")
-        )
-        .with_columns(
-            pl.col("onsets")
-            .list.get(pl.col("trial_index"), null_on_oob=True)
-            .alias("onset"),
-            pl.col("trials")
-            .list.get(pl.col("trial_index"), null_on_oob=True)
-            .alias("trial")
-        )
-        .drop("trials", "onsets", "yscores", "trial_index")
-    )
     participants = _chunk_recordings(
         participants,
         config.ieeg_process.chunk_margin,
@@ -197,10 +200,8 @@ def construct_participants_table(config: Config):
     )
 
     for p_part in participants_partitions:
-        participant_id, session = p_part
-        p_partition_path = (
-            data_path / "participants.parquet" / participant_id / session / "*"
-        )
+        root, participant_id, session, block = p_part
+        p_partition_path = data_path / root / participant_id / session / block / "*"
         participants = pl.read_parquet(p_partition_path)
 
         logger.info(f"Loaded participants from: {p_partition_path}")
@@ -222,19 +223,17 @@ def construct_participants_table(config: Config):
             "start_ts",
             pl.col("chunk_length_ts").alias("trial_length_ts"),
             "chunk_margin",
-            "dbs_stim",
+            "stim",
             pl.col("^LFP_.*$"),
             pl.col("^ECOG_.*$"),
             "x",
             "y",
             "tracing_speed",
-            pl.col("labels").alias("tracing_coordinates_present"),
         )
-
         participants.write_parquet(
-            save_path / "participants", partition_by=["participant_id", "session"]
+            save_path / root, partition_by=["participant_id", "session", "block"]
         )
-        logger.info(f"Saved to {save_path / 'participants'}")
+        logger.info(f"Saved to {save_path / 'participants_2'}")
 
 
 def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
@@ -288,13 +287,13 @@ def _chunk_recordings(
 
     participants_ = participants.with_columns(
         (pl.col("onset") - chunk_margin).alias("margined_onset"),
-        (pl.col("dt_s") + 2 * chunk_margin).alias("margined_duration"),
+        (pl.col("trial_time") + 2 * chunk_margin).alias("margined_duration"),
     )
 
     participants_ = participants_.with_columns(
         (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("start_ts"),
         (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
-        (pl.col("dt_s") * sfreq).cast(pl.UInt32).alias("original_length_ts"),
+        (pl.col("trial_time") * sfreq).cast(pl.UInt32).alias("original_length_ts"),
     ).with_columns(
         pl.int_ranges(0, pl.col("chunk_length_ts"), dtype=pl.UInt32)
         .truediv(sfreq)
@@ -324,7 +323,7 @@ def _chunk_recordings(
         .then(
             (
                 pl.int_ranges(0, pl.col("x").list.len())
-                * (pl.col("dt_s") / pl.col("x").list.len())
+                * (pl.col("trial_time") / pl.col("x").list.len())
             )
             + pl.col("onset")
         )

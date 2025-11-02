@@ -9,6 +9,7 @@ from utils.ieeg import preprocess_ieeg, filter_recording
 from scipy.io import savemat
 
 import numpy as np
+from utils.logger import get_logger
 
 
 def read_tsv(path: Path, unique: bool = True) -> pl.DataFrame:

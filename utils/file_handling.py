@@ -21,18 +21,49 @@ def list_files(folder_path: Path) -> list[str]:
 def get_child_subchilds_tuples(
     parent_folder: Path, full_paths: bool = False
 ) -> list[tuple[str, ...]]:
-    def recurse(folder: Path) -> list[tuple[str, ...]]:
-        tuples = []
-        for child in folder.iterdir():
-            if child.is_dir():
-                parent_part = str(folder) if full_paths else folder.name
-                child_part = str(child) if full_paths else child.name
-                tuples.append((parent_part, child_part))
-                tuples.extend(recurse(child))
-        return tuples
+    """
+    Return tuples capturing only the deepest hierarchical directory chains starting at
+    parent_folder. That is, for every terminal (leaf) directory reachable from
+    parent_folder, return the full chain from parent to that leaf.
 
-    all_tuples = []
-    for child in parent_folder.iterdir():
-        if child.is_dir():
-            all_tuples.extend(recurse(child))
-    return all_tuples
+    Example (names, not full paths):
+    parent/
+      └── a/
+          └── b/
+              └── c/
+    -> [
+        ("parent", "a", "b", "c"),
+       ]
+
+    With siblings:
+    parent/
+      └── a/
+          ├── x/
+          │   └── y/
+          └── m/
+              └── n/
+    -> [
+        ("parent", "a", "x", "y"),
+        ("parent", "a", "m", "n"),
+       ]
+
+    If full_paths is True, each element is the full string path.
+    """
+
+    def recurse(folder: Path, lineage: list[str]) -> list[tuple[str, ...]]:
+        leaf_chains: list[tuple[str, ...]] = []
+        subdirs = [child for child in folder.iterdir() if child.is_dir()]
+        if not subdirs:
+            # Current folder is a leaf; return the lineage as a completed chain
+            # Only include chains that have at least two elements (parent and one child)
+            if len(lineage) >= 2:
+                leaf_chains.append(tuple(lineage))
+            return leaf_chains
+        for child in subdirs:
+            child_part = str(child) if full_paths else child.name
+            child_lineage = lineage + [child_part]
+            leaf_chains.extend(recurse(child, child_lineage))
+        return leaf_chains
+
+    root_part = str(parent_folder) if full_paths else parent_folder.name
+    return recurse(parent_folder, [root_part])
