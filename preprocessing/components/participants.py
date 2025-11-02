@@ -1,23 +1,30 @@
 import polars as pl
 from pathlib import Path
 
-from utils.polars import (
-    read_tsv,
-    add_modality_path,
-    split_file_path,
-    remove_rows_with,
-    explode_files,
-    keep_rows_with,
-    band_pass_resample,
+from utils.ieeg import (
+    epoch_trials,
+    calculate_psd_welch,
 )
-from .events import construct_events_table
+from utils.polars import (
+    # read_tsv,
+    # add_modality_path,
+    # split_file_path,
+    # remove_rows_with,
+    # explode_files,
+    # keep_rows_with,
+    band_pass_resample,
+    # stack_columns,
+)
+
+# from .events import construct_events_table
 from .motion import construct_motion_table
 from utils.file_handling import get_child_subchilds_tuples
 
 from utils.config import Config
 from utils.logger import get_logger
+from utils.motion import tracing_speed
 
-iEEG_SCHEMA = pl.Struct(
+LFP_SCHEMA = pl.Struct(
     [
         pl.Field("LFP_1", pl.List(pl.Float32)),
         pl.Field("LFP_2", pl.List(pl.Float32)),
@@ -35,20 +42,41 @@ iEEG_SCHEMA = pl.Struct(
         pl.Field("LFP_14", pl.List(pl.Float32)),
         pl.Field("LFP_15", pl.List(pl.Float32)),
         pl.Field("LFP_16", pl.List(pl.Float32)),
+    ]
+)
+
+ECOG_SCHEMA = pl.Struct(
+    [
         pl.Field("ECOG_1", pl.List(pl.Float32)),
         pl.Field("ECOG_2", pl.List(pl.Float32)),
         pl.Field("ECOG_3", pl.List(pl.Float32)),
         pl.Field("ECOG_4", pl.List(pl.Float32)),
+    ]
+)
+
+EOG_SCHEMA = pl.Struct(
+    [
         pl.Field("EOG_1", pl.List(pl.Float32)),
         pl.Field("EOG_2", pl.List(pl.Float32)),
         pl.Field("EOG_3", pl.List(pl.Float32)),
         pl.Field("EOG_4", pl.List(pl.Float32)),
+    ]
+)
+
+iEEG_SCHEMA = pl.Struct(
+    [
+        *LFP_SCHEMA.fields,
+        *ECOG_SCHEMA.fields,
+        *EOG_SCHEMA.fields,
         pl.Field("sfreq", pl.List(pl.Float32)),
     ]
 )
 
 
 def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
+
+    logger = get_logger()
+
     """CODE IF PARTIAL PREPROCESSING IS NOT DONE
     participants = read_tsv(data_path / config.participants_table_name)
     participants = participants.filter(
@@ -63,15 +91,43 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
     )
     participants = explode_files(participants, "participant_path", "session_path")
     """
+    logger.info("Adding full data")
     ieeg_participants = _add_ieeg_data(participants, config)
-    motion_participants = construct_motion_table(
-        participants.filter(pl.col("labels")), config
+    logger.info(
+        participants.group_by(["participant_id", "session", "block", "trials"]).len()
     )
+    logger.info("Loaded iEEG data")
+    lfp_channels = [field.name for field in LFP_SCHEMA.fields]
+    ecog_channels = [field.name for field in ECOG_SCHEMA.fields]
+    all_channels = lfp_channels + ecog_channels
 
+    ieeg_participants = apply_car(ieeg_participants, lfp_channels)
+    ieeg_participants = apply_car(ieeg_participants, ecog_channels)
+
+    motion_participants = construct_motion_table(ieeg_participants, config)
+    logger.info("Loaded motion data")
+
+    ieeg_participants = (
+        (
+            ieeg_participants.explode("trials")
+            .with_columns(
+                pl.col("onsets")
+                .list.get(pl.col("trials") - 1, null_on_oob=True)
+                .alias("onset")
+            )
+            .drop("onsets", "yscores", "trial_index", strict=False)
+        )
+        .with_columns(pl.col("trials").alias("trial"))
+        .drop("trials")
+    )
     participants = ieeg_participants.join(
-        motion_participants, on=["participant_id", "session", "block"], how="left"
+        motion_participants,
+        on=["participant_id", "session", "block", "trial"],
+        how="left",
     )
-
+    logger.info(
+        participants.group_by(["participant_id", "session", "block", "trial"]).len()
+    )
     participants = participants.drop(
         "participant_path",
         "session_path",
@@ -87,32 +143,48 @@ def _add_full_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
         strict=False,
     )
 
-    participants = (
-        participants.with_columns(
-            (pl.col("trials") - pl.col("trial"))
-            .list.eval(pl.element().eq(0))
-            .list.arg_max()
-            .alias("trial_index")
-        )
-        .with_columns(
-            pl.col("onsets")
-            .list.get(pl.col("trial_index"), null_on_oob=True)
-            .alias("onset"),
-            pl.col("trials")
-            .list.get(pl.col("trial_index"), null_on_oob=True)
-            .alias("trial"),
-            pl.col("yscores")
-            .list.get(pl.col("trial_index"), null_on_oob=True)
-            .alias("yscore"),
-        )
-        .drop("trials", "onsets", "yscores", "trial_index")
-    )
-
     participants = _chunk_recordings(
         participants,
         config.ieeg_process.chunk_margin,
         config.ieeg_process.resampled_freq,
-    ).drop("ieeg_parquet")
+    )
+
+    for channel in all_channels:
+        participants = participants.with_columns(
+            pl.col(channel)
+            .map_elements(
+                epoch_trials,
+                return_dtype=pl.List(pl.List(pl.Float64)),
+            )
+            .alias(f"{channel}_epochs")
+        )
+
+    for channel in all_channels:
+        participants = (
+            participants.with_columns(
+                pl.col(f"{channel}_epochs")
+                .map_elements(
+                    lambda x: calculate_psd_welch(
+                        x,
+                        sfreq=config.ieeg_process.resampled_freq,
+                        low_freq=config.ieeg_process.low_freq,
+                        high_freq=config.ieeg_process.high_freq,
+                    ),
+                    return_dtype=pl.Object,
+                )
+                .alias(f"{channel}_psd")
+            )
+            .with_columns(
+                pl.col(f"{channel}_psd")
+                .map_elements(lambda x: x[0], return_dtype=pl.List(pl.Float64))
+                .alias(f"{channel}_psd_freq"),
+                pl.col(f"{channel}_psd")
+                .map_elements(lambda x: x[1], return_dtype=pl.List(pl.List(pl.Float64)))
+                .alias(f"{channel}_psd_values"),
+            )
+            .drop(f"{channel}_psd")
+        )
+
     return participants
 
 
@@ -128,10 +200,8 @@ def construct_participants_table(config: Config):
     )
 
     for p_part in participants_partitions:
-        participant_id, session = p_part
-        p_partition_path = (
-            data_path / "participants.parquet" / participant_id / session / "*"
-        )
+        root, participant_id, session, block = p_part
+        p_partition_path = data_path / root / participant_id / session / block / "*"
         participants = pl.read_parquet(p_partition_path)
 
         logger.info(f"Loaded participants from: {p_partition_path}")
@@ -144,24 +214,26 @@ def construct_participants_table(config: Config):
             "block",
             "trial",
             "onset",
-            "duration",
+            "margined_onset",
+            "margined_duration",
             "time",
+            "time_original",
+            "motion_time",
+            "original_length_ts",
             "start_ts",
             pl.col("chunk_length_ts").alias("trial_length_ts"),
             "chunk_margin",
-            "dbs_stim",
-            "yscore",
+            "stim",
             pl.col("^LFP_.*$"),
             pl.col("^ECOG_.*$"),
             "x",
             "y",
-            pl.col("labels").alias("tracing_coordinates_present"),
+            "tracing_speed",
         )
-
         participants.write_parquet(
-            save_path / "participants", partition_by=["participant_id", "session"]
+            save_path / root, partition_by=["participant_id", "session", "block"]
         )
-        logger.info(f"Saved to {save_path / 'participants'}")
+        logger.info(f"Saved to {save_path / 'participants_2'}")
 
 
 def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
@@ -214,18 +286,23 @@ def _chunk_recordings(
 ) -> pl.DataFrame:
 
     participants_ = participants.with_columns(
-        (pl.col("onset") - chunk_margin).alias("onset"),
-        (pl.col("dt_s") + chunk_margin).alias("duration"),
+        (pl.col("onset") - chunk_margin).alias("margined_onset"),
+        (pl.col("trial_time") + 2 * chunk_margin).alias("margined_duration"),
     )
 
     participants_ = participants_.with_columns(
-        (pl.col("onset") * sfreq).cast(pl.UInt32).alias("start_ts"),
-        (pl.col("duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
+        (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("start_ts"),
+        (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
+        (pl.col("trial_time") * sfreq).cast(pl.UInt32).alias("original_length_ts"),
     ).with_columns(
         pl.int_ranges(0, pl.col("chunk_length_ts"), dtype=pl.UInt32)
         .truediv(sfreq)
+        .add(pl.col("margined_onset"))
+        .alias("time"),
+        pl.int_ranges(0, pl.col("original_length_ts"), dtype=pl.UInt32)
+        .truediv(sfreq)
         .add(pl.col("onset"))
-        .alias("time")
+        .alias("time_original"),
     )
 
     for ieeg_field in iEEG_SCHEMA.fields:
@@ -233,12 +310,69 @@ def _chunk_recordings(
             continue
         participants_ = participants_.with_columns(
             pl.col(ieeg_field.name).list.slice(
-                pl.col("start_ts"), pl.col("chunk_length_ts") + pl.col("start_ts")
+                pl.col("start_ts"), pl.col("chunk_length_ts")
             )
         )
 
     participants_ = participants_.with_columns(
         pl.lit(chunk_margin).alias("chunk_margin")
     )
+
+    participants_ = participants_.with_columns(
+        pl.when(pl.col("x").list.len() > 0)
+        .then(
+            (
+                pl.int_ranges(0, pl.col("x").list.len())
+                * (pl.col("trial_time") / pl.col("x").list.len())
+            )
+            + pl.col("onset")
+        )
+        .alias("motion_time")
+    )
+
+    from utils.logger import get_logger
+
+    logger = get_logger()
+    logger.info(
+        f"""There are null values in motion_time column: 
+        {participants_.select("participant_id", "session", "block", "trial", "motion_time").filter(pl.col('motion_time').is_null())}"""
+    )
+
+    logger.info(
+        f"""There are null values within motion_time column: 
+        {participants_.select("participant_id", "session", "block", "trial", "motion_time").filter(pl.col('motion_time').list.contains(None))}"""
+    )
+
+    participants_ = participants_.with_columns(
+        pl.when(
+            pl.col("motion_time").is_not_null()
+            & (pl.col("motion_time").list.drop_nulls().list.len() > 0)
+        )
+        .then(
+            pl.struct(pl.col("x"), pl.col("y"), "motion_time").map_elements(
+                lambda s: tracing_speed(s["x"], s["y"], s["motion_time"]),
+                return_dtype=pl.List(pl.Float64),
+            )
+        )
+        .alias("tracing_speed")
+    )
+
+    return participants_
+
+
+def apply_car(participants: pl.DataFrame, channels: list[str]) -> pl.DataFrame:
+
+    car_per_block = participants.group_by(["participant_id", "session", "block"]).agg(
+        pl.mean_horizontal(pl.col(channels).explode()).mean().alias("car_scalar")
+    )
+
+    participants_ = participants.join(
+        car_per_block, on=["participant_id", "session", "block"]
+    )
+    participants_ = participants_.with_columns(
+        *[(pl.col(ch) - pl.col("car_scalar")).alias(ch) for ch in channels]
+    )
+
+    participants_ = participants_.drop("car_scalar")
 
     return participants_
