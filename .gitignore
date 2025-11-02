@@ -200,16 +200,13 @@ data/
 
 logs/
 resampled_recordings/
-<<<<<<< HEAD
+results/*/split
+results/*/logs
 DPAD-main/
 PyPSID-main/
 .idea
 
-results/*/split
-results/*/logs
-=======
 DPAD/
 PyPSID/
-
 articles/
->>>>>>> main
+
