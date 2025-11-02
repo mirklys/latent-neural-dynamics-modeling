@@ -11,6 +11,7 @@ from utils.config import Config
 
 from utils.file_handling import read_json
 from pathlib import Path
+from utils.logger import get_logger
 
 
 def _get_motion_coordinates(motion: pl.DataFrame) -> pl.DataFrame:
@@ -30,7 +31,10 @@ def _get_motion_coordinates(motion: pl.DataFrame) -> pl.DataFrame:
     ).drop("motion_coordinates")
 
     motion_coords = motion_coords.sort(by=["participant_id", "session", "run", "chunk"])
-
+    logger = get_logger()
+    logger.info(
+        f"Motion coordinates table constructed with {motion_coords.height} rows."
+    )
     return motion_coords
 
 

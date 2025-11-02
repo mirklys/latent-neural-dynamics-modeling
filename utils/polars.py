@@ -1,34 +1,36 @@
 import polars as pl
 from pathlib import Path
-import shutil
-import uuid
+
 from utils.file_handling import list_files, load_mat_into_dict
 from utils.config import Config
-from tqdm import tqdm
 
 from utils.ieeg import preprocess_ieeg, filter_recording
 
 from scipy.io import savemat
 
+import numpy as np
+from utils.logger import get_logger
 
-def read_tsv(path: Path) -> pl.DataFrame:
+
+def read_tsv(path: Path, unique: bool = True) -> pl.DataFrame:
     df = pl.read_csv(
         path,
         separator="\t",
         null_values="n/a",
-    ).unique()
-
+    )
+    if unique:
+        df = df.unique(maintain_order=True)
     return df
 
 
 def read_tsv_to_struct(path: Path) -> pl.Series:
-    df = read_tsv(path)
+    df = read_tsv(path, unique=False)
 
     return df.to_struct()
 
 
 def read_tsv_to_dict(path: Path) -> dict:
-    df = read_tsv(path)
+    df = read_tsv(path, unique=False)
 
     return df.to_dict(as_series=True)
 
@@ -128,6 +130,30 @@ def keep_rows_with(table: pl.DataFrame, **kwargs) -> pl.DataFrame:
     return table_
 
 
+def get_trial(
+    participants: pl.DataFrame,
+    participant_id: str,
+    session: int,
+    block: int,
+    trial: int,
+    columns: list[str] = None,
+    explode: list[str] = None,
+) -> pl.DataFrame:
+
+    trial_df = keep_rows_with(
+        participants,
+        participant_id=participant_id,
+        session=session,
+        block=block,
+        trial=trial,
+    )
+    if columns:
+        trial_df = trial_df.select(columns)
+    if explode:
+        trial_df = trial_df.explode(explode)
+    return trial_df
+
+
 def load_parquet_as_dict(parquet_file: str) -> dict:
 
     df_ = pl.read_parquet(parquet_file)
@@ -137,6 +163,25 @@ def load_parquet_as_dict(parquet_file: str) -> dict:
 
 def dict_to_struct(data: dict) -> pl.Series:
     return pl.DataFrame(data).select(pl.all().implode()).to_struct()
+
+
+def remove_chunk_margin(
+    participants: pl.DataFrame, col: str, return_as: str
+) -> pl.DataFrame:
+    participants_ = participants.with_columns(
+        (pl.col("chunk_margin") * 1000).alias("chunk_margin_ts")
+    )
+
+    participants_ = participants_.with_columns(
+        pl.col(col)
+        .list.slice(
+            pl.col("chunk_margin_ts"),
+            pl.col("trial_length_ts") - 2 * pl.col("chunk_margin_ts"),
+        )
+        .alias(return_as)
+    ).drop("chunk_margin_ts")
+
+    return participants_
 
 
 def read_and_implode_parquet(path: str) -> pl.Series:
@@ -235,3 +280,17 @@ def band_pass_resample(
         )
 
     return participants_
+
+
+def stack_columns(participants: pl.DataFrame, cols: list[str]) -> pl.DataFrame:
+    segments_per_col = []
+    for col in cols:
+        lists = participants[col].to_list()
+        arrs = [np.asarray(x, dtype=np.float64) for x in lists]
+        segments_per_col.append(arrs)
+
+    concatenated = [np.concatenate(col_segs) for col_segs in segments_per_col]
+
+    matrix = np.vstack(concatenated)
+
+    return matrix, segments_per_col
