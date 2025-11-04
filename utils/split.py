@@ -17,9 +17,6 @@ def create_splits(
 
     total_epochs = int(recordings.select(pl.col("n_epochs").sum()).item())
 
-    if total_epochs <= 0:
-        raise ValueError("Total epochs cannot be zero. Check the input data.")
-
     min_train = int(split_params.min_train_epochs)
     train_epochs_target = max(int(round(split_params.train * total_epochs)), min_train)
     train_epochs = min(train_epochs_target, total_epochs)

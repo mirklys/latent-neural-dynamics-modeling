@@ -24,7 +24,7 @@ class TrialDataset(Dataset):
         self.input_channels = self.data_params.channels.input
         self.output_channels = self.data_params.channels.output
         self.is_neural_behavioral = self.data_params.channels.is_neural_behavioral
-        self.preprocess = data_params.preprocess
+        self.preprocess = self.data_params.preprocess
 
         self._input_mean = None
         self._input_std = None
@@ -40,16 +40,6 @@ class TrialDataset(Dataset):
 
         if self.split == "train" and self.preprocess:
             self._compute_preprocessing_stats()
-            stats = self.get_preprocessing_stats()
-            in_shape = (
-                None if stats["input_mean"] is None else stats["input_mean"].shape
-            )
-            out_shape = (
-                None if stats["output_mean"] is None else stats["output_mean"].shape
-            )
-            logger.info(
-                f"Computed preprocessing stats: input_mean/std shape={in_shape}, output_mean/std shape={out_shape}"
-            )
 
     def __len__(self) -> int:
         return len(self.df)
@@ -69,12 +59,30 @@ class TrialDataset(Dataset):
             if Z is not None:
                 Z = self._preprocess_data(Z, self._output_mean, self._output_std)
 
+        # Optional fields: time, chunk_margin, margined_duration, stim
+        time_vec = row["time"][0] if "time" in row.columns else None
+        chunk_margin = row["chunk_margin"][0] if "chunk_margin" in row.columns else None
+        margined_duration = (
+            row["margined_duration"][0] if "margined_duration" in row.columns else None
+        )
+        stim = row["stim"][0] if "stim" in row.columns else None
+
+        # Optional offset (absolute time offset in seconds) if present in the dataframe
+        offset = row["offset"][0] if "offset" in row.columns else None
+
         metadata = {
             "participant_id": row["participant_id"][0],
             "session": row["session"][0],
             "block": row["block"][0],
             "trial": row["trial"][0],
             "trial_length": Y.shape[0],
+            "time": np.array(time_vec) if time_vec is not None else None,
+            "offset": float(offset) if offset is not None else None,
+            "chunk_margin": chunk_margin,
+            "margined_duration": margined_duration,
+            "stim": stim,
+            "input_channels": self.input_channels,
+            "output_channels": self.output_channels,
         }
 
         return Y, Z, metadata
@@ -131,11 +139,8 @@ class TrialDataset(Dataset):
         self, data: np.ndarray, mean: Optional[np.ndarray], std: Optional[np.ndarray]
     ) -> np.ndarray:
 
-        if mean is not None:
-            data = data - mean
-
-        if std is not None and np.all(std > 1e-8):
-            data = data / std
+        data = data - mean
+        data = data / std
 
         return data
 
@@ -179,14 +184,11 @@ class TrialDataLoader:
         dataset: TrialDataset,
         batch_size: int = 1,
         shuffle: bool = False,
-        prefetch: Optional[int] = None,
     ):
 
         self.dataset = dataset
         self.batch_size = batch_size
         self.shuffle = shuffle
-        self.prefetch = prefetch
-
         self.indices = np.arange(len(self.dataset))
 
     def __len__(self) -> int:
@@ -241,42 +243,36 @@ def create_dataloaders(
         stats["output_std"],
     )
 
-    if logger is not None:
-        in_shape = None if stats["input_mean"] is None else stats["input_mean"].shape
-        out_shape = None if stats["output_mean"] is None else stats["output_mean"].shape
-        logger.info(
-            f"Loaded datasets: train={len(train_dataset)} trials, val={len(val_dataset)} trials, test={len(test_dataset)} trials; "
-            f"preprocessing shapes -> input_mean: {in_shape}, output_mean: {out_shape}"
-        )
+    in_shape = stats["input_mean"].shape
+    out_shape = stats["output_mean"].shape if stats["output_mean"] is not None else None
+    logger.info(
+        f"Loaded datasets: train={len(train_dataset)} trials, val={len(val_dataset)} trials, test={len(test_dataset)} trials; "
+        f"preprocessing shapes -> input_mean: {in_shape}, output_mean: {out_shape}"
+    )
 
     batch_size = data_params.batch_size
-    prefetch = data_params.prefetch
 
     train_loader = TrialDataLoader(
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
-        prefetch=prefetch,
     )
 
     val_loader = TrialDataLoader(
         val_dataset,
         batch_size=batch_size,
         shuffle=False,
-        prefetch=prefetch,
     )
 
     test_loader = TrialDataLoader(
         test_dataset,
         batch_size=batch_size,
         shuffle=False,
-        prefetch=prefetch,
     )
 
-    if logger is not None:
-        logger.info(
-            f"Constructed dataloaders with batch_size={batch_size}, prefetch={prefetch}. "
-            f"Train steps/epoch≈{len(train_loader)}, Val steps≈{len(val_loader)}, Test steps≈{len(test_loader)}"
-        )
+    logger.info(
+        f"Constructed dataloaders with batch_size={batch_size}. "
+        f"Train steps/epoch≈{len(train_loader)}, Val steps≈{len(val_loader)}, Test steps≈{len(test_loader)}"
+    )
 
     return train_loader, val_loader, test_loader

@@ -1,5 +1,7 @@
+import pickle
+from datetime import datetime
 from utils.config import Config
-from utils.frameworks import PSIDFramework, DPADFramework
+from utils.frameworks import PSIDFramework
 import polars as pl
 from pathlib import Path
 from utils.split import create_splits
@@ -36,14 +38,22 @@ class Trainer:
             set(self.data_params.channels.input) | set(self.data_params.channels.output)
         )
         combined_cols = [pl.col(f"^{col}.*$") for col in combined_cols]
-        session = (
+        trial = (
             pl.read_parquet(session_path)
             .select(
                 pl.col("participant_id"),
                 pl.col("session"),
                 pl.col("block"),
                 pl.col("trial"),
+                pl.when(pl.col("time").is_not_null())
+                .then(pl.col("time"))
+                .otherwise(None)
+                .alias("time"),
+                pl.col("chunk_margin"),
+                pl.col("margined_duration"),
+                pl.col("stim"),
                 *combined_cols,
+                pl.col("onset").alias("offset")
             )
             .with_columns(pl.col("^.*epochs.*$").list.len().alias("n_epochs"))
             .sort(
@@ -57,7 +67,7 @@ class Trainer:
             )
         ).filter(pl.col("block").is_in(self.data_params.blocks))
 
-        create_splits(session, self.data_params.split, self.results_config)
+        create_splits(trial, self.data_params.split, self.results_config)
 
         self.train_loader, self.val_loader, self.test_loader = create_dataloaders(
             self.data_params, self.results_config
@@ -72,31 +82,66 @@ class Trainer:
 
         if self.framework_type == "psid":
             self.framework = PSIDFramework(self.config)
-        elif self.framework_type == "dpad":
-            self.framework = DPADFramework(self.config)
         else:
             raise ValueError(f"Unknown framework type: {self.framework_type}")
 
         Y_train, Z_train = self.train_loader.get_full_dataset()
         Y_val, Z_val = self.val_loader.get_full_dataset()
-        try:
-            y_tr_shape = [y.shape for y in Y_train[:3]]
-            z_tr_shape = None if Z_train is None else [z.shape for z in Z_train[:3]]
-            y_val_shape = [y.shape for y in Y_val[:3]]
-            z_val_shape = None if Z_val is None else [z.shape for z in Z_val[:3]]
-            self.logger.info(
-                f"Data prepared. Train trials={len(Y_train)}, Val trials={len(Y_val)}; "
-                f"Y_train (first 3) shapes={y_tr_shape}; Z_train (first 3) shapes={z_tr_shape}; "
-                f"Y_val (first 3) shapes={y_val_shape}; Z_val (first 3) shapes={z_val_shape}"
-            )
-        except Exception:
-            pass
 
         self.logger.info("Beginning training...")
         self.framework._train(Y_train, Z_train)
 
         self.logger.info("Beginning validation...")
-        val_results = self.framework._validate(Y_val, Z_val)
+        val_results = self.framework._validate(Y_val)
+
         self.logger.info(f"Validation complete. Results: {val_results}")
 
+        self.save_results(val_results, self.val_loader.dataset.df, type="val")
+
         return val_results
+
+    def save_results(self, results: dict, input_df: pl.DataFrame, type: str):
+
+        metrics_df = input_df.with_columns(
+            [
+                pl.Series(
+                    name="pearsonr_per_channel", values=results["pearson_r_per_channel"]
+                ),
+                pl.Series(name="Y", values=[arr.tolist() for arr in results["Y"]]),
+                pl.Series(name="Yp", values=[arr.tolist() for arr in results["Yp"]]),
+                pl.Series(
+                    name="Zp",
+                    values=[
+                        arr.tolist() if arr is not None else None
+                        for arr in results["Zp"]
+                    ],
+                ),
+                pl.Series(name="Xp", values=[arr.tolist() for arr in results["Xp"]]),
+                pl.lit(results["pearson_r_mean"]).alias("pearsonr_mean"),
+            ]
+        )
+        if isinstance(results, dict):
+            for k, v in results.items():
+                if not isinstance(v, (list, dict)):
+                    try:
+                        metrics_df = metrics_df.with_columns(
+                            pl.lit(v).alias(f"metric_{k}")
+                        )
+                    except Exception:
+                        pass
+
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        out_dir = Path(self.results_config.save_dir)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path = out_dir / f"{type}_results_{ts}"
+        metrics_df.write_parquet(
+            out_path, partition_by=["participant_id", "session", "block", "trial"]
+        )
+        self.logger.info(f"Detailed {type} results saved to {out_path}")
+
+        try:
+            with open(out_dir / f"model_{ts}.pkl", "wb") as f:
+                pickle.dump(self.framework.model.idSys, f)
+            self.logger.info(f"Saved model to {out_dir}")
+        except Exception as e:
+            self.logger.warning(f"Could not save model/trainer artifacts: {e}")

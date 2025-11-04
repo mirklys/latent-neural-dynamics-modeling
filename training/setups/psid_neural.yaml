@@ -3,17 +3,17 @@ model:
   nx: 1
   n1: 0
   i: 5
-  time_first: True
-  remove_mean_Y: False
-  remove_mean_Z: False
-  zscore_Y: False
-  zscore_Z: False
+  time_first: true
+  remove_mean_Y: false
+  remove_mean_Z: false
+  zscore_Y: false
+  zscore_Z: false
 
 data:
-  root: "resampled_recordings/participants"
+  root: "resampled_recordings/participants_2"
   participant: "PDI1"
   session: "2"
-  blocks: [1, 2]
+  blocks: [1, 2, 3, 4, 5]
   preprocess: true
   channels:
     is_neural_behavioral: false
@@ -26,7 +26,6 @@ data:
     test: 0.2
     min_train_epochs: 50
   batch_size: 32
-  prefetch: 4           # Combines num_workers and shuffle into simpler terms
 
 results:
   save_dir: "results/{model.name}"

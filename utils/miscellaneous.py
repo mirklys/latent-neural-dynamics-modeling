@@ -1,9 +1,8 @@
-import os
+from pathlib import Path
 from typing import KeysView
 
 
 def lookup_keys(keys: KeysView[str], lookup_keywords: list) -> tuple:
-    """looks for keys that are part of lookup_keywords"""
 
     fetched_keys = {
         key_
@@ -15,5 +14,20 @@ def lookup_keys(keys: KeysView[str], lookup_keywords: list) -> tuple:
 
 
 def contains_nulls(lst: list) -> bool:
-    """Check if a list contains any None values."""
     return any(x is None for x in lst)
+
+
+def state_shape(state):
+    return (
+        [p.shape for p in state if p is not None]
+        if isinstance(state, list)
+        else state.shape
+    )
+
+
+def get_latest_timestamp(directory: str) -> str:
+    models = Path(directory).glob("*.pkl")
+    timestamps = [
+        str(model.name).replace(".pkl", "").replace("model_", "") for model in models
+    ]
+    return max(timestamps)

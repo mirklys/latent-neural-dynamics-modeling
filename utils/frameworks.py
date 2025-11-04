@@ -1,7 +1,9 @@
 from utils.config import Config
-from typing import Any, Dict
+from typing import Any, Dict, List
 import PSID
 from utils.logger import get_logger
+from utils.miscellaneous import state_shape
+from utils.stats import pearson_r_per_channel
 
 
 class BaseFramework:
@@ -14,26 +16,22 @@ class BaseFramework:
         raise NotImplemented
 
     def _train(self, Y, Z=None):
-        y_shapes = [y.shape for y in Y] if isinstance(Y, (list, tuple)) else [Y.shape]
-        z_info = (
-            None
-            if Z is None
-            else ([z.shape for z in Z] if isinstance(Z, (list, tuple)) else [Z.shape])
-        )
-        self.logger.info(
-            f"Initializing model and starting training. Y shapes (first 3): {y_shapes[:3]} | Z shapes (first 3): {z_info[:3] if z_info else None}"
-        )
+        self.logger.info(f"Initializing model and starting training.")
         self.model = self._initalize_model()
         self.logger.info(f"Model initialized: {self.model}")
         return self.model.train(Y, Z)
 
-    def _validate(self, Y, Z=None):
+    def _validate(self, Y):
         self.logger.info("Starting validation...")
-        return self.model.validate(Y, Z)
+        return self.model.validate(Y)
 
-    def _test(self, Y, Z=None):
+    def _test(self, Y):
         self.logger.info("Starting test...")
-        return self.model.test(Y, Z)
+        return self.model.test(Y)
+
+    def _predict(self, Y):
+        self.logger.info("Running prediction on provided data...")
+        return self.model.predict(Y)
 
 
 class PSIDWrapper:
@@ -41,28 +39,20 @@ class PSIDWrapper:
         self.config = config
         self.logger = get_logger()
         self.idSys = None
-        self.params = _map_psid_params(config)
 
     def train(self, Y, Z=None):
-        # Read configured parameters without additional shape-based adjustments
-        nx = self.params["nx"]
-        n1 = self.params.get("n1", nx)
-        i = self.params["i"]
-        time_first = self.params.get("time_first", True)
-        remove_mean_Y = self.params.get("remove_mean_Y", True)
-        remove_mean_Z = self.params.get("remove_mean_Z", True)
-        zscore_Y = self.params.get("zscore_Y", False)
-        zscore_Z = self.params.get("zscore_Z", False)
 
-        y_shapes = [y.shape for y in Y] if isinstance(Y, (list, tuple)) else [Y.shape]
-        z_shapes = (
-            None
-            if Z is None
-            else ([z.shape for z in Z] if isinstance(Z, (list, tuple)) else [Z.shape])
-        )
+        nx = self.config.model.nx
+        n1 = self.config.model.n1
+        i = self.config.model.i
+        time_first = self.config.model.time_first
+        remove_mean_Y = self.config.model.remove_mean_Y
+        remove_mean_Z = self.config.model.remove_mean_Z
+        zscore_Y = self.config.model.zscore_Y
+        zscore_Z = self.config.model.zscore_Z
+
         self.logger.info(
             f"Calling PSID.PSID with nx={nx}, n1={n1}, i={i}, time_first={time_first}; "
-            f"Y shapes (first 3): {y_shapes[:3]} Z shapes (first 3): {z_shapes[:3] if z_shapes else None}"
         )
 
         self.idSys = PSID.PSID(
@@ -79,62 +69,32 @@ class PSIDWrapper:
         )
         return self.idSys
 
-    def validate(self, Y, Z=None):
-        if self.idSys is None:
-            raise RuntimeError("PSID model has not been trained yet.")
-        if isinstance(Y, (list, tuple)) and len(Y) == 0:
-            return {"status": "validation_skipped", "reason": "empty_validation_set"}
+    def predict(self, Y):
+        return self.idSys.predict(Y)
 
+    def validate(self, Y):
         Zp, Yp, Xp = self.idSys.predict(Y)
+
+        r_list, r_mean = pearson_r_per_channel(Y, Yp)
         result = {
-            "Yp_shape": [p.shape for p in Yp] if isinstance(Yp, list) else Yp.shape,
-            "Zp_shape": (
-                None
-                if Zp is None
-                else (
-                    [p.shape for p in Zp if p is not None]
-                    if isinstance(Zp, list)
-                    else Zp.shape
-                )
-            ),
-            "Xp_shape": [p.shape for p in Xp] if isinstance(Xp, list) else Xp.shape,
+            "Y": Y,
+            "Zp": Zp,
+            "Yp": Yp,
+            "Xp": Xp,
+            "Yp_shape": state_shape(Yp),
+            "Zp_shape": (None if Zp is None else state_shape(Zp)),
+            "Xp_shape": (None if Xp is None else state_shape(Xp)),
+            "pearson_r_per_channel": r_list,  # per trial if multiple trials, else per-channel list
+            "pearson_r_mean": r_mean,  # overall mean across trials/channels
         }
 
         return result
 
-    def test(self, Y, Z=None):
-        return self.validate(Y, Z)
+    def test(self, Y):
+        return self.validate(Y)
 
 
 class PSIDFramework(BaseFramework):
     def _initalize_model(self):
         self.logger.info("Initializing PSIDAdapter (function-based PSID API)")
         return PSIDWrapper(self.config)
-
-
-def _map_psid_params(config: Config) -> Dict[str, Any]:
-    model_cfg = config.model
-    nx = int(model_cfg.nx)
-    n1 = int(model_cfg.n1)
-    i = int(model_cfg.i)
-
-    time_first = bool(model_cfg.time_first)
-    remove_mean_Y = bool(model_cfg.remove_mean_Y)
-    remove_mean_Z = bool(model_cfg.remove_mean_Z)
-    zscore_Y = bool(model_cfg.zscore_Y)
-    zscore_Z = bool(model_cfg.zscore_Z)
-
-    return {
-        "nx": nx,
-        "n1": n1,
-        "i": i,
-        "time_first": time_first,
-        "remove_mean_Y": remove_mean_Y,
-        "remove_mean_Z": remove_mean_Z,
-        "zscore_Y": zscore_Y,
-        "zscore_Z": zscore_Z,
-    }
-
-
-def _get_model_params(config: Config) -> Dict[str, Any]:
-    return NotImplemented

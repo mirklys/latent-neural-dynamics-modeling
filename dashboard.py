@@ -11,6 +11,7 @@ import os
 project_root = Path(os.path.dirname(__file__)).parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
+from typing import Optional
 
 from utils.file_handling import get_child_subchilds_tuples
 from utils.plots import (
@@ -21,9 +22,18 @@ from utils.plots import (
     plot_trial_coordinates,
 )
 
+from utils.logger import setup_logger
+
+logger = setup_logger("dashboard_logs", name=__name__)
+
 st.set_page_config(layout="wide")
 
 st.title("iEEG & Motion Analysis Dashboard")
+
+# Additional imports for predictions tab
+import plotly.graph_objects as go
+from training.components.tester import Tester
+from utils.config import get_config
 
 DATA_PATH = project_root / "resampled_recordings"
 PARTICIPANTS_PATH = DATA_PATH / "participants_2"
@@ -141,7 +151,9 @@ else:
         key=natural_sort_key,
     )
 
-    tab1, tab2 = st.tabs(["Time-Series Analysis", "Frequency (PSD) Analysis"])
+    tab1, tab2, tab3 = st.tabs(
+        ["Time-Series Analysis", "Frequency (PSD) Analysis", "Model Predictions"]
+    )
 
     with tab1:
         st.header("Time-Series Analysis")
@@ -378,3 +390,348 @@ else:
                         Trial {selected_trial_psd}"""
                     fig = plot_average_psd(freqs, psd_data, title=title_avg)
                     st.plotly_chart(fig, use_container_width=True)
+
+    with tab3:
+        st.header("Model Predictions")
+
+        RESULTS_ROOT = project_root / "results"
+
+        def _list_variants(results_root: Path):
+            if not results_root.exists():
+                return []
+            return sorted([p.name for p in results_root.iterdir() if p.is_dir()])
+
+        def _list_run_timestamps(variant_dir: Path):
+            ts = set()
+            for p in variant_dir.glob("val_results_*"):
+                name = p.name
+                if name.startswith("val_results_"):
+                    ts.add(name.replace("val_results_", ""))
+            for p in variant_dir.glob("model_*.pkl"):
+                name = p.name
+                if name.startswith("model_") and name.endswith(".pkl"):
+                    ts.add(name.replace("model_", "").replace(".pkl", ""))
+            return sorted(list(ts))
+
+        def _config_for_variant(variant_name: str) -> Optional[Path]:
+            cfg = project_root / "training" / "setups" / f"{variant_name}.yaml"
+            return cfg if cfg.exists() else None
+
+        variants = _list_variants(RESULTS_ROOT)
+        if len(variants) == 0:
+            st.info("No result variants found under results/.")
+        else:
+            variant = st.selectbox(
+                "Model variant", options=variants, key="pred_variant"
+            )
+            variant_dir = RESULTS_ROOT / variant
+            runs = _list_run_timestamps(variant_dir)
+            if len(runs) == 0:
+                st.info("No runs found for this variant yet. Train a model first.")
+            else:
+                run_ts = st.selectbox("Run timestamp", options=runs, key="pred_run")
+                cfg_path = _config_for_variant(variant)
+                if cfg_path is None:
+                    st.error(
+                        f"Config not found for variant '{variant}'. Expected at training/setups/{variant}.yaml"
+                    )
+                else:
+
+                    @st.cache_resource(show_spinner=True)
+                    def _cached_predictions(config_path: str, run_timestamp: str):
+                        tester = Tester.from_config_file(
+                            config_path, run_timestamp=run_timestamp
+                        )
+                        return tester.run_predictions()
+
+                    if st.button("Run predictions", key="btn_run_predictions"):
+                        st.session_state["predictions_key"] = (str(cfg_path), run_ts)
+
+                    pred_key = st.session_state.get("predictions_key")
+                    if (
+                        pred_key
+                        and pred_key[0] == str(cfg_path)
+                        and pred_key[1] == run_ts
+                    ):
+                        with st.spinner("Running predictions..."):
+                            try:
+                                pred_results = _cached_predictions(
+                                    str(cfg_path), run_ts
+                                )
+                            except Exception as e:
+                                st.error(f"Prediction failed: {e}")
+                                pred_results = None
+                        if pred_results is not None:
+                            split = st.selectbox(
+                                "Split",
+                                options=["train", "val", "test"],
+                                key="pred_split",
+                            )
+                            split_res = pred_results.get(split)
+                            if not split_res:
+                                st.info("No results for selected split.")
+                            else:
+                                Y_true = split_res["Y"]
+                                Yp = split_res["Yp"]
+                                Zp = split_res["Zp"]
+                                Xp = split_res["Xp"]
+                                pearson_tr = split_res["pearson_per_channel"]
+                                pearson_mean = split_res["pearson_mean"]
+
+                                n_trials = len(Y_true)
+                                trial_indices = list(range(n_trials))
+                                trial_idx = st.selectbox(
+                                    "Trial", options=trial_indices, key="pred_trial"
+                                )
+
+                                y_t = np.array(Y_true[trial_idx])
+                                y_p = np.array(Yp[trial_idx])
+                                z_p = (
+                                    None
+                                    if Zp[trial_idx] is None
+                                    else np.array(Zp[trial_idx])
+                                )
+                                x_p = np.array(Xp[trial_idx])
+
+                                r_list = pearson_tr[trial_idx] if pearson_tr else []
+                                r_mean = (
+                                    pearson_mean[trial_idx] if pearson_mean else np.nan
+                                )
+                                mean_str = (
+                                    f"{r_mean:.4f}" if not np.isnan(r_mean) else "nan"
+                                )
+                                st.markdown(
+                                    f"Pearson per channel: {r_list} | Mean: {mean_str}"
+                                )
+
+                                # Metadata and time vector
+                                meta_time = split_res.get("time", [])
+                                offsets = split_res.get("offset", [])
+                                t_abs = (
+                                    meta_time[trial_idx]
+                                    if meta_time and len(meta_time) > trial_idx
+                                    else None
+                                )
+                                cm_list = split_res.get("chunk_margin", [])
+                                md_list = split_res.get("margined_duration", [])
+                                stim_list = split_res.get("stim", [])
+                                pid_list = split_res.get("participant_id", [])
+                                ses_list = split_res.get("session", [])
+                                blk_list = split_res.get("block", [])
+                                tri_list = split_res.get("trial", [])
+                                chan_names = split_res.get("input_channels", [])
+
+                                # Header info
+                                hdr_pid = (
+                                    pid_list[trial_idx]
+                                    if pid_list
+                                    else st.session_state.get("participant_id")
+                                )
+                                hdr_ses = (
+                                    ses_list[trial_idx]
+                                    if ses_list
+                                    else st.session_state.get("session")
+                                )
+                                hdr_blk = (
+                                    blk_list[trial_idx]
+                                    if blk_list
+                                    else st.session_state.get("block")
+                                )
+                                hdr_tri = tri_list[trial_idx] if tri_list else trial_idx
+                                st.subheader(
+                                    f"Participant {hdr_pid} | Session {hdr_ses} | Block {hdr_blk} | Trial {hdr_tri}"
+                                )
+
+                                n_samples = y_t.shape[0]
+                                if t_abs is None or (
+                                    hasattr(t_abs, "__len__")
+                                    and len(t_abs) != n_samples
+                                ):
+                                    dur = md_list[trial_idx] if md_list else None
+                                    if dur is not None:
+                                        t_abs = np.linspace(0.0, float(dur), n_samples)
+                                    else:
+                                        t_abs = np.arange(n_samples)
+                                else:
+                                    t_abs = np.array(t_abs)
+                                t_offset = (
+                                    float(offsets[trial_idx])
+                                    if offsets and len(offsets) > trial_idx and offsets[trial_idx] is not None
+                                    else 0.0
+                                )
+                                t_abs = t_abs + t_offset
+
+                                n_chan = y_t.shape[1] if y_t.ndim == 2 else 1
+                                if (
+                                    chan_names
+                                    and isinstance(chan_names, list)
+                                    and len(chan_names) == n_chan
+                                ):
+                                    channel_options = chan_names
+                                else:
+                                    channel_options = [f"ch{i}" for i in range(n_chan)]
+                                selected_name = st.selectbox(
+                                    "Channel for Y/Yp plot",
+                                    options=channel_options,
+                                    index=0,
+                                    key="pred_chan",
+                                )
+                                c = (
+                                    channel_options.index(selected_name)
+                                    if n_chan > 1
+                                    else 0
+                                )
+
+                                if y_t.ndim == 2 and y_t.shape[0] != len(t_abs) and y_t.shape[1] == len(t_abs):
+                                    y_t = y_t.T
+                                if y_p is not None and y_p.ndim == 2 and y_p.shape[0] != len(t_abs) and y_p.shape[1] == len(t_abs):
+                                    y_p = y_p.T
+
+                                y_true_c = y_t.squeeze() if n_chan == 1 else y_t[:, c]
+                                y_pred_c = (
+                                    None
+                                    if y_p is None
+                                    else (y_p.squeeze() if n_chan == 1 else y_p[:, c])
+                                )
+                                inp_mean = split_res.get("input_mean")
+                                inp_std = split_res.get("input_std")
+
+                                if inp_mean is not None and inp_std is not None:
+                                    mu = np.array(inp_mean).squeeze()
+                                    sd = np.array(inp_std).squeeze()
+                                    mu_c = mu if np.ndim(mu) == 0 or n_chan == 1 else mu[c]
+                                    sd_c = sd if np.ndim(sd) == 0 or n_chan == 1 else sd[c]
+                                    if y_true_c is not None:
+                                        y_true_c = y_true_c * sd_c + mu_c
+                                    if y_pred_c is not None:
+                                        y_pred_c = y_pred_c * sd_c + mu_c
+
+                                fig = go.Figure()
+                                fig.add_trace(
+                                    go.Scatter(
+                                        x=t_abs, y=y_true_c, name="Y_true (µV)", mode="lines"
+                                    )
+                                )
+                                if y_pred_c is not None:
+                                    fig.add_trace(
+                                        go.Scatter(
+                                            x=t_abs,
+                                            y=y_pred_c,
+                                            name="Y_pred (µV)",
+                                            mode="lines",
+                                        )
+                                    )
+
+                                cm = cm_list[trial_idx] if cm_list else None
+                                dur = md_list[trial_idx] if md_list else None
+                                if dur is not None:
+                                    event_start = t_offset + float(cm) if cm is not None else t_abs[0]
+                                    event_end = t_offset + float(dur) - (float(cm) if cm is not None else 0.0)
+                                    fig.add_vrect(
+                                        x0=event_start,
+                                        x1=event_end,
+                                        fillcolor="rgba(0, 100, 0, 0.1)",
+                                        layer="below",
+                                        line_width=0,
+                                    )
+                                    fig.add_vline(
+                                        x=event_start,
+                                        line_dash="dash",
+                                        line_color="green",
+                                    )
+                                    fig.add_vline(
+                                        x=event_end, line_dash="dash", line_color="red"
+                                    )
+
+                                r_ch = (
+                                    r_list[c] if r_list and c < len(r_list) else np.nan
+                                )
+                                chan_name = selected_name
+                                fig.update_layout(
+                                    title=f"Y and Y_p — {chan_name} (r={r_ch:.3f})",
+                                    xaxis_title="Time (s)",
+                                    yaxis_title="Amplitude (µV)",
+                                )
+                                st.plotly_chart(fig, use_container_width=True)
+
+                                if x_p is not None:
+                                    figx = go.Figure()
+                                    t_x = (
+                                        np.linspace(t_abs[0], t_abs[-1], x_p.shape[0])
+                                        if len(t_abs) != x_p.shape[0]
+                                        else t_abs
+                                    )
+                                    nx = x_p.shape[1] if x_p.ndim == 2 else 1
+                                    x_min = float(np.nanmin(x_p))
+                                    x_max = float(np.nanmax(x_p))
+                                    for d in range(nx):
+                                        series = x_p[:, d] if nx > 1 else x_p.squeeze()
+                                        figx.add_trace(
+                                            go.Scatter(
+                                                x=t_x,
+                                                y=series,
+                                                name=f"X_p[{d}]",
+                                                mode="lines",
+                                            )
+                                        )
+                                    if dur is not None:
+                                        event_start = t_offset + float(cm) if cm is not None else t_x[0]
+                                        event_end = t_offset + float(dur) - (float(cm) if cm is not None else 0.0)
+                                        figx.add_vrect(
+                                            x0=event_start,
+                                            x1=event_end,
+                                            fillcolor="rgba(0, 100, 0, 0.1)",
+                                            layer="below",
+                                            line_width=0,
+                                        )
+                                        figx.add_vline(x=event_start, line_dash="dash", line_color="green")
+                                        figx.add_vline(x=event_end, line_dash="dash", line_color="red")
+                                    figx.update_layout(
+                                        title=f"Latent states X_p — Trial {trial_idx}",
+                                        xaxis_title="Time (s)",
+                                        yaxis_title="Raw value",
+                                        xaxis_range=[t_x[0], t_x[-1]],
+                                        yaxis_range=[x_min, x_max],
+                                    )
+                                    st.plotly_chart(figx, use_container_width=True)
+
+                                if z_p is not None:
+                                    figz = go.Figure()
+                                    t_z = (
+                                        np.linspace(t_abs[0], t_abs[-1], z_p.shape[0])
+                                        if len(t_abs) != z_p.shape[0]
+                                        else t_abs
+                                    )
+                                    nz = z_p.shape[1] if z_p.ndim == 2 else 1
+                                    z_min = float(np.nanmin(z_p))
+                                    z_max = float(np.nanmax(z_p))
+                                    for d in range(nz):
+                                        series = z_p[:, d] if nz > 1 else z_p.squeeze()
+                                        figz.add_trace(
+                                            go.Scatter(
+                                                x=t_z,
+                                                y=series,
+                                                name=f"Z_p[{d}]",
+                                                mode="lines",
+                                            )
+                                        )
+                                    if dur is not None:
+                                        event_start = t_offset + float(cm) if cm is not None else t_z[0]
+                                        event_end = t_offset + float(dur) - (float(cm) if cm is not None else 0.0)
+                                        figz.add_vrect(
+                                            x0=event_start,
+                                            x1=event_end,
+                                            fillcolor="rgba(0, 100, 0, 0.1)",
+                                            layer="below",
+                                            line_width=0,
+                                        )
+                                        figz.add_vline(x=event_start, line_dash="dash", line_color="green")
+                                        figz.add_vline(x=event_end, line_dash="dash", line_color="red")
+                                    figz.update_layout(
+                                        title=f"Aux predictions Z_p — Trial {trial_idx}",
+                                        xaxis_title="Time (s)",
+                                        yaxis_title="Value",
+                                        xaxis_range=[t_z[0], t_z[-1]],
+                                        yaxis_range=[z_min, z_max],
+                                    )
+                                    st.plotly_chart(figz, use_container_width=True)
