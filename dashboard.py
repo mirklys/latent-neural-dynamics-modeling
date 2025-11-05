@@ -4,7 +4,6 @@ from pathlib import Path
 import sys
 import os
 
-# Add project root to path
 project_root = Path(os.path.dirname(__file__)).parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))

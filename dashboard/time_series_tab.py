@@ -1,6 +1,5 @@
 import streamlit as st
 import polars as pl
-import numpy as np
 
 from utils.plots import (
     plot_trial_channel,

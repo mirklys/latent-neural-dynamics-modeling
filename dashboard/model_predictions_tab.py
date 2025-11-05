@@ -5,8 +5,6 @@ from pathlib import Path
 from typing import Optional
 
 from training.components.tester import Tester
-from utils.config import get_config
-
 def model_predictions_tab(project_root):
     st.header("Model Predictions")
 
@@ -120,7 +118,6 @@ def model_predictions_tab(project_root):
                                 f"Pearson per channel: {r_list} | Mean: {mean_str}"
                             )
 
-                            # Metadata and time vector
                             meta_time = split_res.get("time", [])
                             offsets = split_res.get("offset", [])
                             t_abs = (
@@ -137,7 +134,6 @@ def model_predictions_tab(project_root):
                             tri_list = split_res.get("trial", [])
                             chan_names = split_res.get("input_channels", [])
 
-                            # Header info
                             hdr_pid = (
                                 pid_list[trial_idx]
                                 if pid_list

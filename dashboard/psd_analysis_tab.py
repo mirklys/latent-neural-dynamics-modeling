@@ -6,7 +6,6 @@ from utils.plots import (
     plot_psd_heatmap,
     plot_average_psd,
 )
-from utils.data_loader import natural_sort_key
 
 def psd_analysis_tab(block_data, lfp_channels, ecog_channels):
     st.header("Power Spectral Density (PSD) Analysis")
@@ -122,7 +121,7 @@ def psd_analysis_tab(block_data, lfp_channels, ecog_channels):
             if freqs is not None:
                 title_avg = f"""Average LFP PSD
                      Participant {st.session_state.get('participant_id')}
-                    Session {st.session_state.get('session')} Block{selected_block}
+                    Session {st.session_state.get('session')} Block {selected_block}
                     Trial {selected_trial_psd}"""
                 fig = plot_average_psd(freqs, psd_data, title=title_avg)
                 st.plotly_chart(fig, use_container_width=True)
