@@ -291,7 +291,7 @@ def _chunk_recordings(
     )
 
     participants_ = participants_.with_columns(
-        (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("start_ts"),
+        (pl.col("margined_onset") * sfreq).cast(pl.UInt32).alias("start_ts"),
         (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
         (pl.col("trial_time") * sfreq).cast(pl.UInt32).alias("original_length_ts"),
     ).with_columns(

@@ -200,13 +200,10 @@ data/
 
 logs/
 resampled_recordings/
-results/*/split
-results/*/logs
+results/
 DPAD-main/
 PyPSID-main/
 .idea
 
-DPAD/
-PyPSID/
-articles/
-
+dashboard_logs
+*.parquet
