@@ -56,7 +56,8 @@ def model_predictions_tab(project_root):
                     tester = Tester.from_config_file(
                         config_path, run_timestamp=run_timestamp
                     )
-                    return tester.run_predictions()
+                    tester.run_predictions()
+                    return tester.results
 
                 if st.button("Run predictions", key="btn_run_predictions"):
                     st.session_state["predictions_key"] = (str(cfg_path), run_ts)
