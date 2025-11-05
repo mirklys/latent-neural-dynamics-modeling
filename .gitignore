@@ -200,5 +200,11 @@ data/
 
 logs/
 resampled_recordings/
-DPAD/
-PyPSID/
+DPAD-main/
+PyPSID-main/
+
+.idea
+
+*log*
+results
+out

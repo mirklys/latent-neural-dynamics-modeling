@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="02f02212-34dc-47d1-8e9d-1e9baf9a851f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/latent-neural-dynamics-modeling.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/articles/template_subtraction.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/report/drafts/background/UF_FRED_paper_style.sty" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/report/drafts/background/figures/example_figure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/report/drafts/background/main.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/report/drafts/background/references.bib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/drafts/template/main.bbl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/drafts/template/main.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/drafts/template/main.synctex.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/drafts/template/main.tex" beforeDir="false" afterPath="$PROJECT_DIR$/report/drafts/template/main.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/drafts/template/references.bib" beforeDir="false" afterPath="$PROJECT_DIR$/report/drafts/template/references.bib" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,76 +63,92 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "LaTeX.background.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;BibTeX.main bibliography.executor&quot;: &quot;Run&quot;,
+    &quot;LaTeX.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;LaTeX.background.executor&quot;: &quot;Run&quot;,
+    &quot;LaTeX.main.executor&quot;: &quot;Run&quot;,
+    &quot;LaTeX.template.executor&quot;: &quot;Run&quot;,
+    &quot;Makeindex.main makeindex.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/bobby/repos/latent-neural-dynamics-modeling/report/drafts&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
+      <window_info id="Bookmarks" side_tool="true" />
       <window_info id="Merge Requests" />
+      <window_info id="AI Playground" side_tool="true" />
       <window_info id="Backup and Sync History" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.46682465" visible="true" />
-      <window_info id="Commit" order="1" weight="0.25" />
-      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Bookmarks" order="3" sideWeight="0.49948877" side_tool="true" weight="0.32994792" />
-      <window_info id="Pull Requests" order="4" weight="0.32994792" />
-      <window_info id="AI Playground" order="5" sideWeight="0.53317535" side_tool="true" weight="0.32994792" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.72316754" visible="true" weight="0.20026042" />
+      <window_info id="Commit" order="1" sideWeight="0.50157976" weight="0.20807292" />
+      <window_info id="Structure" order="2" sideWeight="0.27683246" side_tool="true" weight="0.2747396" />
+      <window_info id="Pull Requests" order="3" weight="0.27890626" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="TypeScript" />
-      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="GitHub Copilot MCP Log" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" />
       <window_info anchor="bottom" id="HfCacheToolWindow" />
-      <window_info anchor="bottom" id="Version Control" order="0" weight="0.32967556" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.41173664" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.32967556" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" />
+      <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info anchor="bottom" id="Services" order="4" />
       <window_info anchor="bottom" id="Python Packages" order="5" weight="0.32967556" />
-      <window_info anchor="bottom" id="Python Console" order="6" weight="0.1" />
+      <window_info anchor="bottom" id="Python Console" order="6" weight="0.32967556" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.32967556" />
-      <window_info anchor="bottom" id="Jupyter" order="8" weight="0.32967556" />
-      <window_info anchor="bottom" id="Run" order="9" weight="0.32967556" />
+      <window_info anchor="bottom" id="TODO" order="8" weight="0.32967556" />
+      <window_info anchor="bottom" id="Jupyter" order="9" weight="0.32967556" />
+      <window_info anchor="bottom" id="Run" order="10" weight="0.3300926" />
+      <window_info anchor="right" id="Detexify" />
       <window_info anchor="right" id="PR AI Assistant" />
-      <window_info anchor="right" id="Endpoints" />
-      <window_info anchor="right" id="Coverage" side_tool="true" />
+      <window_info anchor="right" id="Libraries" />
+      <window_info anchor="right" id="documentation.v2" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="right" id="GitHub Coding Agent Jobs" show_stripe_button="false" />
+      <window_info anchor="right" id="Symbols" />
       <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="Notifications" order="0" weight="0.1393229" />
-      <window_info active="true" anchor="right" id="AIAssistant" order="1" visible="true" weight="0.2919271" />
-      <window_info anchor="right" id="Database" order="2" weight="0.25" />
+      <window_info anchor="right" id="Jupyter Variables" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="right" id="Notifications" order="0" weight="0.32994792" />
+      <window_info anchor="right" id="AIAssistant" order="1" weight="0.32994792" />
+      <window_info anchor="right" id="Database" order="2" weight="0.32994792" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Plots" order="5" weight="0.1" />
-      <window_info anchor="right" id="Key Promoter X" order="6" />
-      <window_info anchor="right" id="Jupyter Variables" order="7" side_tool="true" weight="0.32994792" />
+      <window_info anchor="right" id="Key Promoter X" order="6" weight="0.1861979" />
+      <window_info anchor="right" id="Endpoints" order="7" show_stripe_button="false" weight="0.32994792" />
+      <window_info anchor="right" id="github.copilotToolWindow" order="8" weight="0.32994792" />
+      <window_info anchor="right" id="GitHub Copilot Chat" order="9" show_stripe_button="false" weight="0.28567708" />
+      <window_info anchor="right" id="ElectroJunToolWindow" order="10" />
+      <window_info anchor="right" id="StudioBot" order="11" show_stripe_button="false" sideWeight="0.50157976" weight="0.32994792" />
+      <window_info anchor="right" id="Coverage" order="12" show_stripe_button="false" sideWeight="0.49842024" side_tool="true" weight="0.32994792" />
     </layout>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
-      <texify-bibtex>
-        <compiler />
-        <compiler-path />
-        <compiler-arguments />
-        <envs />
-        <main-file />
-        <aux-dir />
-        <latex-distribution>PROJECT_SDK</latex-distribution>
-      </texify-bibtex>
-      <method v="2" />
-    </configuration>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/report/drafts" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="main.tex" />
+    </option>
+  </component>
+  <component name="RunManager" selected="LaTeX.Latex">
     <configuration name="background bibliography" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-bibtex>
         <compiler>BIBTEX</compiler>
@@ -139,17 +158,80 @@
           <env name="BIBINPUTS" value="$PROJECT_DIR$/report/drafts/background" />
           <env name="BSTINPUTS" value="$PROJECT_DIR$/report/drafts/background:" />
         </envs>
-        <main-file>$PROJECT_DIR$/report/drafts/background/background.tex</main-file>
+        <main-file />
+        <aux-dir />
+        <latex-distribution>TEXLIVE</latex-distribution>
+      </texify-bibtex>
+      <method v="2" />
+    </configuration>
+    <configuration name="main bibliography" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
+      <texify-bibtex>
+        <compiler>BIBTEX</compiler>
+        <compiler-path />
+        <compiler-arguments />
+        <envs>
+          <env name="BIBINPUTS" value="$PROJECT_DIR$/report/drafts/template" />
+          <env name="BSTINPUTS" value="$PROJECT_DIR$/report/drafts/template:" />
+        </envs>
+        <main-file>$PROJECT_DIR$/report/drafts/template/main.tex</main-file>
         <aux-dir>$PROJECT_DIR$/out</aux-dir>
         <latex-distribution>TEXLIVE</latex-distribution>
       </texify-bibtex>
       <method v="2" />
     </configuration>
+    <configuration name="Latex" type="LATEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory" singleton="false">
+      <texify>
+        <compiler>PDFLATEX</compiler>
+        <compiler-path />
+        <pdf-viewer>BUILT-IN-PDF-VIEWER</pdf-viewer>
+        <require-focus>true</require-focus>
+        <viewer-command />
+        <compiler-arguments />
+        <envs />
+        <expand-macros-in-environment-variables>true</expand-macros-in-environment-variables>
+        <before-run-command />
+        <main-file>$PROJECT_DIR$/report/drafts/background/main.tex</main-file>
+        <output-path>$PROJECT_DIR$/report/drafts/background/out</output-path>
+        <auxil-path>{projectDir}/auxil</auxil-path>
+        <compile-twice>false</compile-twice>
+        <output-format>PDF</output-format>
+        <latex-distribution>TEXLIVE</latex-distribution>
+        <has-been-run>true</has-been-run>
+        <bib-run-config>[]</bib-run-config>
+        <makeindex-run-config>[Makeindex.main makeindex]</makeindex-run-config>
+      </texify>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="MAKEINDEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
+      <texify-makeindex>
+        <program>MAKEINDEX</program>
+        <main-file />
+        <command-line-args />
+        <work-dir />
+      </texify-makeindex>
+      <method v="2" />
+    </configuration>
+    <configuration name="main makeindex" type="MAKEINDEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
+      <texify-makeindex>
+        <program>MAKEINDEX</program>
+        <main-file>$PROJECT_DIR$/report/drafts/template/main.tex</main-file>
+        <command-line-args />
+        <work-dir>$PROJECT_DIR$/out</work-dir>
+      </texify-makeindex>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="BibTeX.background bibliography" />
+      <item itemvalue="BibTeX.main bibliography" />
+      <item itemvalue="LaTeX.Latex" />
+      <item itemvalue="Makeindex.main makeindex" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-234089a73f62-108273b50b00-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.24325.40" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-PY-252.27397.106" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>
@@ -168,6 +250,8 @@
       <workItem from="1761380961529" duration="956000" />
       <workItem from="1761382251678" duration="72000" />
       <workItem from="1761383177195" duration="1235000" />
+      <workItem from="1762350381545" duration="9092000" />
+      <workItem from="1762375061766" duration="60000" />
     </task>
     <servers />
   </component>
