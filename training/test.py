@@ -15,9 +15,9 @@ def test(config, run_timestamp=None):
 
     logger.info(f"Using run timestamp: {run_timestamp}")
     tester = Tester(config, run_timestamp=run_timestamp)
-    results = tester.run_predictions()
+    tester.run_predictions()
 
-    for split, res in results.items():
+    for split, res in tester.results.items():
         means = res.get("pearson_mean", [])
         if len(means) > 0:
             valid = [m for m in means if m == m]  # filter NaN
@@ -27,6 +27,11 @@ def test(config, run_timestamp=None):
         logger.info(f"Split={split}: avg Pearson over trials={avg}")
 
     logger.info("Testing completed successfully!")
+
+    tester.save_results()
+    logger.info("Saved results.")
+    tester.compute_and_save_stats()
+    logger.info("Saved statistics.")
 
 
 def main(args):

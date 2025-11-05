@@ -53,7 +53,7 @@ class Trainer:
                 pl.col("margined_duration"),
                 pl.col("stim"),
                 *combined_cols,
-                pl.col("onset").alias("offset")
+                pl.col("onset").alias("offset"),
             )
             .with_columns(pl.col("^.*epochs.*$").list.len().alias("n_epochs"))
             .sort(

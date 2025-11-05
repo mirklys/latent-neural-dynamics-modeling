@@ -556,7 +556,9 @@ else:
                                     t_abs = np.array(t_abs)
                                 t_offset = (
                                     float(offsets[trial_idx])
-                                    if offsets and len(offsets) > trial_idx and offsets[trial_idx] is not None
+                                    if offsets
+                                    and len(offsets) > trial_idx
+                                    and offsets[trial_idx] is not None
                                     else 0.0
                                 )
                                 t_abs = t_abs + t_offset
@@ -582,9 +584,18 @@ else:
                                     else 0
                                 )
 
-                                if y_t.ndim == 2 and y_t.shape[0] != len(t_abs) and y_t.shape[1] == len(t_abs):
+                                if (
+                                    y_t.ndim == 2
+                                    and y_t.shape[0] != len(t_abs)
+                                    and y_t.shape[1] == len(t_abs)
+                                ):
                                     y_t = y_t.T
-                                if y_p is not None and y_p.ndim == 2 and y_p.shape[0] != len(t_abs) and y_p.shape[1] == len(t_abs):
+                                if (
+                                    y_p is not None
+                                    and y_p.ndim == 2
+                                    and y_p.shape[0] != len(t_abs)
+                                    and y_p.shape[1] == len(t_abs)
+                                ):
                                     y_p = y_p.T
 
                                 y_true_c = y_t.squeeze() if n_chan == 1 else y_t[:, c]
@@ -599,8 +610,12 @@ else:
                                 if inp_mean is not None and inp_std is not None:
                                     mu = np.array(inp_mean).squeeze()
                                     sd = np.array(inp_std).squeeze()
-                                    mu_c = mu if np.ndim(mu) == 0 or n_chan == 1 else mu[c]
-                                    sd_c = sd if np.ndim(sd) == 0 or n_chan == 1 else sd[c]
+                                    mu_c = (
+                                        mu if np.ndim(mu) == 0 or n_chan == 1 else mu[c]
+                                    )
+                                    sd_c = (
+                                        sd if np.ndim(sd) == 0 or n_chan == 1 else sd[c]
+                                    )
                                     if y_true_c is not None:
                                         y_true_c = y_true_c * sd_c + mu_c
                                     if y_pred_c is not None:
@@ -609,7 +624,10 @@ else:
                                 fig = go.Figure()
                                 fig.add_trace(
                                     go.Scatter(
-                                        x=t_abs, y=y_true_c, name="Y_true (µV)", mode="lines"
+                                        x=t_abs,
+                                        y=y_true_c,
+                                        name="Y_true (µV)",
+                                        mode="lines",
                                     )
                                 )
                                 if y_pred_c is not None:
@@ -625,8 +643,16 @@ else:
                                 cm = cm_list[trial_idx] if cm_list else None
                                 dur = md_list[trial_idx] if md_list else None
                                 if dur is not None:
-                                    event_start = t_offset + float(cm) if cm is not None else t_abs[0]
-                                    event_end = t_offset + float(dur) - (float(cm) if cm is not None else 0.0)
+                                    event_start = (
+                                        t_offset + float(cm)
+                                        if cm is not None
+                                        else t_abs[0]
+                                    )
+                                    event_end = (
+                                        t_offset
+                                        + float(dur)
+                                        - (float(cm) if cm is not None else 0.0)
+                                    )
                                     fig.add_vrect(
                                         x0=event_start,
                                         x1=event_end,
@@ -675,8 +701,16 @@ else:
                                             )
                                         )
                                     if dur is not None:
-                                        event_start = t_offset + float(cm) if cm is not None else t_x[0]
-                                        event_end = t_offset + float(dur) - (float(cm) if cm is not None else 0.0)
+                                        event_start = (
+                                            t_offset + float(cm)
+                                            if cm is not None
+                                            else t_x[0]
+                                        )
+                                        event_end = (
+                                            t_offset
+                                            + float(dur)
+                                            - (float(cm) if cm is not None else 0.0)
+                                        )
                                         figx.add_vrect(
                                             x0=event_start,
                                             x1=event_end,
@@ -684,8 +718,16 @@ else:
                                             layer="below",
                                             line_width=0,
                                         )
-                                        figx.add_vline(x=event_start, line_dash="dash", line_color="green")
-                                        figx.add_vline(x=event_end, line_dash="dash", line_color="red")
+                                        figx.add_vline(
+                                            x=event_start,
+                                            line_dash="dash",
+                                            line_color="green",
+                                        )
+                                        figx.add_vline(
+                                            x=event_end,
+                                            line_dash="dash",
+                                            line_color="red",
+                                        )
                                     figx.update_layout(
                                         title=f"Latent states X_p — Trial {trial_idx}",
                                         xaxis_title="Time (s)",
@@ -716,8 +758,16 @@ else:
                                             )
                                         )
                                     if dur is not None:
-                                        event_start = t_offset + float(cm) if cm is not None else t_z[0]
-                                        event_end = t_offset + float(dur) - (float(cm) if cm is not None else 0.0)
+                                        event_start = (
+                                            t_offset + float(cm)
+                                            if cm is not None
+                                            else t_z[0]
+                                        )
+                                        event_end = (
+                                            t_offset
+                                            + float(dur)
+                                            - (float(cm) if cm is not None else 0.0)
+                                        )
                                         figz.add_vrect(
                                             x0=event_start,
                                             x1=event_end,
@@ -725,8 +775,16 @@ else:
                                             layer="below",
                                             line_width=0,
                                         )
-                                        figz.add_vline(x=event_start, line_dash="dash", line_color="green")
-                                        figz.add_vline(x=event_end, line_dash="dash", line_color="red")
+                                        figz.add_vline(
+                                            x=event_start,
+                                            line_dash="dash",
+                                            line_color="green",
+                                        )
+                                        figz.add_vline(
+                                            x=event_end,
+                                            line_dash="dash",
+                                            line_color="red",
+                                        )
                                     figz.update_layout(
                                         title=f"Aux predictions Z_p — Trial {trial_idx}",
                                         xaxis_title="Time (s)",
