@@ -24,150 +24,69 @@
 
 \setlength{\droptitle}{-5em} %% Don't touch
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SET THE TITLE
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% TITLE:
-\title{This is the Title: I hope you like it
-\thanks{Selected Paper prepared for presentation at the 201X Agricultural \& Applied Economics Association Annual Meeting}
-}
-
-% AUTHORS:
-\author{First Author\\% Name author
-    \href{mailto:firstauthor@ufl.edu}{\texttt{firstauthor@ufl.edu}} %% Email author 1 
-\and Second Author\\% Name author
-    \href{mailto:secondauthor@ufl.edu}{\texttt{secondauthor@ufl.edu}} %% Email author 2
-\and Third Author\\% Name author
-    \href{mailto:thirdauthor@ufl.edu}{\texttt{thirdauthor@ufl.edu}}%% Email author 3
-%\and Forth Author\\% Name author
-%    \href{mailto:forthuthor@ufl.edu}{\texttt{forthuthor@ufl.edu}}%% Email author 4
-    }
-    
-% DATE:
+\title{Background}
+\author{Giedrius Mirklys}
 \date{\today}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ABSTRACT
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-{\setstretch{.8}
+
 \maketitle
-% %%%%%%%%%%%%%%%%%%
-\begin{abstract}
-% CONTENT OF ABS HERE--------------------------------------
-
-\lipsum[1] %% Dummy text for abstract. Erase before use.
-
-% END CONTENT ABS------------------------------------------
-\noindent
-\textit{\textbf{Keywords: }%
-key1; key2; key3; key4.} \\ %% <-- Keywords HERE!
-\noindent
-\textit{\textbf{JEL Classification: }%
-Q12; C22; D81.} %% <-- JEL code HERE!
-
-\end{abstract}
-}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BODY OF THE DOCUMENT
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % --------------------
-\section{Introduction}
+\section{Background}
+\label{sec:background}
 % --------------------
 
-\lipsum[2-5] % Dummy text. Erase before write
-\citet{Hardaker2004} % Example of citation. Erase before use
+Parkinson's Disease has been a subject of extensive research due to its complex neurophysiological underpinnings and
+the significant impact it has on patients' quality of life. It originates differently in each patient, making it
+a hurdle for an effective treatment. Recent advancements in data-driven therapeutic neurostimulation have shown promise in addressing the
+symptoms of Parkinson's Disease by leveraging patient-specific data to tailor interventions. However, creating effective
+neurostimulation protocols requires a deep understanding of neurodynamics that govern behavior in Parkinson's patients.
 
-% --------------------
-\section{Methodology}
-% --------------------
+This section delves into the neuroelectrophysiological aspects of PD that could be learned by the neurodynamical models to
+drive therapeutic neurostimulation. It also provides a theoretical background of PD pathophysiology and discusses
+treatment approaches that utilize data-driven neurostimulation techniques. Finally, it explores the role of neurodynamical models
+in understanding and predicting behavioral outcomes in Parkinson's Disease while outlining two frameworks that could be used
+to model neurodynamics in PD.
 
-\lipsum[7-9] % Dummy text. Erase before write
-\citep{Chavas2015} % Example of citation. Erase before use
+\subsection{Neurophysiology of Parkinson's Disease}
+\label{subsec:neurophysiology-of-parkinson's-disease}
 
-% --------------------
-\section{Results}
-% --------------------
+Primarily, reduced availability of dopamine in the basal ganglia (BG) is the main precursor to the motor symptoms of PD.
+Dopamine depletion leads to an imbalance in major pathways of the BG, leading to impairment in initiating
+and controlling movements. Connectivity between the BG, thalamus, and motor cortex becomes disrupted which altogether
+orchestrates the motor functions. Since there are multiple pathways and relays passing through these regions, planned actions
+need to be filtered (the indirect pathway: driven by the connection to thalamus) and refined (the direct pathway: running
+through BG and motor cortex) to produce smooth and coordinated movements, and any other neural activity is suppressed (the hyperdirect
+pathway: connecting the subthalamic nucleus to the globus pallidus).
 
-\lipsum[12-13] % Dummy text. Erase before write
+It is largely unknown why dopamine-producing neurons in the substantia pars compacta (SNc) degenerate in PD, but it is
+believed that a combination of genetic and environmental factors, such as pollution or bad nutrition, contribute to this process.
+And its onset is usually marked by the presence of Lewy bodies, which are abnormal aggregates of the protein alpha-synuclein
+within neurons. These aggregates are thought to disrupt normal cellular functions and contribute to neuronal death. As the disease progresses,
+the loss of dopaminergic neurons leads to drastic neurophysiological changes, including altered neurotransmitter levels,
+synaptic dysfunction, and changes in neural circuitry. Thus, the Cortico-Basal Ganglia-Thalamo-Cortical (CBGTC) loop, encompassing
+the pathways mentioned earlier, becomes impaired, and individuals start experiencing tremors, rigidity, slowness of movement, or even cognitive decline.
+Rigidity and bradykinesia are linked to increased inhibitory output from the BG to the thalamus, which reduces excitatory input to the motor cortex.
+Cognitive symptoms are associated with dysfunctions in the prefrontal cortex and its connections with the BG and use of dopamine in these areas.
+Tremors are believed to arise from abnormal oscillatory activity in the BG-thalamocortical circuits.
 
-% --------------------
-\section{Discussion and Conclusions}
-% --------------------
+Oscillatory activity in the beta frequency band (13-30 Hz) is theorized to characterize the proper functioning of the CBGTC loop.
+In PD, beta osccilations become excessively synchronized, prolonged, and amplified, while healthy patients exhibit transient beta bursts.
+However, this is mostly seen in the averaged activity acrross multiple patients and may not be present in all individuals with PD.
+Some studies suggest gamma oscillations (30-100 Hz) may also play a role in PD pathophysiology, particularly in relation to motor symptoms. Or,
+increased beta power. Therefore, solutions targeting improper functioning of the CBGTC loop should be personalized to each patient's
+neurophysiological profile.
 
-\lipsum[14] % Dummy text. Erase before write
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% REFERENCES SECTION
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Data-driven Therapeutic Neurostimulation for Parkinson's Disease}
+\label{subsec:data-driven-therapeutic-neurostimulation-for-parkinson's-disease}
+
+\subsection{Neurodynamical Models of Behavior}
+\label{subsec:neurodynamical-models-of-bahavior}
+
 \medskip
 
 \bibliography{references.bib} 
 
 \newpage
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TABLES
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{table}[H]
-  \centering
-  \caption{Example table of descriptive statistics of the main variables.}
-  \label{tab:1}
-  \scalebox{.8}{
-    \begin{tabular}{rlrrrrrr}
-    \hline
-    \multicolumn{1}{c}{\textbf{Variables}} & \multicolumn{1}{c}{\textbf{Categories}} & \multicolumn{1}{c}{\textbf{Unit}} & \multicolumn{1}{c}{\textbf{Rep}} & \multicolumn{1}{c}{\textbf{Mean}} & \multicolumn{1}{c}{\textbf{St. Dev.}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Max}} \\ \hline \hline
-
-    \multicolumn{1}{l}{Variable 1} & Category A & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 0     & 0     & 0     & 0 \\
-          & Category B & \multicolumn{1}{c}{lb} & \multicolumn{1}{c}{8} & 22,411.20 & 6,325.90 & 13,819 & 31,201 \\
-          & Category C & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 5,869.60 & 4,609.90 & -464.1 & 12,744.10 \\
-    \multicolumn{1}{l}{Variable 2} & Category A & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 1,777.40 & 144.5 & 1,642.30 & 1,912.60 \\
-          & Category B & \multicolumn{1}{c}{lb} & \multicolumn{1}{c}{8} & 21,444.80 & 5,146.90 & 15,096 & 28,032 \\
-          & Category C & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 4,138.50 & 2,644.10 & 22.2  & 7,932.70 \\
-    \multicolumn{1}{l}{Variable 3} & Category A & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 2,346.80 & 190.8 & 2,168.30 & 2,525.20 \\
-          & Category B & \multicolumn{1}{c}{lb} & \multicolumn{1}{c}{8} & 18,343.30 & 2,460.70 & 15,269.00 & 21,524.10 \\
-          & Category C & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 3,699.20 & 2,549.80 & 1,299.10 & 8,709.80 \\
-    \multicolumn{1}{l}{Variable 4} & Category A & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 2,288.80 & 186.1 & 2,114.80 & 2,462.90 \\
-          & Category B & \multicolumn{1}{c}{lb} & \multicolumn{1}{c}{8} & 23,450.40 & 4,172.50 & 20,045.00 & 32,363.00 \\
-          & Category C & \multicolumn{1}{c}{\$} & \multicolumn{1}{c}{8} & 6,619.80 & 1,918.40 & 4,479.70 & 10,633.90 \\
-\hline
-          & CASE \#1 &       &       & 14    & 6.61  & 6.9   & 27.9 \\
-          & CASE \#2 &       &       & 22.8  & 7.73  & 10.2  & 31.4 \\
-    \hline
-    \end{tabular}}
-\end{table}%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% FIGURES
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure}[H]
-    \centering
-        \includegraphics[scale=.6]{figures/example_figure.png}
-    \caption{Example figure.}
-    \label{fig:1}
-\end{figure}
-
-% ==========================
-% ==========================
-% ==========================
-
-
 \end{document}
