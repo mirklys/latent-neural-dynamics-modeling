@@ -1,6 +1,6 @@
 from utils.config import Config
 from typing import Any, Dict, List
-import PSID
+import ..PSID.PSID as PSID
 from utils.logger import get_logger
 from utils.miscellaneous import state_shape
 from utils.stats import pearson_r_per_channel
