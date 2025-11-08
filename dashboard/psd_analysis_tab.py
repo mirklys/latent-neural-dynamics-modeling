@@ -7,6 +7,7 @@ from utils.plots import (
     plot_average_psd,
 )
 
+
 def psd_analysis_tab(block_data, lfp_channels, ecog_channels):
     st.header("Power Spectral Density (PSD) Analysis")
 
@@ -39,9 +40,7 @@ def psd_analysis_tab(block_data, lfp_channels, ecog_channels):
             )
             if selected_lfp_psd:
                 freqs = np.array(trial_data[f"{selected_lfp_psd}_psd_freq"][0])
-                psd_values = np.array(
-                    trial_data[f"{selected_lfp_psd}_psd_values"][0]
-                )
+                psd_values = np.array(trial_data[f"{selected_lfp_psd}_psd_values"][0])
                 heat_title = f"""Participant {st.session_state.get('participant_id')}
                 Session {st.session_state.get('session')} Block{selected_block}
                 Trial {selected_trial_psd} {selected_lfp_psd}"""
@@ -60,9 +59,7 @@ def psd_analysis_tab(block_data, lfp_channels, ecog_channels):
             )
             if selected_ecog_psd:
                 freqs = np.array(trial_data[f"{selected_ecog_psd}_psd_freq"][0])
-                psd_values = np.array(
-                    trial_data[f"{selected_ecog_psd}_psd_values"][0]
-                )
+                psd_values = np.array(trial_data[f"{selected_ecog_psd}_psd_values"][0])
                 heat_title = f"""Participant {st.session_state.get('participant_id')}
                 Session {st.session_state.get('session')} Block{selected_block}
                 Trial {selected_trial_psd} {selected_ecog_psd}"""
@@ -112,9 +109,7 @@ def psd_analysis_tab(block_data, lfp_channels, ecog_channels):
                 off_means = _per_trial_means(dbs_off_data, f"{ch}_psd_values")
 
                 psds_on = np.vstack(on_means) if len(on_means) > 0 else np.array([])
-                psds_off = (
-                    np.vstack(off_means) if len(off_means) > 0 else np.array([])
-                )
+                psds_off = np.vstack(off_means) if len(off_means) > 0 else np.array([])
 
                 psd_data[ch] = {"on": psds_on, "off": psds_off}
 
@@ -154,9 +149,7 @@ def psd_analysis_tab(block_data, lfp_channels, ecog_channels):
                 off_means = _per_trial_means(dbs_off_data, f"{ch}_psd_values")
 
                 psds_on = np.vstack(on_means) if len(on_means) > 0 else np.array([])
-                psds_off = (
-                    np.vstack(off_means) if len(off_means) > 0 else np.array([])
-                )
+                psds_off = np.vstack(off_means) if len(off_means) > 0 else np.array([])
 
                 psd_data[ch] = {"on": psds_on, "off": psds_off}
 

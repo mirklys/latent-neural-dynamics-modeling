@@ -54,7 +54,9 @@ else:
         st.sidebar.success(
             f"Loaded: P{selected_participant_id} | S{selected_session} | B{selected_block}"
         )
-        logger.info(f"Data loaded for P{selected_participant_id}, S{selected_session}, B{selected_block}")
+        logger.info(
+            f"Data loaded for P{selected_participant_id}, S{selected_session}, B{selected_block}"
+        )
 
 if "block_data" not in st.session_state:
     st.info(

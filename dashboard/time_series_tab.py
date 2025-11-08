@@ -8,6 +8,7 @@ from utils.plots import (
 )
 from utils.data_loader import natural_sort_key
 
+
 def time_series_tab(block_data):
     st.header("Time-Series Analysis")
     selected_block = st.session_state.get("block")

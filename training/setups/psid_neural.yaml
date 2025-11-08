@@ -8,6 +8,8 @@ model:
   remove_mean_Z: false
   zscore_Y: false
   zscore_Z: false
+  forcast:
+    m: 1000
 
 data:
   root: "resampled_recordings/participants_2"

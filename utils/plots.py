@@ -107,7 +107,9 @@ def plot_trial_coordinates(
     block = trial_df["block"][0] if "block" in trial_df.columns else "?"
 
     if plot_over_time:
-        title = _wrap_title(f"Coordinates vs. Time (P{p_id}, S{session}, B{block}, T{trial})")
+        title = _wrap_title(
+            f"Coordinates vs. Time (P{p_id}, S{session}, B{block}, T{trial})"
+        )
         fig = _create_base_figure(title, "Time (s)", "Position")
         fig.add_trace(
             go.Scatter(x=trial_df[time], y=trial_df["x"], mode="lines", name="X-coord")
@@ -230,7 +232,9 @@ def plot_average_psd(
     """
     Plots the average PSD for multiple channels, comparing DBS ON and OFF states.
     """
-    fig = _create_base_figure(_wrap_title(title), "Frequency (Hz)", "Power/Frequency (dB/Hz)")
+    fig = _create_base_figure(
+        _wrap_title(title), "Frequency (Hz)", "Power/Frequency (dB/Hz)"
+    )
     fig.update_layout(legend_title_text="Channel (DBS State)")
 
     colors = px.colors.qualitative.Plotly

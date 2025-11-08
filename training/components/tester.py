@@ -138,7 +138,17 @@ class Tester:
                 meta["offset"].append(md.get("offset"))
 
             split_results = self._get_metrics(Y_list, Yp, Zp, Xp, meta)
-            # Attach stats for potential denormalization in UI
+
+            m = self.model_params.forcast.m if hasattr(self.model_params, "forcast") else 0
+            if m > 0:
+                try:
+                    # Use per-trial margin (in seconds) if available from metadata
+                    margin_list = meta.get("chunk_margin", [])
+                    f_res = self.framework.model.validate_forecast(Y_list, margin=margin_list)
+                    split_results["forecast"] = f_res
+                except Exception as e:
+                    self.logger.warning(f"Forecast validation failed for split {split_name}: {e}")
+
             split_results["input_mean"] = input_stats.get("input_mean")
             split_results["input_std"] = input_stats.get("input_std")
             self.results[split_name] = split_results
@@ -191,10 +201,18 @@ class Tester:
 
             prep_group = f.create_group("preprocessing")
 
-            create_dataset(prep_group, "Y_mean",self.framework.model.idSys.YPrepModel.mean)
-            create_dataset(prep_group, "Y_std", self.framework.model.idSys.YPrepModel.std)
-            create_dataset(prep_group, "Z_mean", self.framework.model.idSys.ZPrepModel.mean)
-            create_dataset(prep_group, "Z_std", self.framework.model.idSys.ZPrepModel.std)
+            create_dataset(
+                prep_group, "Y_mean", self.framework.model.idSys.YPrepModel.mean
+            )
+            create_dataset(
+                prep_group, "Y_std", self.framework.model.idSys.YPrepModel.std
+            )
+            create_dataset(
+                prep_group, "Z_mean", self.framework.model.idSys.ZPrepModel.mean
+            )
+            create_dataset(
+                prep_group, "Z_std", self.framework.model.idSys.ZPrepModel.std
+            )
 
             stats_group = f.create_group("analysis_stats")
 
