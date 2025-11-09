@@ -73,6 +73,22 @@ class Trainer:
             self.data_params, self.results_config
         )
 
+    def _slice_data(self, Y_list_margined, Z_list_margined, meta_list):
+        _Y, _Z, = [], []
+
+        for Y, Z, meta in zip(
+            Y_list_margined, Z_list_margined, meta_list
+        ):
+            chunk_margin = meta["chunk_margin"]
+
+            Y_sliced = Y[chunk_margin:-chunk_margin]
+            Z_sliced = Z[chunk_margin:-chunk_margin] if Z is not None else None
+
+            _Y.append(Y_sliced)
+            _Z.append(Z_sliced)
+        return _Y, _Z
+
+
     def train(self):
         if self.train_loader is None:
             raise ValueError("Data loaders not initialized. Call split_data() first.")
@@ -85,8 +101,11 @@ class Trainer:
         else:
             raise ValueError(f"Unknown framework type: {self.framework_type}")
 
-        Y_train, Z_train = self.train_loader.get_full_dataset()
-        Y_val, Z_val = self.val_loader.get_full_dataset()
+        Y_train, Z_train, meta_train = self.train_loader.get_full_dataset()
+        Y_val, Z_val, meta_val = self.val_loader.get_full_dataset()
+
+        Y_train, Z_train = self._slice_data(Y_train, Z_train, meta_train)
+        Y_val, Z_val = self._slice_data(Y_val, Z_val, meta_val)
 
         self.logger.info("Beginning training...")
         self.framework._train(Y_train, Z_train)

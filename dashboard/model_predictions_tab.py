@@ -126,6 +126,8 @@ def model_predictions_tab(project_root):
                             blk_list = split_res.get("block", [])
                             tri_list = split_res.get("trial", [])
                             chan_names = split_res.get("input_channels", [])
+                            meta_time_margined = split_res.get("time_margined", [])
+                            cm_samples_list = split_res.get("chunk_margin_samples_list", [])
 
                             hdr_pid = (
                                 pid_list[trial_idx]
@@ -242,30 +244,6 @@ def model_predictions_tab(project_root):
 
                             cm = cm_list[trial_idx] if cm_list else None
                             dur = md_list[trial_idx] if md_list else None
-                            if dur is not None:
-                                event_start = (
-                                    t_offset + float(cm) if cm is not None else t_abs[0]
-                                )
-                                event_end = (
-                                    t_offset
-                                    + float(dur)
-                                    - (float(cm) if cm is not None else 0.0)
-                                )
-                                fig.add_vrect(
-                                    x0=event_start,
-                                    x1=event_end,
-                                    fillcolor="rgba(0, 100, 0, 0.1)",
-                                    layer="below",
-                                    line_width=0,
-                                )
-                                fig.add_vline(
-                                    x=event_start,
-                                    line_dash="dash",
-                                    line_color="green",
-                                )
-                                fig.add_vline(
-                                    x=event_end, line_dash="dash", line_color="red"
-                                )
 
                             r_ch = r_list[c] if r_list and c < len(r_list) else np.nan
                             chan_name = selected_name
@@ -282,7 +260,8 @@ def model_predictions_tab(project_root):
                                 try:
                                     m = int(f_res.get("m", 0))
                                     margin_samples = int(f_res.get("margin_samples", 0))
-                                    t_abs_unmargined = t_abs[margin_samples:-margin_samples]
+                                    t_abs_unmargined = np.array(meta_time_margined[trial_idx])
+                                    m_samples = cm_samples_list[trial_idx]
                                     y_concat = f_res.get("Y_concat_for_plot", [None])[
                                         trial_idx
                                     ]
@@ -361,9 +340,9 @@ def model_predictions_tab(project_root):
                                             y_fp_c = y_fp_c * sd_c + mu_c
 
                                         T = len(y_concat_c)
-                                        Tpast = max(0, T - m)
-                                        t_past = t_abs_unmargined[:Tpast]
-                                        t_future = t_abs_unmargined[Tpast:T]
+                                        Tpast = max(0, T - m_samples)
+                                        t_past = t_abs_margined[:Tpast]
+                                        t_future = t_abs_margined[Tpast:T]
 
                                         figf = go.Figure()
                                         # Past true segment

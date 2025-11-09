@@ -60,7 +60,9 @@ class TrialDataset(Dataset):
                 Z = self._preprocess_data(Z, self._output_mean, self._output_std)
 
         time_vec = row["time"][0] if "time" in row.columns else None
+        fs = 1 / (np.mean(np.diff(time_vec)))
         chunk_margin = row["chunk_margin"][0] if "chunk_margin" in row.columns else None
+        chunk_margin_ts = int(np.round(chunk_margin * fs))
         margined_duration = (
             row["margined_duration"][0] if "margined_duration" in row.columns else None
         )
@@ -81,6 +83,8 @@ class TrialDataset(Dataset):
             "stim": stim,
             "input_channels": self.input_channels,
             "output_channels": self.output_channels,
+            "fs": fs,
+            "chunk_margin_ts": chunk_margin_ts
         }
 
         logger = get_logger()
@@ -95,7 +99,7 @@ class TrialDataset(Dataset):
 
         for channel_prefix in channel_list:
             matching_cols = [
-                col for col in row.columns if col == f"{channel_prefix}_epochs"
+                col for col in row.columns if col == f"{channel_prefix}"
             ]
 
             if not matching_cols:
@@ -104,8 +108,8 @@ class TrialDataset(Dataset):
                 )
 
             for col in matching_cols:
-                epochs = row[col][0]
-                channel_data.append(np.array([np.array(epoch) for epoch in epochs]))
+                trial = row[col][0]
+                channel_data.append(np.array(trial))
 
         if len(channel_data) == 1:
             result = channel_data[0].reshape(-1, 1)
@@ -168,14 +172,15 @@ class TrialDataset(Dataset):
     def get_all_data(self) -> Tuple[List[np.ndarray], Optional[List[np.ndarray]]]:
         Y_list = []
         Z_list = [] if self.is_neural_behavioral else None
-
+        meta_list = []
         for idx in range(len(self)):
-            Y, Z, _ = self[idx]
+            Y, Z, meta = self[idx]
             Y_list.append(Y)
+            meta_list.append(meta)
             if Z is not None:
                 Z_list.append(Z)
 
-        return Y_list, Z_list
+        return Y_list, Z_list, meta_list
 
 
 class TrialDataLoader:

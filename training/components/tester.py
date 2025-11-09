@@ -57,9 +57,9 @@ class Tester:
         self.framework.model.idSys = idSys
         self.logger.info(f"Loaded model from {model_path}")
 
-    @staticmethod
-    def _to_Y_list(dataloader) -> List[np.ndarray]:
-        return dataloader.get_full_dataset()[0]
+    # @staticmethod
+    # def _to_Y_list(dataloader) -> List[np.ndarray]:
+    #     return dataloader.get_full_dataset()[0]
 
     @staticmethod
     def _get_metrics(
@@ -96,6 +96,22 @@ class Tester:
             "trial": meta.get("trial", []),
             "input_channels": meta.get("input_channels", []),
         }
+    def _slice_data(self, Y_list_margined, Z_list_margined, meta_list):
+        _Y, _Z, _meta = [], [], []
+
+        for Y, Z, meta in zip(
+            Y_list_margined, Z_list_margined, meta_list
+        ):
+            chunk_margin = meta["chunk_margin"]
+
+            Y_sliced = Y[chunk_margin:-chunk_margin]
+            Z_sliced = Z[chunk_margin:-chunk_margin] if Z is not None else None
+            meta["time"] = meta["time"][chunk_margin:-chunk_margin]
+
+            _Y.append(Y_sliced)
+            _Z.append(Z_sliced)
+            _meta.append(meta)
+        return _Y, _Z, _meta
 
     def run_predictions(self):
 
@@ -111,51 +127,19 @@ class Tester:
             ("val", self.val_loader),
             ("test", self.test_loader),
         ):
-            Y_list, _ = loader.get_full_dataset()
+            Y_list, _z, meta_list = loader.get_full_dataset() # not really needed
+            Y_list, _, meta_list = self._slice_data(Y_list, _z, meta_list)
             Zp, Yp, Xp = self.framework._predict(Y_list)
-            meta = {
-                "time": [],
-                "chunk_margin": [],
-                "margined_duration": [],
-                "stim": [],
-                "participant_id": [],
-                "session": [],
-                "block": [],
-                "trial": [],
-                "input_channels": loader.dataset.input_channels,
-                "offset": [],
-            }
-            for idx in range(len(loader.dataset)):
-                _, _, md = loader.dataset[idx]
-                meta["time"].append(md.get("time"))
-                meta["chunk_margin"].append(md.get("chunk_margin"))
-                meta["margined_duration"].append(md.get("margined_duration"))
-                meta["stim"].append(md.get("stim"))
-                meta["participant_id"].append(md.get("participant_id"))
-                meta["session"].append(md.get("session"))
-                meta["block"].append(md.get("block"))
-                meta["trial"].append(md.get("trial"))
-                meta["offset"].append(md.get("offset"))
 
+            meta = {k: [d.get(k) for d in meta_list] for k in meta_list[0]}
             split_results = self._get_metrics(Y_list, Yp, Zp, Xp, meta)
 
-            m = (
-                self.model_params.forcast.m
-                if hasattr(self.model_params, "forcast")
-                else 0
+            margin_list = [m.get("chunk_margin") for m in meta_list]
+            
+            f_res = self.framework.model.validate_forecast(
+                Y_list, margin=margin_list
             )
-            if m > 0:
-                try:
-                    # Use per-trial margin (in seconds) if available from metadata
-                    margin_list = meta.get("chunk_margin", [])
-                    f_res = self.framework.model.validate_forecast(
-                        Y_list, margin=margin_list
-                    )
-                    split_results["forecast"] = f_res
-                except Exception as e:
-                    self.logger.warning(
-                        f"Forecast validation failed for split {split_name}: {e}"
-                    )
+            split_results["forecast"] = f_res
 
             split_results["input_mean"] = input_stats.get("input_mean")
             split_results["input_std"] = input_stats.get("input_std")
