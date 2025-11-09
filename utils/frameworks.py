@@ -134,7 +134,9 @@ class PSIDWrapper:
             Y_list = [Y_list]
 
         # Normalize margin to per-trial list (in seconds)
-        if margin is None or (isinstance(margin, (int, float)) and float(margin) == 0.0):
+        if margin is None or (
+            isinstance(margin, (int, float)) and float(margin) == 0.0
+        ):
             margin_list = [0.0] * len(Y_list)
         elif isinstance(margin, (int, float)):
             margin_list = [float(margin)] * len(Y_list)
@@ -158,7 +160,9 @@ class PSIDWrapper:
 
             T = Y.shape[0]
             if m >= T:
-                raise ValueError(f"Forecast horizon m={m} must be smaller than trial length T={T}")
+                raise ValueError(
+                    f"Forecast horizon m={m} must be smaller than trial length T={T}"
+                )
 
             margin_sec = float(margin_list[idx]) if margin_list is not None else 0.0
             margin_samples = int(1000 * margin_sec)
@@ -166,12 +170,15 @@ class PSIDWrapper:
             # Compute indices: [-(m+margin_samples) : -margin_samples]
             start = T - (m + margin_samples)
             end = T - margin_samples
+            self.logger.info(
+                f"Got {start}:{end} forecast window for trial {idx} with T={T}, m={m}, margin_sec={margin_sec} (samples={margin_samples})"
+            )
             if start < 0 or end <= start:
                 raise ValueError(
                     f"Invalid margin for trial {idx}: margin_sec={margin_sec} (samples={margin_samples}), T={T}, m={m}"
                 )
 
-            Y_past = Y[: start]
+            Y_past = Y[margin_samples:start]
             Y_future_true = Y[start:end]
 
             Zf, Yf, Xf = self.forecast(m, Y_past)
@@ -184,9 +191,12 @@ class PSIDWrapper:
 
             # Pearson r per channel between true future and predicted future
             r_list, _ = pearson_r_per_channel([Y_future_true], [Yf])
-            r_list = r_list[0] if isinstance(r_list, list) and len(r_list) > 0 else r_list
+            r_list = (
+                r_list[0] if isinstance(r_list, list) and len(r_list) > 0 else r_list
+            )
 
             results["Y_future_true"].append(Y_future_true)
+            results["margin_samples"] = margin_samples
             results["Y_future_pred"].append(Yf)
             results["Y_concat_for_plot"].append(Y_concat)
             results["Z_future_pred"].append(Zf)
@@ -200,7 +210,9 @@ class PSIDWrapper:
             for v in r:
                 if v is not None and not np.isnan(v):
                     flat_r.append(float(v))
-        results["pearson_overall_mean"] = (float(np.mean(flat_r)) if len(flat_r) > 0 else np.nan)
+        results["pearson_overall_mean"] = (
+            float(np.mean(flat_r)) if len(flat_r) > 0 else np.nan
+        )
 
         return results
 

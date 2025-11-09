@@ -139,15 +139,23 @@ class Tester:
 
             split_results = self._get_metrics(Y_list, Yp, Zp, Xp, meta)
 
-            m = self.model_params.forcast.m if hasattr(self.model_params, "forcast") else 0
+            m = (
+                self.model_params.forcast.m
+                if hasattr(self.model_params, "forcast")
+                else 0
+            )
             if m > 0:
                 try:
                     # Use per-trial margin (in seconds) if available from metadata
                     margin_list = meta.get("chunk_margin", [])
-                    f_res = self.framework.model.validate_forecast(Y_list, margin=margin_list)
+                    f_res = self.framework.model.validate_forecast(
+                        Y_list, margin=margin_list
+                    )
                     split_results["forecast"] = f_res
                 except Exception as e:
-                    self.logger.warning(f"Forecast validation failed for split {split_name}: {e}")
+                    self.logger.warning(
+                        f"Forecast validation failed for split {split_name}: {e}"
+                    )
 
             split_results["input_mean"] = input_stats.get("input_mean")
             split_results["input_std"] = input_stats.get("input_std")

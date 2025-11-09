@@ -281,60 +281,129 @@ def model_predictions_tab(project_root):
                             if f_res is not None:
                                 try:
                                     m = int(f_res.get("m", 0))
-                                    y_concat = f_res.get("Y_concat_for_plot", [None])[trial_idx]
-                                    y_future_true = f_res.get("Y_future_true", [None])[trial_idx]
-                                    y_future_pred = f_res.get("Y_future_pred", [None])[trial_idx]
-                                    r_fore_list = f_res.get("pearson_per_channel", [None])[trial_idx]
+                                    margin_samples = int(f_res.get("margin_samples", 0))
+                                    t_abs_unmargined = t_abs[margin_samples:-margin_samples]
+                                    y_concat = f_res.get("Y_concat_for_plot", [None])[
+                                        trial_idx
+                                    ]
+                                    y_future_true = f_res.get("Y_future_true", [None])[
+                                        trial_idx
+                                    ]
+                                    y_future_pred = f_res.get("Y_future_pred", [None])[
+                                        trial_idx
+                                    ]
+                                    r_fore_list = f_res.get(
+                                        "pearson_per_channel", [None]
+                                    )[trial_idx]
 
-                                    if y_concat is not None and y_future_true is not None and y_future_pred is not None and m > 0:
+                                    if (
+                                        y_concat is not None
+                                        and y_future_true is not None
+                                        and y_future_pred is not None
+                                        and m > 0
+                                    ):
                                         y_concat = np.array(y_concat)
                                         y_future_true = np.array(y_future_true)
                                         y_future_pred = np.array(y_future_pred)
 
-                                        if y_concat.ndim == 2 and y_concat.shape[0] != len(t_abs) and y_concat.shape[1] == len(t_abs):
+                                        if (
+                                            y_concat.ndim == 2
+                                            and y_concat.shape[0] != len(t_abs_unmargined)
+                                            and y_concat.shape[1] == len(t_abs_unmargined)
+                                        ):
                                             y_concat = y_concat.T
-                                        if y_future_true.ndim == 2 and y_future_true.shape[1] != (1 if n_chan == 1 else n_chan):
+                                        if (
+                                            y_future_true.ndim == 2
+                                            and y_future_true.shape[1]
+                                            != (1 if n_chan == 1 else n_chan)
+                                        ):
                                             y_future_true = y_future_true
-                                        if y_future_pred.ndim == 2 and y_future_pred.shape[1] != (1 if n_chan == 1 else n_chan):
+                                        if (
+                                            y_future_pred.ndim == 2
+                                            and y_future_pred.shape[1]
+                                            != (1 if n_chan == 1 else n_chan)
+                                        ):
                                             y_future_pred = y_future_pred
 
                                         # Select channel
-                                        y_concat_c = y_concat.squeeze() if n_chan == 1 else y_concat[:, c]
-                                        y_ft_c = y_future_true.squeeze() if n_chan == 1 else y_future_true[:, c]
-                                        y_fp_c = y_future_pred.squeeze() if n_chan == 1 else y_future_pred[:, c]
+                                        y_concat_c = (
+                                            y_concat.squeeze()
+                                            if n_chan == 1
+                                            else y_concat[:, c]
+                                        )
+                                        y_ft_c = (
+                                            y_future_true.squeeze()
+                                            if n_chan == 1
+                                            else y_future_true[:, c]
+                                        )
+                                        y_fp_c = (
+                                            y_future_pred.squeeze()
+                                            if n_chan == 1
+                                            else y_future_pred[:, c]
+                                        )
 
                                         # Denormalize if stats available
                                         if inp_mean is not None and inp_std is not None:
                                             mu = np.array(inp_mean).squeeze()
                                             sd = np.array(inp_std).squeeze()
-                                            mu_c = mu if np.ndim(mu) == 0 or n_chan == 1 else mu[c]
-                                            sd_c = sd if np.ndim(sd) == 0 or n_chan == 1 else sd[c]
+                                            mu_c = (
+                                                mu
+                                                if np.ndim(mu) == 0 or n_chan == 1
+                                                else mu[c]
+                                            )
+                                            sd_c = (
+                                                sd
+                                                if np.ndim(sd) == 0 or n_chan == 1
+                                                else sd[c]
+                                            )
                                             y_concat_c = y_concat_c * sd_c + mu_c
                                             y_ft_c = y_ft_c * sd_c + mu_c
                                             y_fp_c = y_fp_c * sd_c + mu_c
 
                                         T = len(y_concat_c)
                                         Tpast = max(0, T - m)
-                                        t_past = t_abs[:Tpast]
-                                        t_future = t_abs[Tpast:T]
+                                        t_past = t_abs_unmargined[:Tpast]
+                                        t_future = t_abs_unmargined[Tpast:T]
 
                                         figf = go.Figure()
                                         # Past true segment
                                         if Tpast > 0:
                                             figf.add_trace(
-                                                go.Scatter(x=t_past, y=y_concat_c[:Tpast], name="Y true (past)", mode="lines", line=dict(color="#1f77b4"))
+                                                go.Scatter(
+                                                    x=t_past,
+                                                    y=y_concat_c[:Tpast],
+                                                    name="Y true (past)",
+                                                    mode="lines",
+                                                    line=dict(color="#1f77b4"),
+                                                )
                                             )
                                         # True future segment
                                         figf.add_trace(
-                                            go.Scatter(x=t_future, y=y_ft_c, name="Y true (future)", mode="lines", line=dict(color="#2ca02c"))
+                                            go.Scatter(
+                                                x=t_future,
+                                                y=y_ft_c,
+                                                name="Y true (future)",
+                                                mode="lines",
+                                                line=dict(color="#2ca02c"),
+                                            )
                                         )
                                         # Predicted future
                                         figf.add_trace(
-                                            go.Scatter(x=t_future, y=y_fp_c, name="Y forecast", mode="lines", line=dict(color="#d62728"))
+                                            go.Scatter(
+                                                x=t_future,
+                                                y=y_fp_c,
+                                                name="Y forecast",
+                                                mode="lines",
+                                                line=dict(color="#d62728"),
+                                            )
                                         )
 
                                         r_fore_ch = np.nan
-                                        if r_fore_list is not None and isinstance(r_fore_list, (list, tuple)) and len(r_fore_list) > c:
+                                        if (
+                                            r_fore_list is not None
+                                            and isinstance(r_fore_list, (list, tuple))
+                                            and len(r_fore_list) > c
+                                        ):
                                             r_fore_ch = r_fore_list[c]
 
                                         figf.update_layout(

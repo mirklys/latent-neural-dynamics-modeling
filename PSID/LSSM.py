@@ -476,7 +476,6 @@ class LSSM:
                     outs = [outs[oi] + [o] for oi, o in enumerate(trial_outs)]
             return tuple(outs)
 
-
         _, _, allXf = self.kalman(Y_past, U=U_past)
         x_k = allXf[-1, :]
 
@@ -519,23 +518,22 @@ class LSSM:
             x = A_x + B_u
             x_forecast[i, :] = x
 
-
         y_forecast = self.generateObservationFromStates(
             x_forecast,
             u=U_future,
             param_names=["C", "D"],
-            prep_model_param="YPrepModel"
+            prep_model_param="YPrepModel",
         )
 
         z_forecast = None
-        if (hasattr(self, "Cz") and self.Cz is not None) or \
-                (hasattr(self, "Dz") and self.Dz is not None):
+        if (hasattr(self, "Cz") and self.Cz is not None) or (
+            hasattr(self, "Dz") and self.Dz is not None
+        ):
             z_forecast = self.generateObservationFromStates(
                 x_forecast,
                 u=U_future,
                 param_names=["Cz", "Dz"],
-                prep_model_param="ZPrepModel"
+                prep_model_param="ZPrepModel",
             )
 
         return z_forecast, y_forecast, x_forecast
-

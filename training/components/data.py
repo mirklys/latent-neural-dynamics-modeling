@@ -59,7 +59,6 @@ class TrialDataset(Dataset):
             if Z is not None:
                 Z = self._preprocess_data(Z, self._output_mean, self._output_std)
 
-        # Optional fields: time, chunk_margin, margined_duration, stim
         time_vec = row["time"][0] if "time" in row.columns else None
         chunk_margin = row["chunk_margin"][0] if "chunk_margin" in row.columns else None
         margined_duration = (
@@ -67,7 +66,6 @@ class TrialDataset(Dataset):
         )
         stim = row["stim"][0] if "stim" in row.columns else None
 
-        # Optional offset (absolute time offset in seconds) if present in the dataframe
         offset = row["offset"][0] if "offset" in row.columns else None
 
         metadata = {
@@ -84,6 +82,9 @@ class TrialDataset(Dataset):
             "input_channels": self.input_channels,
             "output_channels": self.output_channels,
         }
+
+        logger = get_logger()
+        logger.info(f"Loaded trial idx={idx} with metadata: {metadata}")
 
         return Y, Z, metadata
 
