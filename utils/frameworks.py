@@ -97,10 +97,6 @@ class PSIDWrapper:
     def forecast(self, m, Y_past, U_past=None, U_future=None):
         return self.idSys.forecast(m, Y_past, U_past=U_past, U_future=U_future)
 
-    # Backward-compatible alias for misspelled calls
-    def forcast(self, m, Y_past, U_past=None, U_future=None):
-        return self.forecast(m, Y_past, U_past=U_past, U_future=U_future)
-
     def validate_forecast(self, Y_list, margin=None):
         """Validate m-step ahead forecast using config.model.forcast.m, with optional margin before the end.
 
@@ -117,7 +113,7 @@ class PSIDWrapper:
 
         Returns a dict with per-trial arrays and metrics to facilitate plotting.
         """
-        m = self.config.model.forcast.m
+        m = self.config.model.forecast.m
 
         results = {
             "m": m,
@@ -195,12 +191,12 @@ class PSIDWrapper:
                 r_list[0] if isinstance(r_list, list) and len(r_list) > 0 else r_list
             )
 
-            results["Y_future_true"].append(Y_future_true)
+            results["Y_future_true"].append(Y_future_true.tolist())
             results["margin_samples"] = margin_samples
-            results["Y_future_pred"].append(Yf)
-            results["Y_concat_for_plot"].append(Y_concat)
-            results["Z_future_pred"].append(Zf)
-            results["X_future_pred"].append(Xf)
+            results["Y_future_pred"].append(Yf.tolist())
+            results["Y_concat_for_plot"].append(Y_concat.tolist())
+            results["Z_future_pred"].append(Zf.tolist() if Zf is not None else None)
+            results["X_future_pred"].append(Xf.tolist())
             results["pearson_per_channel"].append(r_list)
 
         flat_r = []

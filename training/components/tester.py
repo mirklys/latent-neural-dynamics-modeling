@@ -11,6 +11,8 @@ import pickle
 from utils.stats import pearson_r_per_channel
 import h5py
 
+from utils.miscellaneous import length, flatten
+
 
 class Tester:
 
@@ -78,14 +80,14 @@ class Tester:
             pearson_trial_means.append(np.mean(valid) if len(valid) > 0 else np.nan)
 
         return {
-            "Y": [y.tolist() for y in Y_true],
-            "Yp": [Yp_i.tolist() for Yp_i in Yp],
-            "Zp": [Zp_i.tolist() if Zp_i is not None else None for Zp_i in Zp],
-            "Xp": [Xp_i.tolist() for Xp_i in Xp],
+            "Y": [flatten(y.tolist()) for y in Y_true],
+            "Yp": [flatten(Yp_.tolist()) for Yp_ in Yp] if Yp is not None else None,
+            "Zp": [flatten(Zp_.tolist()) if Zp_ is not None else None for Zp_ in Zp ] if Zp is not None else None,
+            "Xp": [flatten(Xp_.tolist()) for Xp_ in Xp] if Xp is not None else None,
             "pearson_per_channel": pearson_per_trial,
             "pearson_mean": pearson_trial_means,
             "pearson_overall_mean": pearson_overall_mean,
-            "time": meta.get("time", []),
+            "time": [flatten(t.tolist()) for t in meta.get("time", [])],
             "offset": meta.get("offset", []),
             "chunk_margin": meta.get("chunk_margin", []),
             "margined_duration": meta.get("margined_duration", []),
@@ -96,9 +98,10 @@ class Tester:
             "trial": meta.get("trial", []),
             "input_channels": meta.get("input_channels", []),
         }
+
     def _slice_data(self, Y_list_margined, Z_list_margined, meta_list):
         _Y, _Z, _meta = [], [], []
-
+        Z_list_margined = [None] * len(Y_list_margined) if Z_list_margined is None else Z_list_margined
         for Y, Z, meta in zip(
             Y_list_margined, Z_list_margined, meta_list
         ):
@@ -111,8 +114,12 @@ class Tester:
             _Y.append(Y_sliced)
             _Z.append(Z_sliced)
             _meta.append(meta)
-        return _Y, _Z, _meta
 
+        _Z = None if all([_z is None for _z in _Z]) else _Z
+        self.logger.info(
+            f"Sliced data: Y={length(_Y)}, Z={length(_Z)}, meta={length(meta_list)}"
+        )
+        return _Y, _Z, _meta
     def run_predictions(self):
 
         self._load_dataloaders()
@@ -139,10 +146,10 @@ class Tester:
             f_res = self.framework.model.validate_forecast(
                 Y_list, margin=margin_list
             )
-            split_results["forecast"] = f_res
+            split_results = split_results | f_res
 
-            split_results["input_mean"] = input_stats.get("input_mean")
-            split_results["input_std"] = input_stats.get("input_std")
+            split_results["input_mean"] = input_stats.get("input_mean").tolist()
+            split_results["input_std"] = input_stats.get("input_std").tolist()
             self.results[split_name] = split_results
 
     def save_results(self):
@@ -151,13 +158,28 @@ class Tester:
             results_path = (
                 results_dir / k / f"test_results_{self.run_timestamp}.parquet"
             )
-            results_ = self.results[k].copy()
-            del results_["input_channels"]
-            del results_["pearson_per_channel"]
-            del results_["pearson_mean"]
-            del results_["pearson_overall_mean"]
-            del results_["input_mean"]
-            del results_["input_std"]
+            results_ = {}
+            n_rows = len(self.results[k]['participant_id'])
+            for col_name, col_value in self.results[k].items():
+                if isinstance(col_value, list) and len(col_value) == n_rows:
+                    if all(v is None for v in col_value):
+                        results_[col_name] = pl.Series(name=col_name, values=col_value, dtype=pl.Float32)
+                    else:
+                        results_[col_name] = pl.Series(name=col_name, values=col_value)
+                elif isinstance(col_value, (np.ndarray, dict)):
+                    self.logger.warning(
+                        f"Skipping column '{col_name}' in split '{k}': "
+                        f"value is a {type(col_value)}, which is not supported for row-expansion."
+                    )
+                    continue
+                else:
+                    if col_value is None:
+                        results_[col_name] = pl.Series(name=col_name, values=[col_value] * n_rows, dtype=pl.Float32)
+                    elif isinstance(col_value, list):
+                        if len(col_value) <= 1:
+                            results_[col_name] = pl.Series(name=col_name, values=[col_value[0]] * n_rows)
+                    else:
+                        results_[col_name] = pl.Series(name=col_name, values=[col_value] * n_rows)
             results_df = pl.from_dict(results_)
             results_df.write_parquet(
                 results_path,

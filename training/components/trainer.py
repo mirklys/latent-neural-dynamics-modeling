@@ -7,7 +7,7 @@ from pathlib import Path
 from utils.split import create_splits
 from training.components.data import create_dataloaders
 from utils.logger import get_logger
-
+from utils.miscellaneous import length
 
 class Trainer:
 
@@ -75,7 +75,8 @@ class Trainer:
 
     def _slice_data(self, Y_list_margined, Z_list_margined, meta_list):
         _Y, _Z, = [], []
-
+        print(Z_list_margined)
+        Z_list_margined = [None] * len(Y_list_margined) if Z_list_margined is None else Z_list_margined
         for Y, Z, meta in zip(
             Y_list_margined, Z_list_margined, meta_list
         ):
@@ -86,6 +87,12 @@ class Trainer:
 
             _Y.append(Y_sliced)
             _Z.append(Z_sliced)
+
+        _Z = None if all([_z is None for _z in _Z]) else _Z
+        print(_Z, Z_list_margined)
+        self.logger.info(
+            f"Sliced data: Y={length(_Y)}, Z={length(_Z)}, meta={length(meta_list)}"
+        )
         return _Y, _Z
 
 

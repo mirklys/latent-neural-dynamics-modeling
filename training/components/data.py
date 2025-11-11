@@ -179,7 +179,6 @@ class TrialDataset(Dataset):
             meta_list.append(meta)
             if Z is not None:
                 Z_list.append(Z)
-
         return Y_list, Z_list, meta_list
 
 
