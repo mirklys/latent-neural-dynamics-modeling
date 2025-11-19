@@ -1,10 +1,13 @@
 from pathlib import Path
 from typing import KeysView
 from utils.logger import get_logger
-def length(_list: list|None) -> int | None:
+
+
+def length(_list: list | None) -> int | None:
     if _list is None:
         return None
     return len(_list)
+
 
 def flatten(nested_list: list[list]) -> list:
     logger = get_logger()
@@ -15,6 +18,7 @@ def flatten(nested_list: list[list]) -> list:
     for row in nested_list:
         flat_list += row
     return flat_list
+
 
 def lookup_keys(keys: KeysView[str], lookup_keywords: list) -> tuple:
 

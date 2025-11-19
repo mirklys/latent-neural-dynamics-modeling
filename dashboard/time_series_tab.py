@@ -97,29 +97,86 @@ def time_series_tab(block_data):
                 )
         with col2:
             st.markdown("#### Coordinates and Speed")
-            coords_data = trial_data.select(
-                "motion_time",
-                "x",
-                "y",
-                "tracing_speed",
-                "participant_id",
-                "session",
-                "block",
-                "trial",
-            ).explode("motion_time", "x", "y", "tracing_speed")
-            st.plotly_chart(
-                plot_trial_coordinates(
-                    coords_data, time="motion_time", plot_over_time=True
-                ),
-                use_container_width=True,
-            )
-            st.plotly_chart(
-                plot_trial_coordinates(coords_data, time="motion_time"),
-                use_container_width=True,
-            )
-            st.plotly_chart(
-                plot_tracing_speed(coords_data, time="motion_time"),
-                use_container_width=True,
-            )
+
+            # Check which motion columns exist and have data
+            motion_cols = []
+            if "motion_time" in trial_data.columns:
+                motion_cols.append("motion_time")
+            if "x" in trial_data.columns:
+                motion_cols.append("x")
+            if "y" in trial_data.columns:
+                motion_cols.append("y")
+            if "tracing_speed" in trial_data.columns:
+                motion_cols.append("tracing_speed")
+
+            if motion_cols:
+                try:
+                    # Try to explode all columns together
+                    coords_data = trial_data.select(
+                        *motion_cols,
+                        "participant_id",
+                        "session",
+                        "block",
+                        "trial",
+                    ).explode(*motion_cols)
+                except (pl.exceptions.ShapeError, Exception):
+                    # If columns have different lengths, explode separately and align
+                    st.warning(
+                        "Motion data columns have mismatched lengths. Aligning to shortest column."
+                    )
+
+                    # Find the minimum length among all motion columns
+                    lengths = {}
+                    for col in motion_cols:
+                        col_data = trial_data[col][0]
+                        if col_data is not None:
+                            lengths[col] = (
+                                len(col_data)
+                                if isinstance(col_data, (list, pl.Series))
+                                else 1
+                            )
+
+                    if lengths:
+                        min_length = min(lengths.values())
+
+                        # Truncate all columns to minimum length
+                        truncated_data = trial_data.select(
+                            "participant_id", "session", "block", "trial"
+                        )
+
+                        for col in motion_cols:
+                            col_data = trial_data[col][0]
+                            if col_data is not None:
+                                truncated = col_data[:min_length]
+                                truncated_data = truncated_data.with_columns(
+                                    pl.Series([truncated]).alias(col)
+                                )
+
+                        coords_data = truncated_data.explode(*motion_cols)
+                    else:
+                        coords_data = None
+
+                if coords_data is not None:
+                    if "x" in coords_data.columns and "y" in coords_data.columns:
+                        st.plotly_chart(
+                            plot_trial_coordinates(
+                                coords_data, time="motion_time", plot_over_time=True
+                            ),
+                            use_container_width=True,
+                        )
+                        st.plotly_chart(
+                            plot_trial_coordinates(coords_data, time="motion_time"),
+                            use_container_width=True,
+                        )
+
+                    if "tracing_speed" in coords_data.columns:
+                        st.plotly_chart(
+                            plot_tracing_speed(coords_data, time="motion_time"),
+                            use_container_width=True,
+                        )
+                else:
+                    st.info("Motion data could not be loaded for this trial.")
+            else:
+                st.info("No motion data available for this trial.")
     else:
         st.info("Select a block and trial to view time-series data.")

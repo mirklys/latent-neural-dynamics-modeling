@@ -294,3 +294,12 @@ def stack_columns(participants: pl.DataFrame, cols: list[str]) -> pl.DataFrame:
     matrix = np.vstack(concatenated)
 
     return matrix, segments_per_col
+
+
+def set_polars_config():
+    print("Loading Polars configuration from utils/polars.py")
+    pl.Config.set_tbl_width_chars(-1)
+    pl.Config.set_tbl_rows(-1)
+    pl.Config.set_tbl_cols(-1)
+    pl.Config.set_fmt_str_lengths(2000)
+    pl.Config.set_tbl_formatting("ASCII_MARKDOWN")

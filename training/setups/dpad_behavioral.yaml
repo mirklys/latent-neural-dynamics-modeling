@@ -1,0 +1,49 @@
+model:
+  name: "dpad_behavioral"
+  nx: 4  # Total latent dimensions
+  n1: 2  # Behavior-prioritized latent dimensions
+  
+  # DPAD-specific parameters
+  method_code: "DPAD_uAKCzCy2HL128U"  # 2 hidden layers, 128 units each, ReLU activation
+  # Method code options:
+  # - "DPAD_uAKCzCy2HL128U": Fully nonlinear (A, K, Cy, Cz all nonlinear)
+  # - "DPAD_uAKCzCy2HL64U": Smaller hidden layers (64 units)
+  # - "DPAD_Cz2HL128U": Only Cz nonlinear (behavior decoding)
+  # - Add "ErSV16" for early stopping with patience 16 on validation loss
+  # - Add "MinEp150" to set minimum epochs before early stopping
+  # - Add "RGL2L1e-2" for L2 regularization with lambda=0.01
+  
+  epochs: 2500  # Maximum training epochs
+  block_samples: 128  # Number of timesteps per training block
+  
+  # Multi-step ahead prediction (optional)
+  # steps_ahead: [1, 2, 3]  # Predict 1, 2, and 3 steps ahead
+  # steps_ahead_loss_weights: [1.0, 0.5, 0.3]  # Weight for each step
+  
+  # Forecasting (for m-step ahead prediction evaluation)
+  forecast:
+    m: 1000  # Number of steps to forecast
+
+data:
+  root: "resampled_recordings/participants_at_150Hz"
+  participant: "PDI1"
+  session: "2"
+  blocks: [1, 2, 3, 4, 5]
+  preprocess: true
+  channels:
+    is_neural_behavioral: true
+    input: ["ECOG_1", "ECOG_2", "ECOG_3", "ECOG_4"]  # Y (neural)
+    output: ["tracing_speed"]  # Z (behavior)
+  split:
+    within_session_split: true
+    train: 0.6
+    val: 0.2
+    test: 0.2
+    min_train_epochs: 50
+  batch_size: 32
+  sampling_frequency: 150
+
+results:
+  save_dir: "results/{model.name}"
+  log_dir: "{results.save_dir}/logs"
+  checkpoint_dir: "checkpoints"

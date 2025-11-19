@@ -1,13 +1,13 @@
 import pickle
 from datetime import datetime
 from utils.config import Config
-from utils.frameworks import PSIDFramework
 import polars as pl
 from pathlib import Path
 from utils.split import create_splits
 from training.components.data import create_dataloaders
 from utils.logger import get_logger
 from utils.miscellaneous import length
+
 
 class Trainer:
 
@@ -38,6 +38,8 @@ class Trainer:
             set(self.data_params.channels.input) | set(self.data_params.channels.output)
         )
         combined_cols = [pl.col(f"^{col}.*$") for col in combined_cols]
+
+        epoch_samp = f"{self.data_params.channels.input[0]}_epochs"
         trial = (
             pl.read_parquet(session_path)
             .select(
@@ -55,7 +57,7 @@ class Trainer:
                 *combined_cols,
                 pl.col("onset").alias("offset"),
             )
-            .with_columns(pl.col("^.*epochs.*$").list.len().alias("n_epochs"))
+            .with_columns(pl.col(epoch_samp).list.len().alias("n_epochs"))
             .sort(
                 [
                     pl.col("participant_id"),
@@ -74,27 +76,31 @@ class Trainer:
         )
 
     def _slice_data(self, Y_list_margined, Z_list_margined, meta_list):
-        _Y, _Z, = [], []
-        print(Z_list_margined)
-        Z_list_margined = [None] * len(Y_list_margined) if Z_list_margined is None else Z_list_margined
-        for Y, Z, meta in zip(
-            Y_list_margined, Z_list_margined, meta_list
-        ):
-            chunk_margin = meta["chunk_margin"]
+        (
+            _Y,
+            _Z,
+        ) = (
+            [],
+            [],
+        )
+        Z_list_margined = (
+            [None] * len(Y_list_margined)
+            if Z_list_margined is None
+            else Z_list_margined
+        )
+        for Y, Z, meta in zip(Y_list_margined, Z_list_margined, meta_list):
+            chunk_margin = meta["chunk_margin_ts"]
 
             Y_sliced = Y[chunk_margin:-chunk_margin]
-            Z_sliced = Z[chunk_margin:-chunk_margin] if Z is not None else None
 
             _Y.append(Y_sliced)
-            _Z.append(Z_sliced)
+            _Z.append(Z)
 
         _Z = None if all([_z is None for _z in _Z]) else _Z
-        print(_Z, Z_list_margined)
         self.logger.info(
             f"Sliced data: Y={length(_Y)}, Z={length(_Z)}, meta={length(meta_list)}"
         )
         return _Y, _Z
-
 
     def train(self):
         if self.train_loader is None:
@@ -104,7 +110,13 @@ class Trainer:
         self.logger.info(f"Selected framework: {self.framework_type}")
 
         if self.framework_type == "psid":
+            from utils.frameworks import PSIDFramework
+
             self.framework = PSIDFramework(self.config)
+        elif self.framework_type == "dpad":
+            from utils.frameworks import DPADFramework
+
+            self.framework = DPADFramework(self.config)
         else:
             raise ValueError(f"Unknown framework type: {self.framework_type}")
 

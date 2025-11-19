@@ -82,7 +82,11 @@ class Tester:
         return {
             "Y": [flatten(y.tolist()) for y in Y_true],
             "Yp": [flatten(Yp_.tolist()) for Yp_ in Yp] if Yp is not None else None,
-            "Zp": [flatten(Zp_.tolist()) if Zp_ is not None else None for Zp_ in Zp ] if Zp is not None else None,
+            "Zp": (
+                [flatten(Zp_.tolist()) if Zp_ is not None else None for Zp_ in Zp]
+                if Zp is not None
+                else None
+            ),
             "Xp": [flatten(Xp_.tolist()) for Xp_ in Xp] if Xp is not None else None,
             "pearson_per_channel": pearson_per_trial,
             "pearson_mean": pearson_trial_means,
@@ -101,18 +105,19 @@ class Tester:
 
     def _slice_data(self, Y_list_margined, Z_list_margined, meta_list):
         _Y, _Z, _meta = [], [], []
-        Z_list_margined = [None] * len(Y_list_margined) if Z_list_margined is None else Z_list_margined
-        for Y, Z, meta in zip(
-            Y_list_margined, Z_list_margined, meta_list
-        ):
+        Z_list_margined = (
+            [None] * len(Y_list_margined)
+            if Z_list_margined is None
+            else Z_list_margined
+        )
+        for Y, Z, meta in zip(Y_list_margined, Z_list_margined, meta_list):
             chunk_margin = meta["chunk_margin"]
 
             Y_sliced = Y[chunk_margin:-chunk_margin]
-            Z_sliced = Z[chunk_margin:-chunk_margin] if Z is not None else None
             meta["time"] = meta["time"][chunk_margin:-chunk_margin]
 
             _Y.append(Y_sliced)
-            _Z.append(Z_sliced)
+            _Z.append(Z)
             _meta.append(meta)
 
         _Z = None if all([_z is None for _z in _Z]) else _Z
@@ -120,6 +125,7 @@ class Tester:
             f"Sliced data: Y={length(_Y)}, Z={length(_Z)}, meta={length(meta_list)}"
         )
         return _Y, _Z, _meta
+
     def run_predictions(self):
 
         self._load_dataloaders()
@@ -134,7 +140,7 @@ class Tester:
             ("val", self.val_loader),
             ("test", self.test_loader),
         ):
-            Y_list, _z, meta_list = loader.get_full_dataset() # not really needed
+            Y_list, _z, meta_list = loader.get_full_dataset()  # not really needed
             Y_list, _, meta_list = self._slice_data(Y_list, _z, meta_list)
             Zp, Yp, Xp = self.framework._predict(Y_list)
 
@@ -142,10 +148,8 @@ class Tester:
             split_results = self._get_metrics(Y_list, Yp, Zp, Xp, meta)
 
             margin_list = [m.get("chunk_margin") for m in meta_list]
-            
-            f_res = self.framework.model.validate_forecast(
-                Y_list, margin=margin_list
-            )
+
+            f_res = self.framework.model.validate_forecast(Y_list, margin=margin_list)
             split_results = split_results | f_res
 
             split_results["input_mean"] = input_stats.get("input_mean").tolist()
@@ -159,11 +163,13 @@ class Tester:
                 results_dir / k / f"test_results_{self.run_timestamp}.parquet"
             )
             results_ = {}
-            n_rows = len(self.results[k]['participant_id'])
+            n_rows = len(self.results[k]["participant_id"])
             for col_name, col_value in self.results[k].items():
                 if isinstance(col_value, list) and len(col_value) == n_rows:
                     if all(v is None for v in col_value):
-                        results_[col_name] = pl.Series(name=col_name, values=col_value, dtype=pl.Float32)
+                        results_[col_name] = pl.Series(
+                            name=col_name, values=col_value, dtype=pl.Float32
+                        )
                     else:
                         results_[col_name] = pl.Series(name=col_name, values=col_value)
                 elif isinstance(col_value, (np.ndarray, dict)):
@@ -174,12 +180,18 @@ class Tester:
                     continue
                 else:
                     if col_value is None:
-                        results_[col_name] = pl.Series(name=col_name, values=[col_value] * n_rows, dtype=pl.Float32)
+                        results_[col_name] = pl.Series(
+                            name=col_name, values=[col_value] * n_rows, dtype=pl.Float32
+                        )
                     elif isinstance(col_value, list):
                         if len(col_value) <= 1:
-                            results_[col_name] = pl.Series(name=col_name, values=[col_value[0]] * n_rows)
+                            results_[col_name] = pl.Series(
+                                name=col_name, values=[col_value[0]] * n_rows
+                            )
                     else:
-                        results_[col_name] = pl.Series(name=col_name, values=[col_value] * n_rows)
+                        results_[col_name] = pl.Series(
+                            name=col_name, values=[col_value] * n_rows
+                        )
             results_df = pl.from_dict(results_)
             results_df.write_parquet(
                 results_path,

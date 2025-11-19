@@ -254,7 +254,6 @@ def PSID(
     Y = YPrepModel.apply(Y, time_first=time_first)
 
     ZPrepModel = PrepModel.PrepModel()
-    print(f"this is Z: {Z}")
     if Z is not None:
         ZPrepModel.fit(
             Z, remove_mean=remove_mean_Z, zscore=zscore_Z, time_first=time_first

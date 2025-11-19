@@ -1,7 +1,7 @@
 model:
-  name: "psid_neural"
-  nx: 1
-  n1: 0
+  name: "psid_behavioral"
+  nx: 4
+  n1: 2
   i: 5
   time_first: true
   remove_mean_Y: false
@@ -18,7 +18,7 @@ data:
   blocks: [1, 2, 3, 4, 5]
   preprocess: true
   channels:
-    is_neural_behavioral: false
+    is_neural_behavioral: true
     input: ["ECOG_1", "ECOG_2", "ECOG_3", "ECOG_4"] # Y
     output: ["tracing_speed"] # Z
   split:

@@ -134,3 +134,7 @@ def get_logger():
     if _LOGGER_INSTANCE is None:
         raise RuntimeError("Logger has not been initialized. Call setup_logger first.")
     return _LOGGER_INSTANCE
+
+
+def logger_executor(log_dir: str, name: str):
+    setup_logger(log_dir, name=name)

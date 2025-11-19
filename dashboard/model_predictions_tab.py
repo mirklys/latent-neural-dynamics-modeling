@@ -127,7 +127,9 @@ def model_predictions_tab(project_root):
                             tri_list = split_res.get("trial", [])
                             chan_names = split_res.get("input_channels", [])
                             meta_time_margined = split_res.get("time_margined", [])
-                            cm_samples_list = split_res.get("chunk_margin_samples_list", [])
+                            cm_samples_list = split_res.get(
+                                "chunk_margin_samples_list", []
+                            )
 
                             hdr_pid = (
                                 pid_list[trial_idx]
@@ -260,7 +262,9 @@ def model_predictions_tab(project_root):
                                 try:
                                     m = int(f_res.get("m", 0))
                                     margin_samples = int(f_res.get("margin_samples", 0))
-                                    t_abs_unmargined = np.array(meta_time_margined[trial_idx])
+                                    t_abs_unmargined = np.array(
+                                        meta_time_margined[trial_idx]
+                                    )
                                     m_samples = cm_samples_list[trial_idx]
                                     y_concat = f_res.get("Y_concat_for_plot", [None])[
                                         trial_idx
@@ -287,8 +291,10 @@ def model_predictions_tab(project_root):
 
                                         if (
                                             y_concat.ndim == 2
-                                            and y_concat.shape[0] != len(t_abs_unmargined)
-                                            and y_concat.shape[1] == len(t_abs_unmargined)
+                                            and y_concat.shape[0]
+                                            != len(t_abs_unmargined)
+                                            and y_concat.shape[1]
+                                            == len(t_abs_unmargined)
                                         ):
                                             y_concat = y_concat.T
                                         if (

@@ -10,7 +10,7 @@ from utils.logger import setup_logger
 logger = setup_logger("dashboard_logs", name=__name__)
 
 DATA_PATH = Path("resampled_recordings")
-PARTICIPANTS_PATH = DATA_PATH / "participants_2"
+PARTICIPANTS_PATH = DATA_PATH / "participants_at_150Hz"
 
 
 def natural_sort_key(s):

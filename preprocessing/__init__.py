@@ -1,4 +1,5 @@
-from utils.package_configs import set_polars_config, logger_executor
+from utils.polars import set_polars_config
+from utils.logger import logger_executor
 from utils.config import get_config, Config
 
 
