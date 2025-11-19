@@ -38,6 +38,10 @@ class Tester:
         framework_type = str(self.model_params.name).split("_")[0]
         if framework_type == "psid":
             self.framework = PSIDFramework(self.config)
+        elif framework_type == "dpad":
+            from utils.frameworks import DPADFramework
+
+            self.framework = DPADFramework(self.config)
         else:
             raise ValueError(
                 f"Unknown or unsupported framework for testing: {framework_type}"
@@ -49,23 +53,49 @@ class Tester:
         )
 
     def _load_model_for_run(self):
+        import json
+        from keras.models import load_model as keras_load_model
+
         results_dir = Path(self.results_config.save_dir)
 
-        model_path = results_dir / f"model_{self.run_timestamp}.pkl"
-        with open(model_path, "rb") as f:
-            idSys = pickle.load(f)
-        self._init_framework()
-        self.framework.model = self.framework._initalize_model()
-        self.framework.model.idSys = idSys
-        self.logger.info(f"Loaded model from {model_path}")
+        # Check if this is a DPAD model by looking for metadata file
+        metadata_path = results_dir / f"model_{self.run_timestamp}_metadata.json"
 
-    # @staticmethod
-    # def _to_Y_list(dataloader) -> List[np.ndarray]:
-    #     return dataloader.get_full_dataset()[0]
+        if metadata_path.exists():
+            # Load DPAD model
+            self.logger.info("Detected DPAD model, loading with Keras...")
+
+            with open(metadata_path, "r") as f:
+                metadata = json.load(f)
+
+            model_path_keras = results_dir / f"model_{self.run_timestamp}_keras.keras"
+
+            self._init_framework()
+            self.framework.model = self.framework._initialize_model()
+
+            # Load the Keras model
+            self.framework.model.idSys = keras_load_model(
+                str(model_path_keras), compile=False
+            )
+
+            self.logger.info(f"Loaded DPAD model from {model_path_keras}")
+        else:
+            # Load PSID model (pickle format)
+            model_path = results_dir / f"model_{self.run_timestamp}.pkl"
+
+            with open(model_path, "rb") as f:
+                idSys = pickle.load(f)
+
+            self._init_framework()
+            self.framework.model = self.framework._initialize_model()
+            self.framework.model.idSys = idSys
+
+            self.logger.info(f"Loaded PSID model from {model_path}")
 
     @staticmethod
     def _get_metrics(
         Y_true: List[np.ndarray],
+        Z_true: Optional[List[np.ndarray]],
         Yp: Optional[List[np.ndarray]],
         Zp: Optional[List[np.ndarray]],
         Xp: Optional[List[np.ndarray]],
@@ -79,6 +109,28 @@ class Tester:
             valid = [r for r in r_list if not (r is None or np.isnan(r))]
             pearson_trial_means.append(np.mean(valid) if len(valid) > 0 else np.nan)
 
+        # Compute Z correlations if both true and predicted Z are available
+        pearson_per_trial_Z = None
+        pearson_overall_mean_Z = np.nan
+        pearson_trial_means_Z = None
+
+        if Z_true is not None and Zp is not None:
+            # Filter out None values
+            Z_true_filtered = [z for z in Z_true if z is not None]
+            Zp_filtered = [zp for zp in Zp if zp is not None]
+
+            if len(Z_true_filtered) > 0 and len(Zp_filtered) > 0:
+                pearson_per_trial_Z, pearson_overall_mean_Z = pearson_r_per_channel(
+                    Z_true_filtered, Zp_filtered
+                )
+
+                pearson_trial_means_Z = []
+                for r_list in pearson_per_trial_Z:
+                    valid = [r for r in r_list if not (r is None or np.isnan(r))]
+                    pearson_trial_means_Z.append(
+                        np.mean(valid) if len(valid) > 0 else np.nan
+                    )
+
         return {
             "Y": [flatten(y.tolist()) for y in Y_true],
             "Yp": [flatten(Yp_.tolist()) for Yp_ in Yp] if Yp is not None else None,
@@ -91,6 +143,9 @@ class Tester:
             "pearson_per_channel": pearson_per_trial,
             "pearson_mean": pearson_trial_means,
             "pearson_overall_mean": pearson_overall_mean,
+            "pearson_per_channel_Z": pearson_per_trial_Z,
+            "pearson_mean_Z": pearson_trial_means_Z,
+            "pearson_overall_mean_Z": pearson_overall_mean_Z,
             "time": [flatten(t.tolist()) for t in meta.get("time", [])],
             "offset": meta.get("offset", []),
             "chunk_margin": meta.get("chunk_margin", []),
@@ -111,10 +166,10 @@ class Tester:
             else Z_list_margined
         )
         for Y, Z, meta in zip(Y_list_margined, Z_list_margined, meta_list):
-            chunk_margin = meta["chunk_margin"]
+            chunk_margin_ts = meta["chunk_margin_ts"]
 
-            Y_sliced = Y[chunk_margin:-chunk_margin]
-            meta["time"] = meta["time"][chunk_margin:-chunk_margin]
+            Y_sliced = Y[chunk_margin_ts:-chunk_margin_ts]
+            meta["time"] = meta["time"][chunk_margin_ts:-chunk_margin_ts]
 
             _Y.append(Y_sliced)
             _Z.append(Z)
@@ -140,16 +195,18 @@ class Tester:
             ("val", self.val_loader),
             ("test", self.test_loader),
         ):
-            Y_list, _z, meta_list = loader.get_full_dataset()  # not really needed
-            Y_list, _, meta_list = self._slice_data(Y_list, _z, meta_list)
+            Y_list, _z, meta_list = loader.get_full_dataset()
+            Y_list, Z_list, meta_list = self._slice_data(Y_list, _z, meta_list)
             Zp, Yp, Xp = self.framework._predict(Y_list)
 
             meta = {k: [d.get(k) for d in meta_list] for k in meta_list[0]}
-            split_results = self._get_metrics(Y_list, Yp, Zp, Xp, meta)
+            split_results = self._get_metrics(Y_list, Z_list, Yp, Zp, Xp, meta)
 
             margin_list = [m.get("chunk_margin") for m in meta_list]
 
-            f_res = self.framework.model.validate_forecast(Y_list, margin=margin_list)
+            f_res = self.framework.model.validate_forecast(
+                Y_list, Z_list=Z_list, margin=margin_list
+            )
             split_results = split_results | f_res
 
             split_results["input_mean"] = input_stats.get("input_mean").tolist()

@@ -50,10 +50,13 @@ class BaseFramework:
         return self.model.forecast(m, Y_past)
 
     def _validate_forecast(
-        self, Y_list: TrialList, margin: Optional[float] = None
+        self,
+        Y_list: TrialList,
+        Z_list: Optional[TrialList] = None,
+        margin: Optional[float] = None,
     ) -> Dict[str, Any]:
         self.logger.info("Starting forecast validation...")
-        return self.model.validate_forecast(Y_list, margin=margin)
+        return self.model.validate_forecast(Y_list, Z_list=Z_list, margin=margin)
 
 
 class PSIDWrapper:
@@ -119,20 +122,24 @@ class PSIDWrapper:
         return self.idSys.forecast(m, Y_past)
 
     def validate_forecast(
-        self, Y_list: TrialList, margin: Optional[float] = None
+        self,
+        Y_list: TrialList,
+        Z_list: Optional[TrialList] = None,
+        margin: Optional[float] = None,
     ) -> Dict[str, Any]:
         """Validate m-step ahead forecast using config.model.forecast.m, with optional margin before the end.
 
         We forecast m steps not at the very end, but ending `margin` seconds before
-        the end of each trial. Sampling frequency is assumed to be 1000 Hz as requested.
+        the end of each trial. Note: Y_list and Z_list should already have margins removed
+        (as done by _slice_data), so we don't remove them again here.
 
-        For each trial y (length T), define margin_samples = int(1000 * margin_sec).
-        The forecast window is y[ T-(m+margin_samples) : T-margin_samples ]. The model
-        is initialized with the past y[: T-(m+margin_samples)].
+        For each trial y (length T), the forecast window is y[T-m:T].
+        The model is initialized with the past y[:T-m].
 
         Args:
-            Y_list: list of trials (each T x ny ndarray) or a single ndarray.
-            margin: None, float seconds, or list of float seconds per trial. If None or 0, uses last m steps.
+            Y_list: list of trials (each T x ny ndarray), margins already removed.
+            Z_list: optional list of behavioral trials (each T x nz ndarray), margins already removed.
+            margin: Not used anymore since margins are pre-removed, kept for backward compatibility.
 
         Returns a dict with per-trial arrays and metrics to facilitate plotting.
         """
@@ -144,12 +151,12 @@ class PSIDWrapper:
             "Y_future_true": [],
             "Y_future_pred": [],
             "Y_concat_for_plot": [],
+            "Z_future_true": [],
             "Z_future_pred": [],
             "X_future_pred": [],
             "pearson_per_channel": [],
+            "pearson_per_channel_Z": [],
         }
-
-        margin_samples = int(self.config.data.sampling_frequency * margin_sec)
 
         # Iterate trials
         for idx, Y in enumerate(Y_list):
@@ -159,19 +166,17 @@ class PSIDWrapper:
                     f"Forecast horizon m={m} must be smaller than trial length T={T}"
                 )
 
-            # Compute indices: [-(m+margin_samples) : -margin_samples]
-            start = T - (m + margin_samples)
-            end = T - margin_samples
-            self.logger.info(
-                f"Got {start}:{end} forecast window for trial {idx} with T={T}, m={m}, margin_sec={margin_sec} (samples={margin_samples})"
-            )
-            if start < 0 or end <= start:
-                raise ValueError(
-                    f"Invalid margin for trial {idx}: margin_sec={margin_sec} (samples={margin_samples}), T={T}, m={m}"
-                )
+            # Forecast the last m steps (margins already removed from Y_list)
+            start = T - m
+            end = T
 
-            Y_past = Y[margin_samples:start]
+            # Use all available past data (margins already removed)
+            Y_past = Y[:start]
             Y_future_true = Y[start:end]
+
+            # Get corresponding Z data if available
+            Z = Z_list[idx] if Z_list is not None and idx < len(Z_list) else None
+            Z_future_true = Z[start:end] if Z is not None else None
 
             Zf, Yf, Xf = self.forecast(m, Y_past)
 
@@ -187,14 +192,29 @@ class PSIDWrapper:
                 r_list[0] if isinstance(r_list, list) and len(r_list) > 0 else r_list
             )
 
+            # Compute Z correlations if both true and predicted Z are available
+            if Z_future_true is not None and Zf is not None:
+                r_list_Z, _ = pearson_r_per_channel([Z_future_true], [Zf])
+                r_list_Z = (
+                    r_list_Z[0]
+                    if isinstance(r_list_Z, list) and len(r_list_Z) > 0
+                    else r_list_Z
+                )
+            else:
+                r_list_Z = []
+
             results["Y_future_true"].append(Y_future_true.tolist())
-            results["margin_samples"] = margin_samples
             results["Y_future_pred"].append(Yf.tolist())
             results["Y_concat_for_plot"].append(Y_concat.tolist())
+            results["Z_future_true"].append(
+                Z_future_true.tolist() if Z_future_true is not None else None
+            )
             results["Z_future_pred"].append(Zf.tolist() if Zf is not None else None)
             results["X_future_pred"].append(Xf.tolist() if Xf is not None else None)
             results["pearson_per_channel"].append(r_list)
+            results["pearson_per_channel_Z"].append(r_list_Z)
 
+        # Compute overall means for Y
         flat_r = []
         for r in results["pearson_per_channel"]:
             if r is None:
@@ -204,6 +224,18 @@ class PSIDWrapper:
                     flat_r.append(float(v))
         results["pearson_overall_mean"] = (
             float(np.mean(flat_r)) if len(flat_r) > 0 else np.nan
+        )
+
+        # Compute overall means for Z
+        flat_r_Z = []
+        for r in results["pearson_per_channel_Z"]:
+            if r is None or not r:
+                continue
+            for v in r:
+                if v is not None and not np.isnan(v):
+                    flat_r_Z.append(float(v))
+        results["pearson_overall_mean_Z"] = (
+            float(np.mean(flat_r_Z)) if len(flat_r_Z) > 0 else np.nan
         )
 
         return results
@@ -315,8 +347,21 @@ class DPADWrapper:
         return Zf, Yf, Xf
 
     def validate_forecast(
-        self, Y_list: TrialList, margin: Optional[float] = None
+        self,
+        Y_list: TrialList,
+        Z_list: Optional[TrialList] = None,
+        margin: Optional[float] = None,
     ) -> Dict[str, Any]:
+        """Validate m-step ahead forecast.
+
+        Note: Y_list and Z_list should already have margins removed (as done by _slice_data).
+        The forecast window is the last m steps of each trial.
+
+        Args:
+            Y_list: list of trials (each T x ny ndarray), margins already removed.
+            Z_list: optional list of behavioral trials (each T x nz ndarray), margins already removed.
+            margin: Not used anymore since margins are pre-removed, kept for backward compatibility.
+        """
         m = self.config.model.forecast.m
         margin_sec = margin if margin is not None else 0.0
         margin_samples = int(self.config.data.sampling_frequency * margin_sec)
@@ -326,9 +371,11 @@ class DPADWrapper:
             "Y_future_true": [],
             "Y_future_pred": [],
             "Y_concat_for_plot": [],
+            "Z_future_true": [],
             "Z_future_pred": [],
             "X_future_pred": [],
             "pearson_per_channel": [],
+            "pearson_per_channel_Z": [],
         }
 
         for idx, Y in enumerate(Y_list):
@@ -338,17 +385,18 @@ class DPADWrapper:
                     f"Forecast horizon m={m} must be smaller than trial length T={T}"
                 )
 
-            # Compute indices: [-(m+margin_samples) : -margin_samples]
-            start = T - (m + margin_samples)
-            end = T - margin_samples
+            # Forecast the last m steps (margins already removed from Y_list)
+            start = T - m
+            end = T
 
-            if start < 0 or end <= start:
-                raise ValueError(
-                    f"Invalid margin for trial {idx}: T={T}, m={m}, margin={margin_samples}"
-                )
-
+            # Use all available past data (margins already removed)
             Y_past = Y[:start]
             Y_future_true = Y[start:end]
+
+            # Get corresponding Z data if available
+            Z = Z_list[idx] if Z_list is not None and idx < len(Z_list) else None
+            Z_future_true = Z[start:end] if Z is not None else None
+
             Zf, Yf, Xf = self.forecast(m, Y_past)
 
             if Yf is not None:
@@ -359,15 +407,25 @@ class DPADWrapper:
                 Y_concat = Y_past
                 r_list = []
 
+            # Compute Z correlations if both true and predicted Z are available
+            if Z_future_true is not None and Zf is not None:
+                r_list_Z, _ = pearson_r_per_channel([Z_future_true], [Zf])
+                r_list_Z = r_list_Z[0] if isinstance(r_list_Z, list) else r_list_Z
+            else:
+                r_list_Z = []
+
             results["Y_future_true"].append(Y_future_true.tolist())
-            results["margin_samples"] = margin_samples
             results["Y_future_pred"].append(Yf.tolist() if Yf is not None else None)
             results["Y_concat_for_plot"].append(Y_concat.tolist())
+            results["Z_future_true"].append(
+                Z_future_true.tolist() if Z_future_true is not None else None
+            )
             results["Z_future_pred"].append(Zf.tolist() if Zf is not None else None)
             results["X_future_pred"].append(Xf.tolist() if Xf is not None else None)
             results["pearson_per_channel"].append(r_list)
+            results["pearson_per_channel_Z"].append(r_list_Z)
 
-        # Compute overall mean
+        # Compute overall mean for Y
         flat_r = [
             v
             for r in results["pearson_per_channel"]
@@ -376,6 +434,19 @@ class DPADWrapper:
             if v is not None and not np.isnan(v)
         ]
         results["pearson_overall_mean"] = float(np.mean(flat_r)) if flat_r else np.nan
+
+        # Compute overall mean for Z
+        flat_r_Z = [
+            v
+            for r in results["pearson_per_channel_Z"]
+            if r
+            for v in r
+            if v is not None and not np.isnan(v)
+        ]
+        results["pearson_overall_mean_Z"] = (
+            float(np.mean(flat_r_Z)) if flat_r_Z else np.nan
+        )
+
         return results
 
 

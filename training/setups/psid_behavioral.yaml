@@ -29,6 +29,7 @@ data:
     min_train_epochs: 50
   batch_size: 32
   sampling_frequency: 150
+  dbs_condition: "off"
 
 results:
   save_dir: "results/{model.name}"

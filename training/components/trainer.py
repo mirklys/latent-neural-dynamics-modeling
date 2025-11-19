@@ -1,4 +1,5 @@
 import pickle
+import json
 from datetime import datetime
 from utils.config import Config
 import polars as pl
@@ -67,7 +68,15 @@ class Trainer:
                 ],
                 maintain_order=True,
             )
-        ).filter(pl.col("block").is_in(self.data_params.blocks))
+        )
+
+        if self.data_params.blocks != "all":
+            trial = trial.filter(pl.col("block").is_in(self.data_params.blocks))
+
+        dbs_condition = self.data_params.dbs_condition
+        if dbs_condition != "both":
+            trial = trial.filter(pl.col("stim") == dbs_condition)
+            self.logger.info(f"Filtered to {dbs_condition} DBS condition")
 
         create_splits(trial, self.data_params.split, self.results_config)
 
@@ -178,8 +187,27 @@ class Trainer:
         self.logger.info(f"Detailed {type} results saved to {out_path}")
 
         try:
-            with open(out_dir / f"model_{ts}.pkl", "wb") as f:
-                pickle.dump(self.framework.model.idSys, f)
-            self.logger.info(f"Saved model to {out_dir}")
+            model_path = out_dir / f"model_{ts}"
+
+            if self.framework_type == "dpad":
+                model_path_keras = out_dir / f"model_{ts}_keras.keras"
+                self.framework.model.idSys.save(str(model_path_keras))
+
+                metadata = {
+                    "framework_type": "dpad",
+                    "nx": self.model_params.nx,
+                    "n1": self.model_params.n1,
+                    "method_code": self.model_params.method_code,
+                    "epochs": self.model_params.epochs,
+                }
+                with open(out_dir / f"model_{ts}_metadata.json", "w") as f:
+                    json.dump(metadata, f)
+
+                self.logger.info(f"Saved DPAD model to {model_path_keras}")
+            else:
+                with open(f"{model_path}.pkl", "wb") as f:
+                    pickle.dump(self.framework.model.idSys, f)
+                self.logger.info(f"Saved PSID model to {model_path}.pkl")
+
         except Exception as e:
             self.logger.warning(f"Could not save model/trainer artifacts: {e}")

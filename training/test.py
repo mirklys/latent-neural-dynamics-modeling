@@ -18,13 +18,34 @@ def test(config, run_timestamp=None):
     tester.run_predictions()
 
     for split, res in tester.results.items():
+        # Log prediction correlations for Y
         means = res.get("pearson_mean", [])
         if len(means) > 0:
             valid = [m for m in means if m == m]  # filter NaN
             avg = sum(valid) / len(valid) if valid else float("nan")
         else:
             avg = float("nan")
-        logger.info(f"Split={split}: avg Pearson over trials={avg}")
+        logger.info(f"Split={split}: avg Pearson (Y predictions) over trials={avg:.4f}")
+
+        # Log prediction correlations for Z
+        means_z = res.get("pearson_mean_Z", [])
+        if means_z is not None and len(means_z) > 0:
+            valid_z = [m for m in means_z if m == m]  # filter NaN
+            avg_z = sum(valid_z) / len(valid_z) if valid_z else float("nan")
+            if avg_z == avg_z:  # check not NaN
+                logger.info(
+                    f"Split={split}: avg Pearson (Z predictions) over trials={avg_z:.4f}"
+                )
+
+        # Log forecast correlations for Y
+        forecast_y_mean = res.get("pearson_overall_mean", float("nan"))
+        if forecast_y_mean == forecast_y_mean:  # check not NaN
+            logger.info(f"Split={split}: Pearson (Y forecast)={forecast_y_mean:.4f}")
+
+        # Log forecast correlations for Z
+        forecast_z_mean = res.get("pearson_overall_mean_Z", float("nan"))
+        if forecast_z_mean == forecast_z_mean:  # check not NaN
+            logger.info(f"Split={split}: Pearson (Z forecast)={forecast_z_mean:.4f}")
 
     logger.info("Testing completed successfully!")
 
