@@ -197,10 +197,15 @@ cython_debug/
 data/
 
 *.fif
-
+DPAD/
 logs/
 resampled_recordings/
-DPAD/
-PyPSID/
+results/
+DPAD-main/
+PyPSID-main/
+.idea
 
-articles/
+dashboard_logs
+*.parquet
+
+docs/

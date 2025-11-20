@@ -3,19 +3,23 @@ from scipy.interpolate import interp1d
 from utils.miscellaneous import contains_nulls
 
 
-def interpolate(coordinates: list, original_length_ts: int) -> list:
-    if len(coordinates) == 0 or original_length_ts <= 0:
-        return []
+def interpolate(behavior: list, original_length_ts: int) -> list:
+    if behavior is None:
+        return None
+    if contains_nulls(behavior):
+        return None
+    if original_length_ts <= 0:
+        return None
 
-    original_indices = np.linspace(0, 1, num=len(coordinates))
+    original_indices = np.linspace(0, 1, num=len(behavior))
     target_indices = np.linspace(0, 1, num=original_length_ts)
 
     interpolator = interp1d(
-        original_indices, coordinates, kind="linear", fill_value="extrapolate"
+        original_indices, behavior, kind="linear", fill_value="extrapolate"
     )
-    interpolated_coordinates = interpolator(target_indices)
+    interpolated_behavior = interpolator(target_indices)
 
-    return interpolated_coordinates.tolist()
+    return interpolated_behavior.tolist()
 
 
 def tracing_speed(

@@ -22,7 +22,7 @@ from utils.file_handling import get_child_subchilds_tuples
 
 from utils.config import Config
 from utils.logger import get_logger
-from utils.motion import tracing_speed
+from utils.motion import tracing_speed, interpolate
 
 LFP_SCHEMA = pl.Struct(
     [
@@ -231,9 +231,10 @@ def construct_participants_table(config: Config):
             "tracing_speed",
         )
         participants.write_parquet(
-            save_path / root, partition_by=["participant_id", "session", "block"]
+            save_path / config.output_participants_table_name,
+            partition_by=["participant_id", "session", "block"],
         )
-        logger.info(f"Saved to {save_path / 'participants_2'}")
+        logger.info(f"Saved to {save_path / config.output_participants_table_name}")
 
 
 def _add_ieeg_data(participants: pl.DataFrame, config: Config) -> pl.DataFrame:
@@ -291,7 +292,7 @@ def _chunk_recordings(
     )
 
     participants_ = participants_.with_columns(
-        (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("start_ts"),
+        (pl.col("margined_onset") * sfreq).cast(pl.UInt32).alias("start_ts"),
         (pl.col("margined_duration") * sfreq).cast(pl.UInt32).alias("chunk_length_ts"),
         (pl.col("trial_time") * sfreq).cast(pl.UInt32).alias("original_length_ts"),
     ).with_columns(
@@ -351,6 +352,23 @@ def _chunk_recordings(
         .then(
             pl.struct(pl.col("x"), pl.col("y"), "motion_time").map_elements(
                 lambda s: tracing_speed(s["x"], s["y"], s["motion_time"]),
+                return_dtype=pl.List(pl.Float64),
+            )
+        )
+        .alias("tracing_speed")
+    )
+
+    # resample speed to the original length ts
+    participants_ = participants_.with_columns(
+        pl.when(
+            pl.col("tracing_speed").is_not_null()
+            & (pl.col("tracing_speed").list.drop_nulls().list.len() > 0)
+        )
+        .then(
+            pl.struct(
+                pl.col("tracing_speed"), pl.col("original_length_ts")
+            ).map_elements(
+                lambda s: interpolate(s["tracing_speed"], s["original_length_ts"]),
                 return_dtype=pl.List(pl.Float64),
             )
         )

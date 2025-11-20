@@ -21,7 +21,7 @@ def preprocess_ieeg(
 
         raw.notch_filter(freqs=notch_freqs, verbose=False)
         raw.filter(l_freq=low_freq, h_freq=high_freq)
-        # raw.resample(sfreq=sfreq, verbose=False) # already resampled data
+        raw.resample(sfreq=sfreq, verbose=False)
 
         data = raw.get_data()
         channels = raw.ch_names

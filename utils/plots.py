@@ -2,25 +2,33 @@ import polars as pl
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
+from textwrap import wrap
 
 
 def _create_base_figure(title: str, x_axis_title: str, y_axis_title: str) -> go.Figure:
     """Creates a base Plotly figure with a standardized publication-style layout."""
     fig = go.Figure()
     fig.update_layout(
-        title=dict(text=title, x=0.5, font=dict(size=20, family="Arial")),
-        xaxis_title=dict(text=x_axis_title, font=dict(size=16, family="Arial")),
-        yaxis_title=dict(text=y_axis_title, font=dict(size=16, family="Arial")),
+        title=dict(text=title, x=0.5, font=dict(size=20, family="sans-serif")),
+        xaxis_title=dict(text=x_axis_title, font=dict(size=16, family="sans-serif")),
+        yaxis_title=dict(text=y_axis_title, font=dict(size=16, family="sans-serif")),
         template="plotly_white",
-        font=dict(family="Arial", size=13, color="black"),
-        legend=dict(font=dict(size=13, family="Arial")),
+        font=dict(family="sans-serif", size=13, color="black"),
+        legend=dict(font=dict(size=13, family="sans-serif")),
         showlegend=True,
-        margin=dict(l=60, r=30, t=60, b=60),
+        margin=dict(l=60, r=30, t=80, b=60),  # Increased top margin for title
     )
     return fig
 
 
-def plot_trial_channel(trial_df: pl.DataFrame, channel: str) -> go.Figure:
+def _wrap_title(title: str, width: int = 60) -> str:
+    """Wraps a title string into multiple lines."""
+    return "<br>".join(wrap(title, width=width))
+
+
+def plot_trial_channel(
+    trial_df: pl.DataFrame, channel: str, use_absolute_time: bool = False
+) -> go.Figure:
     """Plots a single iEEG channel for a given trial with improved styling."""
     if trial_df.is_empty():
         return go.Figure().update_layout(title_text=f"No data for {channel}")
@@ -32,17 +40,21 @@ def plot_trial_channel(trial_df: pl.DataFrame, channel: str) -> go.Figure:
     stim_col = "stim"
     dbs_state = trial_df[stim_col][0]
 
-    title = f"{channel.replace('_', ' ')} Signal (P{participant_id}, S{session}, B{block}, T{trial}, Stim {dbs_state})"
-    fig = _create_base_figure(title, "Time (s)", "Amplitude (µV)")
-
-    time_start = trial_df["time"].min()
-    trial_df = trial_df.with_columns(
-        (pl.col("time") - time_start).alias("relative_time")
+    title = _wrap_title(
+        f"{channel.replace('_', ' ')} Signal (P{participant_id}, S{session}, B{block}, T{trial}, Stim {dbs_state})"
     )
+    x_axis_title = "Absolute Time (s)" if use_absolute_time else "Relative Time (s)"
+    fig = _create_base_figure(title, x_axis_title, "Amplitude (µV)")
+
+    time_col = "time" if use_absolute_time else "relative_time"
+    if "relative_time" not in trial_df.columns:
+        trial_df = trial_df.with_columns(
+            (pl.col("time") - trial_df["time"].min()).alias("relative_time")
+        )
 
     fig.add_trace(
         go.Scatter(
-            x=trial_df["relative_time"],
+            x=trial_df[time_col],
             y=trial_df[channel],
             mode="lines",
             name=channel,
@@ -53,7 +65,12 @@ def plot_trial_channel(trial_df: pl.DataFrame, channel: str) -> go.Figure:
     # Add annotations for event start/end
     chunk_margin = trial_df["chunk_margin"][0]
     original_duration = trial_df["margined_duration"][0] - 2 * chunk_margin
-    event_start = chunk_margin
+
+    if use_absolute_time:
+        event_start = trial_df["time"].min() + chunk_margin
+    else:
+        event_start = chunk_margin
+
     event_end = event_start + original_duration
 
     fig.add_vrect(
@@ -87,10 +104,12 @@ def plot_trial_coordinates(
     p_id = trial_df["participant_id"][0]
     session = trial_df["session"][0]
     trial = trial_df["trial"][0]
+    block = trial_df["block"][0] if "block" in trial_df.columns else "?"
 
     if plot_over_time:
-        block = trial_df["block"][0] if "block" in trial_df.columns else "?"
-        title = f"Coordinates vs. Time (P{p_id}, S{session}, B{block}, T{trial})"
+        title = _wrap_title(
+            f"Coordinates vs. Time (P{p_id}, S{session}, B{block}, T{trial})"
+        )
         fig = _create_base_figure(title, "Time (s)", "Position")
         fig.add_trace(
             go.Scatter(x=trial_df[time], y=trial_df["x"], mode="lines", name="X-coord")
@@ -99,8 +118,7 @@ def plot_trial_coordinates(
             go.Scatter(x=trial_df[time], y=trial_df["y"], mode="lines", name="Y-coord")
         )
     else:
-        block = trial_df["block"][0] if "block" in trial_df.columns else "?"
-        title = f"2D Trajectory (P{p_id}, S{session}, B{block}, T{trial})"
+        title = _wrap_title(f"2D Trajectory (P{p_id}, S{session}, B{block}, T{trial})")
         fig = _create_base_figure(title, "X Coordinate", "Y Coordinate")
         fig.add_trace(
             go.Scatter(
@@ -138,9 +156,8 @@ def plot_tracing_speed(trial_df: pl.DataFrame, time: str) -> go.Figure:
     p_id = trial_df["participant_id"][0]
     session = trial_df["session"][0]
     trial = trial_df["trial"][0]
-
     block = trial_df["block"][0] if "block" in trial_df.columns else "?"
-    title = f"Tracing Speed (P{p_id}, S{session}, B{block}, T{trial})"
+    title = _wrap_title(f"Tracing Speed (P{p_id}, S{session}, B{block}, T{trial})")
     fig = _create_base_figure(title, "Time (s)", "Speed (pixels/s)")
     fig.add_trace(
         go.Scatter(
@@ -170,7 +187,7 @@ def plot_psd_heatmap(
     )
 
     x_label = "Time (s)" if times_abs is not None else "Time Epoch"
-    fig = _create_base_figure(title, x_label, "Frequency (Hz)")
+    fig = _create_base_figure(_wrap_title(title), x_label, "Frequency (Hz)")
 
     psds_arr = np.asarray([np.array(psd, dtype=float) for psd in psds])
     log_psds = 10 * np.log10(psds_arr.T) + 120
@@ -185,10 +202,8 @@ def plot_psd_heatmap(
         )
     )
 
-    # Add a relative-time top axis if requested
     if add_rel_axis and times_abs is not None and len(x_vals) > 1:
         rel0 = float(rel_offset) if rel_offset is not None else float(x_vals.min())
-        # choose 5 ticks across the range
         n_ticks = 5
         tickvals = np.linspace(x_vals.min(), x_vals.max(), n_ticks)
         ticktext = [f"{(tv - rel0):.1f}" for tv in tickvals]
@@ -200,7 +215,7 @@ def plot_psd_heatmap(
                 tickvals=tickvals,
                 ticktext=ticktext,
                 title_text="Relative Time (s)",
-                title_font=dict(size=12, family="Arial"),
+                title_font=dict(size=12, family="sans-serif"),
                 range=[float(x_vals.min()), float(x_vals.max())],
                 matches=None,
             )
@@ -211,13 +226,15 @@ def plot_psd_heatmap(
 
 def plot_average_psd(
     freqs: np.ndarray,
-    psd_data: dict,  # {channel: {'on': psds_on, 'off': psds_off}}
+    psd_data: dict,
     title: str,
 ) -> go.Figure:
     """
     Plots the average PSD for multiple channels, comparing DBS ON and OFF states.
     """
-    fig = _create_base_figure(title, "Frequency (Hz)", "Power/Frequency (dB/Hz)")
+    fig = _create_base_figure(
+        _wrap_title(title), "Frequency (Hz)", "Power/Frequency (dB/Hz)"
+    )
     fig.update_layout(legend_title_text="Channel (DBS State)")
 
     colors = px.colors.qualitative.Plotly
@@ -227,7 +244,6 @@ def plot_average_psd(
         color_on = colors[color_idx % len(colors)]
         color_off = colors[(color_idx + 1) % len(colors)]
 
-        # Plot DBS ON
         if "on" in data and data["on"].size > 0:
             mean_psd_on = 10 * np.log10(np.mean(data["on"], axis=0)) + 120
             fig.add_trace(
@@ -240,7 +256,6 @@ def plot_average_psd(
                 )
             )
 
-        # Plot DBS OFF
         if "off" in data and data["off"].size > 0:
             mean_psd_off = 10 * np.log10(np.mean(data["off"], axis=0)) + 120
             fig.add_trace(

@@ -2,7 +2,6 @@ from preprocessing import initialize_preprocessing
 from utils.logger import get_logger
 import argparse
 from .components.participants import construct_participants_table
-from pathlib import Path
 
 
 def main(args):
