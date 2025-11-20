@@ -190,9 +190,17 @@ class Trainer:
             model_path = out_dir / f"model_{ts}"
 
             if self.framework_type == "dpad":
-                model_path_keras = out_dir / f"model_{ts}_keras.keras"
-                self.framework.model.idSys.save(str(model_path_keras))
-
+                # DPAD models need to discard TF models before pickling
+                # This converts them to weight dictionaries
+                self.framework.model.idSys.discardModels()
+                
+                model_path_pkl = f"{model_path}.pkl"
+                with open(model_path_pkl, "wb") as f:
+                    pickle.dump(self.framework.model.idSys, f)
+                
+                self.logger.info(f"Saved DPAD model to {model_path_pkl}")
+                
+                # Save metadata for reference
                 metadata = {
                     "framework_type": "dpad",
                     "nx": self.model_params.nx,
@@ -202,9 +210,9 @@ class Trainer:
                 }
                 with open(out_dir / f"model_{ts}_metadata.json", "w") as f:
                     json.dump(metadata, f)
-
-                self.logger.info(f"Saved DPAD model to {model_path_keras}")
+                
             else:
+                # PSID models can be pickled directly
                 with open(f"{model_path}.pkl", "wb") as f:
                     pickle.dump(self.framework.model.idSys, f)
                 self.logger.info(f"Saved PSID model to {model_path}.pkl")

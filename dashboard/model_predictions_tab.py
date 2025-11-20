@@ -256,7 +256,95 @@ def model_predictions_tab(project_root):
                             )
                             st.plotly_chart(fig, use_container_width=True)
 
-                            # Forecast visualization, if available
+                            # Z_true vs Z_pred plot (behavioral variables)
+                            Z_true = split_res.get("Z")
+                            if Z_true is not None and z_p is not None:
+                                z_t = (
+                                    None
+                                    if Z_true[trial_idx] is None
+                                    else np.array(Z_true[trial_idx])
+                                )
+
+                                if z_t is not None:
+                                    # Get number of Z channels
+                                    nz_chan = z_t.shape[1] if z_t.ndim == 2 else 1
+
+                                    # Create Z channel selector
+                                    z_channel_options = [
+                                        f"z_ch{i}" for i in range(nz_chan)
+                                    ]
+                                    selected_z_name = st.selectbox(
+                                        "Channel for Z/Zp plot",
+                                        options=z_channel_options,
+                                        index=0,
+                                        key="pred_z_chan",
+                                    )
+                                    z_c = (
+                                        z_channel_options.index(selected_z_name)
+                                        if nz_chan > 1
+                                        else 0
+                                    )
+
+                                    # Handle dimension issues
+                                    if (
+                                        z_t.ndim == 2
+                                        and z_t.shape[0] != len(t_abs)
+                                        and z_t.shape[1] == len(t_abs)
+                                    ):
+                                        z_t = z_t.T
+                                    if (
+                                        z_p.ndim == 2
+                                        and z_p.shape[0] != len(t_abs)
+                                        and z_p.shape[1] == len(t_abs)
+                                    ):
+                                        z_p = z_p.T
+
+                                    z_true_c = (
+                                        z_t.squeeze() if nz_chan == 1 else z_t[:, z_c]
+                                    )
+                                    z_pred_c = (
+                                        z_p.squeeze() if nz_chan == 1 else z_p[:, z_c]
+                                    )
+
+                                    # Get Z correlation metrics
+                                    pearson_z_tr = split_res.get(
+                                        "pearson_per_channel_Z", []
+                                    )
+                                    r_z_list = (
+                                        pearson_z_tr[trial_idx] if pearson_z_tr else []
+                                    )
+                                    r_z_ch = (
+                                        r_z_list[z_c]
+                                        if r_z_list and z_c < len(r_z_list)
+                                        else np.nan
+                                    )
+
+                                    figz_pred = go.Figure()
+                                    figz_pred.add_trace(
+                                        go.Scatter(
+                                            x=t_abs,
+                                            y=z_true_c,
+                                            name="Z_true",
+                                            mode="lines",
+                                        )
+                                    )
+                                    figz_pred.add_trace(
+                                        go.Scatter(
+                                            x=t_abs,
+                                            y=z_pred_c,
+                                            name="Z_pred",
+                                            mode="lines",
+                                        )
+                                    )
+
+                                    figz_pred.update_layout(
+                                        title=f"Z and Z_p — {selected_z_name} (r={r_z_ch:.3f})",
+                                        xaxis_title="Time (s)",
+                                        yaxis_title="Value",
+                                    )
+                                    st.plotly_chart(figz_pred, use_container_width=True)
+
+                            # Forecast visualization for Y, if available
                             f_res = split_res.get("forecast")
                             if f_res is not None:
                                 try:
@@ -392,11 +480,140 @@ def model_predictions_tab(project_root):
                                             r_fore_ch = r_fore_list[c]
 
                                         figf.update_layout(
-                                            title=f"Forecast (m={m}) — {selected_name} (r_future={r_fore_ch:.3f})",
+                                            title=f"Y Forecast (m={m}) — {selected_name} (r_future={r_fore_ch:.3f})",
                                             xaxis_title="Time (s)",
                                             yaxis_title="Amplitude (µV)",
                                         )
                                         st.plotly_chart(figf, use_container_width=True)
+
+                                    # Z forecast visualization
+                                    z_concat = (
+                                        f_res.get("Z_concat_for_plot", [None])[
+                                            trial_idx
+                                        ]
+                                        if "Z_concat_for_plot" in f_res
+                                        else None
+                                    )
+                                    z_future_true = f_res.get("Z_future_true", [None])[
+                                        trial_idx
+                                    ]
+                                    z_future_pred = f_res.get("Z_future_pred", [None])[
+                                        trial_idx
+                                    ]
+                                    r_fore_list_z = f_res.get(
+                                        "pearson_per_channel_Z", [None]
+                                    )[trial_idx]
+
+                                    if (
+                                        z_future_true is not None
+                                        and z_future_pred is not None
+                                        and m > 0
+                                    ):
+                                        z_future_true = np.array(z_future_true)
+                                        z_future_pred = np.array(z_future_pred)
+
+                                        # Get number of Z channels
+                                        nz_chan = (
+                                            z_future_true.shape[1]
+                                            if z_future_true.ndim == 2
+                                            else 1
+                                        )
+
+                                        # Create Z channel selector
+                                        z_channel_options = [
+                                            f"z_ch{i}" for i in range(nz_chan)
+                                        ]
+                                        selected_z_name = st.selectbox(
+                                            "Channel for Z forecast plot",
+                                            options=z_channel_options,
+                                            index=0,
+                                            key="forecast_z_chan",
+                                        )
+                                        z_c = (
+                                            z_channel_options.index(selected_z_name)
+                                            if nz_chan > 1
+                                            else 0
+                                        )
+
+                                        # Select Z channel
+                                        z_ft_c = (
+                                            z_future_true.squeeze()
+                                            if nz_chan == 1
+                                            else z_future_true[:, z_c]
+                                        )
+                                        z_fp_c = (
+                                            z_future_pred.squeeze()
+                                            if nz_chan == 1
+                                            else z_future_pred[:, z_c]
+                                        )
+
+                                        # Build time axis for forecast
+                                        T = (
+                                            len(y_concat_c)
+                                            if y_concat is not None
+                                            else len(z_ft_c) + Tpast
+                                        )
+                                        Tpast = max(0, T - m_samples)
+                                        t_past = t_abs_margined[:Tpast]
+                                        t_future = t_abs_margined[Tpast:T]
+
+                                        figfz = go.Figure()
+
+                                        # If we have Z_concat_for_plot, show past true Z
+                                        if z_concat is not None:
+                                            z_concat = np.array(z_concat)
+                                            z_concat_c = (
+                                                z_concat.squeeze()
+                                                if nz_chan == 1
+                                                else z_concat[:, z_c]
+                                            )
+                                            if Tpast > 0:
+                                                figfz.add_trace(
+                                                    go.Scatter(
+                                                        x=t_past,
+                                                        y=z_concat_c[:Tpast],
+                                                        name="Z true (past)",
+                                                        mode="lines",
+                                                        line=dict(color="#1f77b4"),
+                                                    )
+                                                )
+
+                                        # True future segment
+                                        figfz.add_trace(
+                                            go.Scatter(
+                                                x=t_future,
+                                                y=z_ft_c,
+                                                name="Z true (future)",
+                                                mode="lines",
+                                                line=dict(color="#2ca02c"),
+                                            )
+                                        )
+                                        # Predicted future
+                                        figfz.add_trace(
+                                            go.Scatter(
+                                                x=t_future,
+                                                y=z_fp_c,
+                                                name="Z forecast",
+                                                mode="lines",
+                                                line=dict(color="#d62728"),
+                                            )
+                                        )
+
+                                        r_fore_z_ch = np.nan
+                                        if (
+                                            r_fore_list_z is not None
+                                            and isinstance(r_fore_list_z, (list, tuple))
+                                            and len(r_fore_list_z) > z_c
+                                        ):
+                                            r_fore_z_ch = r_fore_list_z[z_c]
+
+                                        figfz.update_layout(
+                                            title=f"Z Forecast (m={m}) — {selected_z_name} (r_future={r_fore_z_ch:.3f})",
+                                            xaxis_title="Time (s)",
+                                            yaxis_title="Value",
+                                        )
+                                        st.plotly_chart(figfz, use_container_width=True)
+
                                 except Exception as e:
                                     st.warning(f"Could not render forecast plot: {e}")
 

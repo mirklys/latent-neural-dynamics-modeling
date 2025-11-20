@@ -9,7 +9,7 @@ model:
   zscore_Y: ## # Boolean
   zscore_Z: ## # Boolean
   forecast:
-    m: ## # Number of steps to forecast
+    m: ## # Number of seconds to forecast
 
 data:
   root: "##" # Root directory for data

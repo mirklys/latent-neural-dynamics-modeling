@@ -13,7 +13,6 @@ model:
   # - Add "RGL2L1e-2" for L2 regularization with lambda=0.01
   
   epochs: ##  # Maximum training epochs
-  block_samples: ##  # Number of timesteps per training block
   
   # Multi-step ahead prediction (optional)
   # steps_ahead: [1, 2, 3]  # Predict 1, 2, and 3 steps ahead
@@ -21,7 +20,7 @@ model:
   
   # Forecasting (for m-step ahead prediction evaluation)
   forecast:
-    m: ##  # Number of steps to forecast
+    m: ##  # Number of seconds to forecast
 
 data:
   root: "##"  # Root directory for data

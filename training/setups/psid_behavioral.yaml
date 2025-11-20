@@ -9,7 +9,7 @@ model:
   zscore_Y: false
   zscore_Z: false
   forecast:
-    m: 1000
+    m: 1 # seconds
 
 data:
   root: "resampled_recordings/participants_at_150Hz"

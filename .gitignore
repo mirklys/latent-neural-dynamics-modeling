@@ -197,7 +197,7 @@ cython_debug/
 data/
 
 *.fif
-
+DPAD/
 logs/
 resampled_recordings/
 results/
@@ -207,7 +207,5 @@ PyPSID-main/
 
 dashboard_logs
 *.parquet
-
-DPAD/
 
 docs/

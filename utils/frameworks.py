@@ -127,23 +127,10 @@ class PSIDWrapper:
         Z_list: Optional[TrialList] = None,
         margin: Optional[float] = None,
     ) -> Dict[str, Any]:
-        """Validate m-step ahead forecast using config.model.forecast.m, with optional margin before the end.
 
-        We forecast m steps not at the very end, but ending `margin` seconds before
-        the end of each trial. Note: Y_list and Z_list should already have margins removed
-        (as done by _slice_data), so we don't remove them again here.
-
-        For each trial y (length T), the forecast window is y[T-m:T].
-        The model is initialized with the past y[:T-m].
-
-        Args:
-            Y_list: list of trials (each T x ny ndarray), margins already removed.
-            Z_list: optional list of behavioral trials (each T x nz ndarray), margins already removed.
-            margin: Not used anymore since margins are pre-removed, kept for backward compatibility.
-
-        Returns a dict with per-trial arrays and metrics to facilitate plotting.
-        """
-        m = self.config.model.forecast.m
+        m_seconds = self.config.model.forecast.m
+        sampling_freq = self.config.data.sampling_frequency
+        m = int(m_seconds * sampling_freq)
         margin_sec = margin if margin is not None else 0.0
 
         results = {
@@ -153,12 +140,12 @@ class PSIDWrapper:
             "Y_concat_for_plot": [],
             "Z_future_true": [],
             "Z_future_pred": [],
+            "Z_concat_for_plot": [],
             "X_future_pred": [],
             "pearson_per_channel": [],
             "pearson_per_channel_Z": [],
         }
 
-        # Iterate trials
         for idx, Y in enumerate(Y_list):
             T = Y.shape[0]
             if m >= T:
@@ -166,33 +153,33 @@ class PSIDWrapper:
                     f"Forecast horizon m={m} must be smaller than trial length T={T}"
                 )
 
-            # Forecast the last m steps (margins already removed from Y_list)
             start = T - m
             end = T
 
-            # Use all available past data (margins already removed)
             Y_past = Y[:start]
             Y_future_true = Y[start:end]
 
-            # Get corresponding Z data if available
             Z = Z_list[idx] if Z_list is not None and idx < len(Z_list) else None
             Z_future_true = Z[start:end] if Z is not None else None
+            Z_past = Z[:start] if Z is not None else None
 
             Zf, Yf, Xf = self.forecast(m, Y_past)
 
             if Yf is None:
                 raise RuntimeError("Model returned no Y forecast")
 
-            # Build concatenated series for plotting: true past + predicted future (excludes final margin)
             Y_concat = np.concatenate([Y_past, Yf], axis=0)
+            Z_concat = (
+                np.concatenate([Z_past, Zf], axis=0)
+                if Z_past is not None and Zf is not None
+                else None
+            )
 
-            # Pearson r per channel between true future and predicted future
             r_list, _ = pearson_r_per_channel([Y_future_true], [Yf])
             r_list = (
                 r_list[0] if isinstance(r_list, list) and len(r_list) > 0 else r_list
             )
 
-            # Compute Z correlations if both true and predicted Z are available
             if Z_future_true is not None and Zf is not None:
                 r_list_Z, _ = pearson_r_per_channel([Z_future_true], [Zf])
                 r_list_Z = (
@@ -210,11 +197,13 @@ class PSIDWrapper:
                 Z_future_true.tolist() if Z_future_true is not None else None
             )
             results["Z_future_pred"].append(Zf.tolist() if Zf is not None else None)
+            results["Z_concat_for_plot"].append(
+                Z_concat.tolist() if Z_concat is not None else None
+            )
             results["X_future_pred"].append(Xf.tolist() if Xf is not None else None)
             results["pearson_per_channel"].append(r_list)
             results["pearson_per_channel_Z"].append(r_list_Z)
 
-        # Compute overall means for Y
         flat_r = []
         for r in results["pearson_per_channel"]:
             if r is None:
@@ -226,7 +215,6 @@ class PSIDWrapper:
             float(np.mean(flat_r)) if len(flat_r) > 0 else np.nan
         )
 
-        # Compute overall means for Z
         flat_r_Z = []
         for r in results["pearson_per_channel_Z"]:
             if r is None or not r:
@@ -317,10 +305,26 @@ class DPADWrapper:
         Returns:
             Zf, Yf, Xf: arrays of shape (m, nz|ny|nx)
         """
+        
+        block_samples = self.idSys.model1.block_samples
+        original_len = Y_past.shape[0]
+        remainder = original_len % block_samples
+        
+        if remainder != 0:
+            pad_len = block_samples - remainder
+            self.logger.info(
+                f"Padding Y_past from {original_len} to {original_len + pad_len} "
+                f"samples (multiple of block_samples={block_samples})"
+            )
+            # Pad with zeros at the end
+            padding = np.zeros((pad_len, Y_past.shape[1]))
+            Y_past_padded = np.concatenate([Y_past, padding], axis=0)
+        else:
+            Y_past_padded = Y_past
 
         self.idSys.set_steps_ahead(list(range(1, m + 1)))
         self.idSys.set_multi_step_with_data_gen(True, noise_samples=0)
-        preds = self.idSys.predict(Y_past)
+        preds = self.idSys.predict(Y_past_padded)
 
         Z_steps = preds[:m]
         Y_steps = preds[m : 2 * m]
@@ -350,7 +354,7 @@ class DPADWrapper:
         self,
         Y_list: TrialList,
         Z_list: Optional[TrialList] = None,
-        margin: Optional[float] = None,
+        margin: int = 0,
     ) -> Dict[str, Any]:
         """Validate m-step ahead forecast.
 
@@ -362,9 +366,11 @@ class DPADWrapper:
             Z_list: optional list of behavioral trials (each T x nz ndarray), margins already removed.
             margin: Not used anymore since margins are pre-removed, kept for backward compatibility.
         """
-        m = self.config.model.forecast.m
-        margin_sec = margin if margin is not None else 0.0
-        margin_samples = int(self.config.data.sampling_frequency * margin_sec)
+        # Convert m from seconds to samples
+        m_seconds = self.config.model.forecast.m
+        sampling_freq = self.config.data.sampling_frequency
+        m = int(m_seconds * sampling_freq)
+        margin_samples = int(sampling_freq * margin)
 
         results = {
             "m": m,
@@ -373,6 +379,7 @@ class DPADWrapper:
             "Y_concat_for_plot": [],
             "Z_future_true": [],
             "Z_future_pred": [],
+            "Z_concat_for_plot": [],
             "X_future_pred": [],
             "pearson_per_channel": [],
             "pearson_per_channel_Z": [],
@@ -396,6 +403,7 @@ class DPADWrapper:
             # Get corresponding Z data if available
             Z = Z_list[idx] if Z_list is not None and idx < len(Z_list) else None
             Z_future_true = Z[start:end] if Z is not None else None
+            Z_past = Z[:start] if Z is not None else None
 
             Zf, Yf, Xf = self.forecast(m, Y_past)
 
@@ -406,6 +414,11 @@ class DPADWrapper:
             else:
                 Y_concat = Y_past
                 r_list = []
+
+            # Build Z_concat if possible
+            Z_concat = None
+            if Z_past is not None and Zf is not None:
+                Z_concat = np.concatenate([Z_past, Zf], axis=0)
 
             # Compute Z correlations if both true and predicted Z are available
             if Z_future_true is not None and Zf is not None:
@@ -421,6 +434,9 @@ class DPADWrapper:
                 Z_future_true.tolist() if Z_future_true is not None else None
             )
             results["Z_future_pred"].append(Zf.tolist() if Zf is not None else None)
+            results["Z_concat_for_plot"].append(
+                Z_concat.tolist() if Z_concat is not None else None
+            )
             results["X_future_pred"].append(Xf.tolist() if Xf is not None else None)
             results["pearson_per_channel"].append(r_list)
             results["pearson_per_channel_Z"].append(r_list_Z)

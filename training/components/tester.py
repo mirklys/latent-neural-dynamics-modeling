@@ -13,7 +13,6 @@ import h5py
 
 from utils.miscellaneous import length, flatten
 
-
 class Tester:
 
     def __init__(self, config: Config, run_timestamp: Optional[str] = None):
@@ -40,12 +39,12 @@ class Tester:
             self.framework = PSIDFramework(self.config)
         elif framework_type == "dpad":
             from utils.frameworks import DPADFramework
-
             self.framework = DPADFramework(self.config)
         else:
             raise ValueError(
                 f"Unknown or unsupported framework for testing: {framework_type}"
             )
+
 
     def _load_dataloaders(self):
         self.train_loader, self.val_loader, self.test_loader = create_dataloaders(
@@ -54,43 +53,35 @@ class Tester:
 
     def _load_model_for_run(self):
         import json
-        from keras.models import load_model as keras_load_model
 
         results_dir = Path(self.results_config.save_dir)
+        model_path = results_dir / f"model_{self.run_timestamp}.pkl"
 
-        # Check if this is a DPAD model by looking for metadata file
+        # Check if metadata exists to determine if it's a DPAD model
         metadata_path = results_dir / f"model_{self.run_timestamp}_metadata.json"
-
+        
         if metadata_path.exists():
-            # Load DPAD model
-            self.logger.info("Detected DPAD model, loading with Keras...")
-
+            # DPAD model with metadata
             with open(metadata_path, "r") as f:
                 metadata = json.load(f)
+            self.logger.info(f"Loading DPAD model with metadata: {metadata}")
 
-            model_path_keras = results_dir / f"model_{self.run_timestamp}_keras.keras"
+        # Load the pickled model
+        with open(model_path, "rb") as f:
+            idSys = pickle.load(f)
 
-            self._init_framework()
-            self.framework.model = self.framework._initialize_model()
+        self._init_framework()
+        self.framework.model = self.framework._initialize_model()
+        self.framework.model.idSys = idSys
 
-            # Load the Keras model
-            self.framework.model.idSys = keras_load_model(
-                str(model_path_keras), compile=False
-            )
-
-            self.logger.info(f"Loaded DPAD model from {model_path_keras}")
+        # If it's a DPAD model, restore the TF models from saved weights
+        if metadata_path.exists() and hasattr(idSys, 'restoreModels'):
+            self.logger.info("Restoring DPAD TensorFlow models from saved weights...")
+            idSys.restoreModels()
+            self.logger.info(f"Loaded DPAD model from {model_path}")
         else:
-            # Load PSID model (pickle format)
-            model_path = results_dir / f"model_{self.run_timestamp}.pkl"
-
-            with open(model_path, "rb") as f:
-                idSys = pickle.load(f)
-
-            self._init_framework()
-            self.framework.model = self.framework._initialize_model()
-            self.framework.model.idSys = idSys
-
             self.logger.info(f"Loaded PSID model from {model_path}")
+
 
     @staticmethod
     def _get_metrics(
@@ -133,6 +124,11 @@ class Tester:
 
         return {
             "Y": [flatten(y.tolist()) for y in Y_true],
+            "Z": (
+                [flatten(z.tolist()) if z is not None else None for z in Z_true]
+                if Z_true is not None
+                else None
+            ),
             "Yp": [flatten(Yp_.tolist()) for Yp_ in Yp] if Yp is not None else None,
             "Zp": (
                 [flatten(Zp_.tolist()) if Zp_ is not None else None for Zp_ in Zp]
@@ -202,10 +198,10 @@ class Tester:
             meta = {k: [d.get(k) for d in meta_list] for k in meta_list[0]}
             split_results = self._get_metrics(Y_list, Z_list, Yp, Zp, Xp, meta)
 
-            margin_list = [m.get("chunk_margin") for m in meta_list]
+            chunk_margin = meta_list[0].get("chunk_margin")
 
             f_res = self.framework.model.validate_forecast(
-                Y_list, Z_list=Z_list, margin=margin_list
+                Y_list, Z_list=Z_list, margin=chunk_margin
             )
             split_results = split_results | f_res
 

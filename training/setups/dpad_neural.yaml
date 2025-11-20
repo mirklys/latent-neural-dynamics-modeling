@@ -4,9 +4,8 @@ model:
   n1: 0 
   method_code: "DPAD_uAKCzCy2HL128U" 
   epochs: 2500
-  block_samples: 128
   forecast:
-    m: 1000
+    m: 1 # seconds
 
 data:
   root: "resampled_recordings/participants_at_150Hz"
